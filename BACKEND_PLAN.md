@@ -152,7 +152,12 @@ Bu doküman, kişisel portfolio web sitesi backend geliştirmesine hızlı ve ne
   "error": {
     "code": "VALIDATION_ERROR",
     "message": "Invalid request body",
-    "details": []
+    "details": [
+      {
+        "field": "email",
+        "message": "Invalid email format"
+      }
+    ]
   }
 }
 ```
