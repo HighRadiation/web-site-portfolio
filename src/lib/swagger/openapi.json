@@ -1,0 +1,277 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Portfolio API Documentation",
+    "description": "API endpoints for the personal portfolio backend, including public data retrieval and admin management.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/api/profile": {
+      "get": {
+        "summary": "Get profile information",
+        "tags": ["Public"],
+        "responses": {
+          "200": {
+            "description": "Profile data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Profile not found"
+          }
+        }
+      }
+    },
+    "/api/projects": {
+      "get": {
+        "summary": "Get list of projects",
+        "tags": ["Public"],
+        "parameters": [
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort order (asc/desc)",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "default": "desc"
+            }
+          },
+          {
+            "name": "tech",
+            "in": "query",
+            "description": "Filter by technology",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Project"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/skills": {
+      "get": {
+        "summary": "Get skills grouped by category",
+        "tags": ["Public"],
+        "responses": {
+          "200": {
+            "description": "Grouped skills data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Skill"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact": {
+      "post": {
+        "summary": "Send a contact message",
+        "tags": ["Public"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "message"],
+                "properties": {
+                  "name": { "type": "string", "minLength": 2 },
+                  "email": { "type": "string", "format": "email" },
+                  "message": { "type": "string", "minLength": 10 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Message sent"
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          }
+        }
+      }
+    },
+    "/api/admin/profile": {
+      "put": {
+        "summary": "Update profile",
+        "tags": ["Admin"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated profile"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/admin/projects": {
+      "post": {
+        "summary": "Create new project",
+        "tags": ["Admin"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/admin/projects/{id}": {
+      "delete": {
+        "summary": "Delete a project",
+        "tags": ["Admin"],
+        "security": [{ "cookieAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "sb-access-token"
+      }
+    },
+    "schemas": {
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "full_name": { "type": "string", "nullable": true },
+          "bio": { "type": "string", "nullable": true },
+          "avatar_url": { "type": "string", "nullable": true },
+          "email": { "type": "string", "nullable": true },
+          "website": { "type": "string", "nullable": true },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ProfileUpdate": {
+        "type": "object",
+        "properties": {
+          "full_name": { "type": "string" },
+          "bio": { "type": "string" },
+          "avatar_url": { "type": "string" },
+          "website": { "type": "string" }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "user_id": { "type": "string", "format": "uuid" },
+          "title": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "image_url": { "type": "string", "nullable": true },
+          "live_link": { "type": "string", "nullable": true },
+          "github_link": { "type": "string", "nullable": true },
+          "technologies": { "type": "array", "items": { "type": "string" }, "nullable": true },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ProjectCreate": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "image_url": { "type": "string" },
+          "live_link": { "type": "string" },
+          "github_link": { "type": "string" },
+          "technologies": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "Skill": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "user_id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string" },
+          "proficiency": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "category": { "type": "string", "nullable": true },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}
