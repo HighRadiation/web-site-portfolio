@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { Skill } from '@/types/database'
 
 export async function GET() {
   const supabase = await createClient()
@@ -13,5 +14,15 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  return NextResponse.json(data)
+  // Group by category
+  const groupedSkills = (data as Skill[]).reduce((acc, skill) => {
+    const category = skill.category || 'Other'
+    if (!acc[category]) {
+      acc[category] = []
+    }
+    acc[category].push(skill)
+    return acc
+  }, {} as Record<string, Skill[]>)
+
+  return NextResponse.json(groupedSkills)
 }

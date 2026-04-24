@@ -4,16 +4,19 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   const supabase = await createClient()
   
-  // Portfolyo için genellikle en güncel tek bir profil döner
   const { data, error } = await supabase
     .from('profiles')
     .select('*')
     .limit(1)
-    .single()
+    .maybeSingle()
 
-  if (error && error.code !== 'PGRST116') { // PGRST116: no rows returned
+  if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  return NextResponse.json(data || {})
+  if (!data) {
+    return NextResponse.json({ message: 'Profile not found' }, { status: 404 })
+  }
+
+  return NextResponse.json(data)
 }
