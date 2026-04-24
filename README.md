@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Academic Portfolio | Buğra Öksüz
 
-## Getting Started
+A high-performance, minimalist academic portfolio built with **Next.js 16**, **React 19**, and **Supabase**. Designed for researchers and engineers who value academic rigor and production-grade engineering.
 
-First, run the development server:
+## 🚀 Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Next.js 16 & Server Components**: Leveraging the latest Next.js features for optimal performance and SEO.
+- **Supabase Integration**: Full-stack capabilities including Database, Auth, and Server-Side Rendering (SSR) support.
+- **Academic Minimalism**: A premium, clean design focused on typography (Inter & Source Serif 4) and content clarity.
+- **Scalar API Documentation**: Interactive and modern API documentation available at `/docs`, protected via middleware.
+- **Smart Contact Form**: Integrated with **Upstash Redis** for robust rate-limiting and anti-spam protection.
+- **Admin Suite**: Custom `/api/admin` endpoints for real-time portfolio management, secured with Supabase Auth.
+- **Performance Optimized**: Vanilla CSS for styling to ensure maximum control and zero bloat.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Backend**: [Supabase](https://supabase.com/) (PostgreSQL & Auth)
+- **Security**: [Upstash Redis](https://upstash.com/) (Rate Limiting)
+- **Documentation**: [Scalar](https://scalar.com/) (OpenAPI 3.0)
+- **Styling**: Vanilla CSS with Design Tokens
+- **Deployment**: [Vercel](https://vercel.com/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📖 Local Development
 
-## Learn More
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/HighRadiation/web-site-portfolio.git
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Environment Setup**:
+   Create a `.env.local` file with the following variables:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+   UPSTASH_REDIS_REST_URL=your_redis_url
+   UPSTASH_REDIS_REST_TOKEN=your_redis_token
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+## 🛡 Security & Middleware
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The project uses a custom `proxy.ts` (Next.js Middleware) to protect sensitive routes:
+- `/admin/*`: Restricted to authenticated users.
+- `/docs`: Restricted to authorized developers.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+Built with rigor by [Buğra Öksüz](https://www.bugraoksuz.me/).
