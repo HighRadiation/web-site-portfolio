@@ -1,32 +1,45 @@
-import { createClient } from '@/lib/supabase/server'
 import { NextResponse, NextRequest } from 'next/server'
 import { contactSchema } from '@/lib/validations/contact'
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 
-// Initialize Upstash Redis & Rate Limiter
-// Warning: These env variables must exist in .env.local
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL || '',
-  token: process.env.UPSTASH_REDIS_REST_TOKEN || '',
-})
+// Lazy initialization for Redis and Ratelimit to prevent build-time errors
+let redis: Redis | null = null
+let ratelimit: Ratelimit | null = null
 
-// Create a new ratelimiter, allowing 5 requests per 1 minute
-const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(5, '1 m'),
-  analytics: true,
-})
+function getRateLimiter() {
+  if (!ratelimit) {
+    const rawUrl = process.env.UPSTASH_REDIS_REST_URL || ''
+    const rawToken = process.env.UPSTASH_REDIS_REST_TOKEN || ''
+    
+    // Strip external quotes that might have been copied into Vercel env settings
+    const cleanUrl = rawUrl.replace(/^["']|["']$/g, '')
+    const cleanToken = rawToken.replace(/^["']|["']$/g, '')
+
+    if (cleanUrl && cleanToken) {
+      redis = new Redis({
+        url: cleanUrl,
+        token: cleanToken,
+      })
+      ratelimit = new Ratelimit({
+        redis,
+        limiter: Ratelimit.slidingWindow(5, '1 m'),
+        analytics: true,
+      })
+    }
+  }
+  return ratelimit
+}
 
 export async function POST(request: NextRequest) {
   try {
     // 1. Rate Limiting Check
-    // Get IP address for rate limiting
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? '127.0.0.1'
     
-    // Check rate limit only if Upstash variables are configured
-    if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-      const { success } = await ratelimit.limit(`contact_rate_limit_${ip}`)
+    const limiter = getRateLimiter()
+    if (limiter) {
+      const { success } = await limiter.limit(`contact_rate_limit_${ip}`)
       if (!success) {
         return NextResponse.json(
           { error: 'Too many requests. Please try again later.' },
@@ -37,21 +50,21 @@ export async function POST(request: NextRequest) {
 
     // 2. Body Parsing & Validation
     const body = await request.json()
-    // contactSchema.safeParse does validation without throwing an error
     const validationResult = contactSchema.safeParse(body)
     
     if (!validationResult.success) {
-      // Map Zod errors
       const errors = validationResult.error.flatten().fieldErrors
       return NextResponse.json({ error: 'Validation failed', details: errors }, { status: 400 })
     }
 
     const validData = validationResult.data
 
-    // 3. Database Insertion
-    const supabase = await createClient()
+    // 3. Database Insertion (using Admin / Service Role Client to bypass RLS if configured)
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+    const supabaseAdmin = createSupabaseClient(supabaseUrl, supabaseServiceKey)
     
-    const { error: dbError } = await supabase
+    const { error: dbError } = await supabaseAdmin
       .from('contact_messages')
       .insert({
         name: validData.name,

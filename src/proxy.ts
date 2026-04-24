@@ -34,8 +34,8 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Admin rotalarını koru
-  if (request.nextUrl.pathname.startsWith('/admin') && !user) {
+  // Admin ve Docs rotalarını koru
+  if ((request.nextUrl.pathname.startsWith('/admin') || request.nextUrl.pathname.startsWith('/docs')) && !user) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
