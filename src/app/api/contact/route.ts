@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   try {
     // 1. Rate Limiting Check
     // Get IP address for rate limiting
-    const ip = request.headers.get('x-forwarded-for') ?? request.ip ?? '127.0.0.1'
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? '127.0.0.1'
     
     // Check rate limit only if Upstash variables are configured
     if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
