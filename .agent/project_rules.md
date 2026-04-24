@@ -12,5 +12,8 @@ Her dokümantasyon dosyası aşağıdaki bölümleri içermelidir:
 2.  **Yapılan Plan**: İşlemi gerçekleştirmek için oluşturulan strateji.
 3.  **Yapılan İşlem**: Gerçekleştirilen kod değişiklikleri ve terminal komutları.
 
+### Git Kuralları
+Her adım için ayrı bir commit yapılmalıdır. İngilizce commit mesajları kullanılmalıdır. Detaylı commit mesajları kullanılmalıdır. Commit mesajları `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `chore:` gibi etiketlerle başlamalıdır. 
+
 ---
 *Not: Bu kurallar projenin izlenebilirliği ve tutarlılığı için kritiktir.*

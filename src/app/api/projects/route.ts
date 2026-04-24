@@ -1,3 +1,4 @@
+/*
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse, NextRequest } from 'next/server'
 
@@ -18,6 +19,49 @@ export async function GET(request: NextRequest) {
   }
 
   const { data, error } = await query
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json(data)
+}
+*/
+
+
+/*
+import { createClient } from '@/lib/supabase/server'
+import { NextResponse, NextRequest } from 'next/server'
+
+export async function GET(request: NextRequest) {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('projects').select('*')
+
+  console.log('DATA:', data)
+  console.log('ERROR:', error)
+
+  if (error) {
+    return NextResponse.json({ error: error.message, details: error }, { status: 500 })
+  }
+
+  return NextResponse.json(data)
+}
+*/
+
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { NextResponse, NextRequest } from 'next/server'
+
+export async function GET(request: NextRequest) {
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+
+  const { data, error } = await supabase.from('projects').select('*')
+
+  console.log('DATA:', data)
+  console.log('ERROR:', error)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
