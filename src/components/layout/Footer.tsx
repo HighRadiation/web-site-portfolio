@@ -10,7 +10,7 @@ export const Footer = () => {
         
         <div className="flex items-center space-x-6">
           <Link href="https://linkedin.com" className="nav-link text-xs">LinkedIn</Link>
-          <Link href="https://github.com" className="nav-link text-xs">GitHub</Link>
+          <Link href="https://github.com/HighRadiation" className="nav-link text-xs">GitHub</Link>
           <Link href="https://twitter.com" className="nav-link text-xs">Twitter</Link>
           <Link href="/rss" className="nav-link text-xs">RSS</Link>
         </div>
