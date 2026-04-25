@@ -1,28 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 :root {
-  --primary: #6366f1;
-  --primary-glow: rgba(99, 102, 241, 0.5);
-  --background: #f9fafb;
-  --foreground: #111827;
-  --card: #ffffff;
-  --card-foreground: #111827;
+  --background: #ffffff;
+  --foreground: #111111;
+  --text-secondary: #666666;
   --border: #e5e7eb;
-  --input: #f3f4f6;
-  --ring: rgba(99, 102, 241, 0.2);
-  --radius: 0.75rem;
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #030712;
-    --foreground: #f9fafb;
-    --card: #111827;
-    --card-foreground: #f9fafb;
-    --border: #1f2937;
-    --input: #1f2937;
-  }
+  --accent: #000000;
+  --max-width: 1200px;
+  
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-serif), Georgia, "Times New Roman", Times, serif;
 }
 
 * {
@@ -32,109 +17,162 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--background);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  line-height: 1.5;
 }
 
-.login-container {
-  display: flex;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 5rem 0;
+}
+
+/* Typography Utilities */
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.heading-l {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.heading-m {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: radial-gradient(circle at top left, var(--primary-glow), transparent 40%),
-              radial-gradient(circle at bottom right, var(--primary-glow), transparent 40%);
-}
-
-.login-card {
-  background: var(--card);
-  padding: 2.5rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 400px;
-  backdrop-filter: blur(8px);
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.login-header h1 {
-  font-size: 1.875rem;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  margin-bottom: 0.5rem;
-}
-
-.login-header p {
-  color: #6b7280;
-  font-size: 0.875rem;
-}
-
-.form-group {
-  margin-bottom: 1.25rem;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
   font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background-color: var(--input);
-  color: var(--foreground);
   font-size: 0.875rem;
-  transition: var(--transition);
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px var(--ring);
-}
-
-.login-button {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  border-radius: var(--radius);
-  font-weight: 600;
+  transition: all 0.2s ease;
   cursor: pointer;
-  transition: var(--transition);
-  margin-top: 1rem;
+  border-radius: 4px; /* Minimalist slightly rounded */
+  text-decoration: none;
 }
 
-.login-button:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
+.btn-primary {
+  background-color: var(--accent);
+  color: white;
+  border: 1px solid var(--accent);
 }
 
-.login-button:active {
-  transform: translateY(0);
+.btn-primary:hover {
+  background-color: #333333;
 }
 
-.error-message {
-  background-color: #fee2e2;
-  color: #ef4444;
-  padding: 0.75rem;
-  border-radius: var(--radius);
+.btn-outline {
+  background-color: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  border-color: var(--foreground);
+}
+
+/* Navigation */
+.nav-link {
+  color: var(--foreground);
+  text-decoration: none;
   font-size: 0.875rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  border: 1px solid #fecaca;
+  font-weight: 400;
+  transition: color 0.2s ease;
 }
+
+.nav-link:hover {
+  color: var(--text-secondary);
+}
+
+/* Project Card Grid (Custom as per design) */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1-fr);
+  gap: 1.5rem;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
+}
+
+/* Accessibility */
+/* Spacing & Layout Utilities */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.gap-8 { gap: 2rem; }
+.space-x-4 > * + * { margin-left: 1rem; }
+.space-x-6 > * + * { margin-left: 1.5rem; }
+.space-x-8 > * + * { margin-left: 2rem; }
+.hidden { display: none; }
+@media (min-width: 768px) {
+  .md\:flex { display: flex; }
+}
+
+.w-full { width: 100%; }
+.h-16 { height: 4rem; }
+.min-h-screen { min-height: 100vh; }
+.flex-grow { flex-grow: 1; }
+
+.fixed { position: fixed; }
+.top-0 { top: 0; }
+.left-0 { left: 0; }
+.right-0 { right: 0; }
+.z-50 { z-index: 50; }
+
+.bg-white { background-color: #ffffff; }
+.bg-white\/80 { background-color: rgba(255, 255, 255, 0.8); }
+.backdrop-blur-md { backdrop-filter: blur(12px); }
+.border-b { border-bottom: 1px solid var(--border); }
+.border-t { border-top: 1px solid var(--border); }
+.py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+
+.text-lg { font-size: 1.125rem; }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.font-bold { font-weight: 700; }
+.font-sans { font-family: var(--font-sans); }
+.uppercase { text-transform: uppercase; }
+.tracking-wider { letter-spacing: 0.05em; }
+
+.hover\:opacity-70:hover { opacity: 0.7; }
+.transition-opacity { transition: opacity 0.2s ease; }
+
