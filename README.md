@@ -55,4 +55,4 @@ The project uses a custom `proxy.ts` (Next.js Middleware) to protect sensitive r
 - `/docs`: Restricted to authorized developers.
 
 ---
-Built with rigor by [Buğra Öksüz](https://www.bugraoksuz.me/).
+Built by [Buğra Öksüz](https://www.bugraoksuz.me/).
