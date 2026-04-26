@@ -2,7 +2,7 @@
 
 A high-performance, minimalist academic portfolio built with **Next.js 16**, **React 19**, and **Supabase**. Designed for researchers and engineers who value academic rigor and production-grade engineering.
 
-## 🚀 Key Features
+##  Key Features
 
 - **Next.js 16 & Server Components**: Leveraging the latest Next.js features for optimal performance and SEO.
 - **Supabase Integration**: Full-stack capabilities including Database, Auth, and Server-Side Rendering (SSR) support.
@@ -21,7 +21,7 @@ A high-performance, minimalist academic portfolio built with **Next.js 16**, **R
 - **Styling**: Vanilla CSS with Design Tokens
 - **Deployment**: [Vercel](https://vercel.com/)
 
-## 📖 Local Development
+##  Local Development
 
 1. **Clone the repository**:
    ```bash
@@ -48,7 +48,7 @@ A high-performance, minimalist academic portfolio built with **Next.js 16**, **R
    npm run dev
    ```
 
-## 🛡 Security & Middleware
+##  Security & Middleware
 
 The project uses a custom `proxy.ts` (Next.js Middleware) to protect sensitive routes:
 - `/admin/*`: Restricted to authenticated users.
