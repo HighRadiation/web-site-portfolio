@@ -12,7 +12,7 @@ A high-performance, minimalist academic portfolio built with **Next.js 16**, **R
 - **Admin Suite**: Custom `/api/admin` endpoints for real-time portfolio management, secured with Supabase Auth.
 - **Performance Optimized**: Vanilla CSS for styling to ensure maximum control and zero bloat.
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 - **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
 - **Backend**: [Supabase](https://supabase.com/) (PostgreSQL & Auth)
