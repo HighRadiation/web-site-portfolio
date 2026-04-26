@@ -1,9 +1,33 @@
 :root {
-  --background: #ffffff;
-  --foreground: #111111;
-  --text-secondary: #666666;
-  --border: #e5e7eb;
-  --accent: #000000;
+  /* Backgrounds */
+  --bg-sidebar:    #1a1a1a;
+  --bg-editor:     #1e1e1e;
+  --bg-panel:      #252526;
+  --bg-titlebar:   #2d2d2d;
+  --bg-hover:      #37373d;
+  --bg-selection:  #44444a;
+
+  /* Borders */
+  --border-subtle: #333333;
+  --border-default:#404040;
+  --border-strong: #555555;
+
+  /* Text */
+  --text-primary:  #cccccc;
+  --text-secondary:#9d9d9d;
+  --text-muted:    #6e6e6e;
+  --text-disabled: #3c3c3c;
+
+  /* Accent */
+  --accent-blue:   #0098ff;
+  --accent-status: #007acc;
+  --accent-select: #264f78;
+
+  /* Semantic Mappings */
+  --background: var(--bg-editor);
+  --foreground: var(--text-primary);
+  --border: var(--border-default);
+  --accent: var(--accent-blue);
   --max-width: 1200px;
   
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -83,7 +107,7 @@ h1, h2, h3, h4, .font-serif {
 }
 
 .btn-primary:hover {
-  background-color: #333333;
+  background-color: var(--accent-status);
 }
 
 .btn-outline {
@@ -117,7 +141,7 @@ h1, h2, h3, h4, .font-serif {
 }
 
 .card {
-  background: #ffffff;
+  background: var(--bg-panel);
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
@@ -158,8 +182,8 @@ h1, h2, h3, h4, .font-serif {
 .right-0 { right: 0; }
 .z-50 { z-index: 50; }
 
-.bg-white { background-color: #ffffff; }
-.bg-white\/80 { background-color: rgba(255, 255, 255, 0.8); }
+.bg-white { background-color: var(--bg-editor); }
+.bg-white\/80 { background-color: rgba(30, 30, 30, 0.8); }
 .backdrop-blur-md { backdrop-filter: blur(12px); }
 .border-b { border-bottom: 1px solid var(--border); }
 .border-t { border-top: 1px solid var(--border); }
