@@ -72,6 +72,32 @@ export default function AdminLayout({
           >
             Skills
           </a>
+          <a
+            href="/admin/timeline"
+            style={{
+              padding: '0.75rem 1rem',
+              borderRadius: '6px',
+              color: '#a3a3a3',
+              textDecoration: 'none',
+              transition: 'background 0.2s',
+              fontSize: '0.9rem',
+            }}
+          >
+            Timeline
+          </a>
+          <a
+            href="/admin/messages"
+            style={{
+              padding: '0.75rem 1rem',
+              borderRadius: '6px',
+              color: '#a3a3a3',
+              textDecoration: 'none',
+              transition: 'background 0.2s',
+              fontSize: '0.9rem',
+            }}
+          >
+            Messages
+          </a>
         </nav>
 
         <form action={logout} style={{ marginTop: 'auto' }}>

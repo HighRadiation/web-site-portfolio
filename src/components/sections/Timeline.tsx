@@ -1,82 +1,58 @@
+import { createClient } from '@/lib/supabase/server';
+
 interface TimelineItem {
+  id: string;
   date: string;
   role: string;
   company: string;
-  desc: string;
+  description: string;
+  type: string;
 }
 
-const experiences: TimelineItem[] = [
-  {
-    date: '2024 – PRESENT',
-    role: 'Confidential Stealth Project',
-    company: 'Systems & Backend Architecture',
-    desc: 'Developing backend systems and scalable infrastructure.',
-  },
-  {
-    date: '2024 – PRESENT',
-    role: 'Visual & Interface Design',
-    company: 'Independent Product Design',
-    desc: 'Designed UI/UX systems and prototypes in Figma for my own projects.',
-  },
-  {
-    date: '2024 – PRESENT',
-    role: 'Independent Developer',
-    company: 'Mobile-Web Research',
-    desc: 'Focusing on mobile-web development and AI management.',
-  },
-];
-
-const education: TimelineItem[] = [
-  {
-    date: '2024 – PRESENT',
-    role: 'Industrial Design (BSc)',
-    company: '1st Year Student',
-    desc: 'Studying design thinking and functional aesthetics.',
-  },
-  {
-    date: '2024 – 2025',
-    role: '42 Istanbul',
-    company: '1-Year Intensive Training',
-    desc: 'Focused on C, Unix systems, and low-level algorithms.',
-  },
-  {
-    date: 'HIGH SCHOOL',
-    role: 'Vocational High School',
-    company: 'Map, Land Registry & Cadastre',
-    desc: 'Studied official data management and documentation.',
-  },
-];
-
 function renderTimeline(items: TimelineItem[]): React.JSX.Element {
+  if (!items || items.length === 0) {
+    return <p style={{ color: 'var(--text-muted)' }}>No data available.</p>;
+  }
+
   return (
     <div className="timeline-list">
       {items.map((item) => (
-        <div key={item.role} className="timeline-item">
+        <div key={item.id} className="timeline-item">
           <span className="timeline-date">{item.date}</span>
           <h4 className="timeline-role">{item.role}</h4>
           <p className="timeline-company">{item.company}</p>
-          <p className="timeline-desc">{item.desc}</p>
+          <p className="timeline-desc">{item.description}</p>
         </div>
       ))}
     </div>
   );
 }
 
-export const TimelineSection = (): React.JSX.Element => {
+export const TimelineSection = async (): Promise<React.JSX.Element> => {
+  const supabase = await createClient();
+  const { data: timelineData } = await supabase
+    .from('timeline')
+    .select('*')
+    .order('created_at', { ascending: true });
+
+  const items = timelineData || [];
+  const experiences = items.filter((i) => i.type === 'experience');
+  const education = items.filter((i) => i.type === 'education');
+
   return (
-    <section className="section-alt">
+    <section id="experience" className="section-alt">
       <div className="container">
+        <div className="section-header">
+          <h2 className="section-title">Experience & Education</h2>
+        </div>
+
         <div className="timeline-grid">
-          <div id="experience">
-            <div className="timeline-section-title">
-              <span>Experience</span>
-            </div>
+          <div>
+            <h3 className="timeline-title">Experience</h3>
             {renderTimeline(experiences)}
           </div>
-          <div id="education">
-            <div className="timeline-section-title">
-              <span>Education</span>
-            </div>
+          <div>
+            <h3 className="timeline-title">Education</h3>
             {renderTimeline(education)}
           </div>
         </div>

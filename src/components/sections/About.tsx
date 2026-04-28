@@ -1,4 +1,24 @@
-export const AboutSection = (): React.JSX.Element => {
+import { createClient } from '@/lib/supabase/server';
+import { Skill } from '@/types/database';
+
+export const AboutSection = async (): Promise<React.JSX.Element> => {
+  const supabase = await createClient();
+  const { data: skillsData } = await supabase.from('skills').select('*').order('created_at');
+
+  const skills = skillsData || [];
+
+  // Group skills by category
+  const groupedSkills = skills.reduce((acc: Record<string, string[]>, skill: Skill) => {
+    const category = skill.category || 'other';
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(skill.name);
+    return acc;
+  }, {});
+
+  const categories = Object.keys(groupedSkills);
+
   return (
     <section id="about" className="section">
       <div className="container">
@@ -36,40 +56,31 @@ export const AboutSection = (): React.JSX.Element => {
               <pre>
                 <span className="bracket">{'{'}</span>
                 <br />
-                {'  '}
-                <span className="key">&quot;systems&quot;</span>
-                <span className="punctuation">:</span> <span className="bracket">[</span>
-                <span className="string">&quot;C&quot;</span>
-                <span className="punctuation">,</span>{' '}
-                <span className="string">&quot;Linux&quot;</span>
-                <span className="punctuation">,</span>{' '}
-                <span className="string">&quot;Shell&quot;</span>
-                <span className="bracket">]</span>
-                <span className="punctuation">,</span>
-                <br />
-                {'  '}
-                <span className="key">&quot;design&quot;</span>
-                <span className="punctuation">:</span> <span className="bracket">[</span>
-                <span className="string">&quot;Figma&quot;</span>
-                <span className="punctuation">,</span>{' '}
-                <span className="string">&quot;UI/UX&quot;</span>
-                <span className="bracket">]</span>
-                <span className="punctuation">,</span>
-                <br />
-                {'  '}
-                <span className="key">&quot;mobile_web&quot;</span>
-                <span className="punctuation">:</span> <span className="bracket">[</span>
-                <span className="string">&quot;Flutter&quot;</span>
-                <span className="punctuation">,</span>{' '}
-                <span className="string">&quot;Architecture&quot;</span>
-                <span className="bracket">]</span>
-                <span className="punctuation">,</span>
-                <br />
-                {'  '}
-                <span className="key">&quot;ai&quot;</span>
-                <span className="punctuation">:</span>{' '}
-                <span className="string">&quot;Management &amp; Orchestration&quot;</span>
-                <br />
+                {categories.map((category, index) => {
+                  const isLast = index === categories.length - 1;
+                  const items = groupedSkills[category];
+
+                  return (
+                    <div key={category}>
+                      {'  '}
+                      <span className="key">&quot;{category}&quot;</span>
+                      <span className="punctuation">:</span> <span className="bracket">[</span>
+                      {items.map((item, itemIndex) => (
+                        <span key={itemIndex}>
+                          <span className="string">&quot;{item}&quot;</span>
+                          {itemIndex < items.length - 1 && (
+                            <>
+                              <span className="punctuation">,</span>{' '}
+                            </>
+                          )}
+                        </span>
+                      ))}
+                      <span className="bracket">]</span>
+                      {!isLast && <span className="punctuation">,</span>}
+                      <br />
+                    </div>
+                  );
+                })}
                 <span className="bracket">{'}'}</span>
               </pre>
             </div>
