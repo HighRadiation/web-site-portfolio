@@ -1,77 +1,104 @@
-import { logout } from '../login/actions'
+import { logout } from '../login/actions';
 
 export default function AdminLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }): React.JSX.Element {
   return (
-    <div style={{
-      display: 'flex',
-      minHeight: '100vh',
-      backgroundColor: 'var(--background)',
-    }}>
-      <aside style={{ 
-        width: '260px', 
-        borderRight: '1px solid var(--border)', 
-        padding: '2rem',
+    <div
+      style={{
         display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'var(--card)'
-      }}>
-        <div style={{ marginBottom: '2.5rem' }}>
-          <h2 style={{
-            fontSize: '1.25rem',
-            fontWeight: 700,
-            letterSpacing: '-0.025em',
-          }}>Portfolio Admin</h2>
+        minHeight: '100vh',
+        backgroundColor: '#0a0a0a',
+        color: '#ffffff',
+        fontFamily: 'var(--font-sans)',
+      }}
+    >
+      {/* Sidebar */}
+      <aside
+        style={{
+          width: '250px',
+          backgroundColor: '#111111',
+          borderRight: '1px solid #222222',
+          padding: '2rem 1.5rem',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <div style={{ marginBottom: '3rem', paddingLeft: '0.5rem' }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, letterSpacing: '-0.02em' }}>
+            Admin Panel
+          </h2>
         </div>
-        
-        <nav style={{ flex: 1 }}>
-          <ul style={{ listStyle: 'none' }}>
-            <li style={{ marginBottom: '0.5rem' }}>
-              <a href="/admin" style={{ 
-                display: 'block', 
-                padding: '0.75rem 1rem', 
-                borderRadius: 'var(--radius)',
-                backgroundColor: 'var(--input)',
-                fontWeight: 500
-              }}>Dashboard</a>
-            </li>
-            <li style={{ marginBottom: '0.5rem' }}>
-              <a href="/admin/projects" style={{ 
-                display: 'block', 
-                padding: '0.75rem 1rem', 
-                borderRadius: 'var(--radius)',
-                color: 'var(--text-muted)'
-              }}>Projects</a>
-            </li>
-            <li style={{ marginBottom: '0.5rem' }}>
-              <a href="/admin/skills" style={{ 
-                display: 'block', 
-                padding: '0.75rem 1rem', 
-                borderRadius: 'var(--radius)',
-                color: 'var(--text-muted)'
-              }}>Skills</a>
-            </li>
-          </ul>
+
+        <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <a
+            href="/admin"
+            style={{
+              padding: '0.75rem 1rem',
+              borderRadius: '6px',
+              color: '#a3a3a3',
+              textDecoration: 'none',
+              transition: 'background 0.2s',
+              fontSize: '0.9rem',
+            }}
+          >
+            Dashboard
+          </a>
+          <a
+            href="/admin/projects"
+            style={{
+              padding: '0.75rem 1rem',
+              borderRadius: '6px',
+              color: '#a3a3a3',
+              textDecoration: 'none',
+              transition: 'background 0.2s',
+              fontSize: '0.9rem',
+            }}
+          >
+            Projects
+          </a>
+          <a
+            href="/admin/skills"
+            style={{
+              padding: '0.75rem 1rem',
+              borderRadius: '6px',
+              color: '#a3a3a3',
+              textDecoration: 'none',
+              transition: 'background 0.2s',
+              fontSize: '0.9rem',
+            }}
+          >
+            Skills
+          </a>
         </nav>
 
         <form action={logout} style={{ marginTop: 'auto' }}>
-          <button type="submit" className="login-button" style={{ 
-            backgroundColor: 'transparent', 
-            border: '1px solid #ef4444', 
-            color: '#ef4444',
-            marginTop: '0'
-          }}>
+          <button
+            type="submit"
+            style={{
+              width: '100%',
+              padding: '0.75rem 1rem',
+              borderRadius: '6px',
+              background: 'none',
+              border: '1px solid #ef4444',
+              color: '#ef4444',
+              cursor: 'pointer',
+              textAlign: 'center',
+              fontSize: '0.9rem',
+              transition: 'all 0.2s',
+            }}
+          >
             Logout
           </button>
         </form>
       </aside>
-      
-      <main style={{ flex: 1, padding: '3rem', overflowY: 'auto' }}>
-        {children}
+
+      {/* Main Content */}
+      <main style={{ flex: 1, padding: '3rem 4rem', overflowY: 'auto' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>{children}</div>
       </main>
     </div>
-  )
+  );
 }
