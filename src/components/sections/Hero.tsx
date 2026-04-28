@@ -7,9 +7,7 @@ export const HeroSection = (): React.JSX.Element => {
             Buğra Öksüz<span className="cursor">_</span>
           </h1>
 
-          <p className="hero-subtitle">
-            I craft mobile-web apps from first principles.
-          </p>
+          <p className="hero-subtitle">I craft mobile-web apps from first principles.</p>
 
           <div className="hero-buttons">
             <a href="#projects" className="btn btn-primary">

@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
 }
 */
 
-
 /*
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse, NextRequest } from 'next/server'
@@ -49,25 +48,23 @@ export async function GET(request: NextRequest) {
 }
 */
 
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
-import { NextResponse, NextRequest } from 'next/server'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { NextResponse, NextRequest } from 'next/server';
 
-export async function GET(
-  _request: NextRequest,
-): Promise<NextResponse> {
+export async function GET(_request: NextRequest): Promise<NextResponse> {
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  );
 
-  const { data, error } = await supabase.from('projects').select('*')
+  const { data, error } = await supabase.from('projects').select('*');
 
-  console.log('DATA:', data)
-  console.log('ERROR:', error)
+  console.log('DATA:', data);
+  console.log('ERROR:', error);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json(data)
+  return NextResponse.json(data);
 }

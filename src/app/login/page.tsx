@@ -1,10 +1,11 @@
-import { login } from './actions'
+import { login } from './actions';
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: { error?: string }
-}): React.JSX.Element {
+  searchParams: Promise<{ error?: string }>;
+}): Promise<React.JSX.Element> {
+  const resolvedSearchParams = await searchParams;
   return (
     <div className="login-container">
       <div className="login-card">
@@ -13,32 +14,22 @@ export default function LoginPage({
           <p>Enter your credentials to continue</p>
         </div>
 
-        {searchParams.error && (
+        {resolvedSearchParams.error && (
           <div className="error-message">
-            Login failed. Please check your credentials.
+            {resolvedSearchParams.error === 'true'
+              ? 'Login failed. Please check your credentials.'
+              : resolvedSearchParams.error}
           </div>
         )}
 
         <form action={login}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="admin@example.com"
-              required
-            />
+            <input type="email" id="email" name="email" placeholder="admin@example.com" required />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="••••••••"
-              required
-            />
+            <input type="password" id="password" name="password" placeholder="••••••••" required />
           </div>
           <button type="submit" className="login-button">
             Login
@@ -46,5 +37,5 @@ export default function LoginPage({
         </form>
       </div>
     </div>
-  )
+  );
 }

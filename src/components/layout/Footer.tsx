@@ -4,15 +4,10 @@ export const Footer = (): React.JSX.Element => {
       <div className="container">
         <div className="footer-inner">
           <p className="footer-text">
-            © {new Date().getFullYear()} Buğra Öksüz.
-            All rights reserved.
+            © {new Date().getFullYear()} Buğra Öksüz. All rights reserved.
           </p>
           <div className="footer-links">
-            <a
-              href="https://github.com/HighRadiation"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://github.com/HighRadiation" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
             <a

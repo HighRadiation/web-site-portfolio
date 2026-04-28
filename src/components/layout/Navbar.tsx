@@ -12,11 +12,7 @@ export const Navbar = (): React.JSX.Element => {
     <nav className="navbar">
       <div className="navbar-inner">
         {links.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            className="nav-link"
-          >
+          <a key={link.href} href={link.href} className="nav-link">
             {link.label}
           </a>
         ))}
