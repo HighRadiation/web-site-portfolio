@@ -9,19 +9,19 @@ export default function LoginPage({
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h1>Admin Girişi</h1>
-          <p>Devam etmek için bilgilerinizi girin</p>
+          <h1>Admin Login</h1>
+          <p>Enter your credentials to continue</p>
         </div>
 
         {searchParams.error && (
           <div className="error-message">
-            Giriş başarısız. Lütfen bilgilerinizi kontrol edin.
+            Login failed. Please check your credentials.
           </div>
         )}
 
         <form action={login}>
           <div className="form-group">
-            <label htmlFor="email">E-posta</label>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
@@ -31,7 +31,7 @@ export default function LoginPage({
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Şifre</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
@@ -41,7 +41,7 @@ export default function LoginPage({
             />
           </div>
           <button type="submit" className="login-button">
-            Giriş Yap
+            Login
           </button>
         </form>
       </div>

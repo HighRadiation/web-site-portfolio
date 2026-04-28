@@ -44,7 +44,7 @@ export default function AdminLayout({
                 padding: '0.75rem 1rem', 
                 borderRadius: 'var(--radius)',
                 color: 'var(--text-muted)'
-              }}>Projeler</a>
+              }}>Projects</a>
             </li>
             <li style={{ marginBottom: '0.5rem' }}>
               <a href="/admin/skills" style={{ 
@@ -52,7 +52,7 @@ export default function AdminLayout({
                 padding: '0.75rem 1rem', 
                 borderRadius: 'var(--radius)',
                 color: 'var(--text-muted)'
-              }}>Yetenekler</a>
+              }}>Skills</a>
             </li>
           </ul>
         </nav>
@@ -64,7 +64,7 @@ export default function AdminLayout({
             color: '#ef4444',
             marginTop: '0'
           }}>
-            Çıkış Yap
+            Logout
           </button>
         </form>
       </aside>
