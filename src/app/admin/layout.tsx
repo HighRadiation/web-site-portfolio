@@ -4,9 +4,13 @@ export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode
-}) {
+}): React.JSX.Element {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--background)' }}>
+    <div style={{
+      display: 'flex',
+      minHeight: '100vh',
+      backgroundColor: 'var(--background)',
+    }}>
       <aside style={{ 
         width: '260px', 
         borderRight: '1px solid var(--border)', 
@@ -16,7 +20,11 @@ export default function AdminLayout({
         backgroundColor: 'var(--card)'
       }}>
         <div style={{ marginBottom: '2.5rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.025em' }}>Portfolio Admin</h2>
+          <h2 style={{
+            fontSize: '1.25rem',
+            fontWeight: 700,
+            letterSpacing: '-0.025em',
+          }}>Portfolio Admin</h2>
         </div>
         
         <nav style={{ flex: 1 }}>

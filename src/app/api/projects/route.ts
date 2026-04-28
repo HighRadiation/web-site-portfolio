@@ -52,7 +52,9 @@ export async function GET(request: NextRequest) {
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { NextResponse, NextRequest } from 'next/server'
 
-export async function GET(request: NextRequest) {
+export async function GET(
+  _request: NextRequest,
+): Promise<NextResponse> {
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!

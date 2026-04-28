@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse, NextRequest } from 'next/server'
 
-export async function PUT(request: NextRequest) {
+export async function PUT(request: NextRequest): Promise<NextResponse> {
   const supabase = await createClient()
   
   const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -23,7 +23,7 @@ export async function PUT(request: NextRequest) {
     }
 
     return NextResponse.json(data)
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 }

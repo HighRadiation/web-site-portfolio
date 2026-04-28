@@ -1,11 +1,17 @@
 import Link from 'next/link'
 
-export const Navbar = () => {
+export const Navbar = (): React.JSX.Element => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+    <nav className="fixed top-0 left-0 right-0 z-50
+      bg-white/80 backdrop-blur-md border-b border-gray-100">
       <div className="container h-16 flex items-center justify-between">
         {/* Left: Brand */}
-        <Link href="/" className="text-lg font-serif font-bold text-black no-underline hover:opacity-70 transition-opacity">
+        <Link
+          href="/"
+          className="text-lg font-serif font-bold
+            text-black no-underline hover:opacity-70
+            transition-opacity"
+        >
           Buğra Öksüz
         </Link>
 

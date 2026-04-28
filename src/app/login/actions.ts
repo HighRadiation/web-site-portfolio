@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 
-export async function login(formData: FormData) {
+export async function login(formData: FormData): Promise<void> {
   const supabase = await createClient()
 
   const email = formData.get('email') as string
@@ -21,7 +21,7 @@ export async function login(formData: FormData) {
   redirect('/admin')
 }
 
-export async function logout() {
+export async function logout(): Promise<void> {
   const supabase = await createClient()
   await supabase.auth.signOut()
   redirect('/login')

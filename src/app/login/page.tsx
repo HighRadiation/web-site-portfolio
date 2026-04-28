@@ -4,7 +4,7 @@ export default function LoginPage({
   searchParams,
 }: {
   searchParams: { error?: string }
-}) {
+}): React.JSX.Element {
   return (
     <div className="login-container">
       <div className="login-card">

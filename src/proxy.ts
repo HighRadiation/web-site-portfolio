@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -13,11 +13,19 @@ export async function proxy(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
+        getAll(): ReturnType<typeof request.cookies.getAll> {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+        setAll(
+          cookiesToSet: {
+            name: string;
+            value: string;
+            options: Record<string, unknown>;
+          }[],
+        ): void {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value),
+          )
           response = NextResponse.next({
             request,
           })
@@ -35,7 +43,10 @@ export async function proxy(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Admin ve Docs rotalarını koru
-  if ((request.nextUrl.pathname.startsWith('/admin') || request.nextUrl.pathname.startsWith('/docs')) && !user) {
+  const isProtected =
+    request.nextUrl.pathname.startsWith('/admin')
+    || request.nextUrl.pathname.startsWith('/docs')
+  if (isProtected && !user) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 

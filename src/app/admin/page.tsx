@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 
-export default async function AdminDashboard() {
+export default async function AdminDashboard(): Promise<React.JSX.Element> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -11,7 +11,11 @@ export default async function AdminDashboard() {
         <p style={{ color: 'var(--text-muted)' }}>Portfolyonu buradan yönetebilirsin.</p>
       </header>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: '2rem',
+      }}>
         <div className="login-card" style={{ maxWidth: 'none', padding: '1.5rem' }}>
           <h3>Projeler</h3>
           <p style={{ fontSize: '2rem', fontWeight: 700, marginTop: '1rem' }}>0</p>

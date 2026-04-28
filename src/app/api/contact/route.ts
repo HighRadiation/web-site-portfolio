@@ -8,7 +8,7 @@ import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 let redis: Redis | null = null
 let ratelimit: Ratelimit | null = null
 
-function getRateLimiter() {
+function getRateLimiter(): Ratelimit | null {
   if (!ratelimit) {
     const rawUrl = process.env.UPSTASH_REDIS_REST_URL || ''
     const rawToken = process.env.UPSTASH_REDIS_REST_TOKEN || ''
@@ -32,7 +32,7 @@ function getRateLimiter() {
   return ratelimit
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     // 1. Rate Limiting Check
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? '127.0.0.1'
@@ -61,8 +61,13 @@ export async function POST(request: NextRequest) {
 
     // 3. Database Insertion (using Admin / Service Role Client to bypass RLS if configured)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-    const supabaseAdmin = createSupabaseClient(supabaseUrl, supabaseServiceKey)
+    const supabaseServiceKey =
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+      || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      || ''
+    const supabaseAdmin = createSupabaseClient(
+      supabaseUrl, supabaseServiceKey,
+    )
     
     const { error: dbError } = await supabaseAdmin
       .from('contact_messages')
@@ -74,12 +79,15 @@ export async function POST(request: NextRequest) {
 
     if (dbError) {
       console.error('DB Error:', dbError)
-      return NextResponse.json({ error: 'Failed to save message. Please try again later.' }, { status: 500 })
+      return NextResponse.json(
+        { error: 'Failed to save message. Please try again later.' },
+        { status: 500 },
+      )
     }
 
     return NextResponse.json({ message: 'Message sent successfully.' }, { status: 201 })
-  } catch (err) {
-    console.error('Contact API Error:', err)
+  } catch (_err) {
+    console.error('Contact API Error:', _err)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }

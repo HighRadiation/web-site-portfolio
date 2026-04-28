@@ -4,7 +4,7 @@ import { NextResponse, NextRequest } from 'next/server'
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) {
+): Promise<NextResponse> {
   const { id } = await params
   const supabase = await createClient()
   

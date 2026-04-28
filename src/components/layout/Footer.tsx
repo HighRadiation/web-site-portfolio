@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export const Footer = () => {
+export const Footer = (): React.JSX.Element => {
   return (
     <footer className="border-t border-gray-100 py-12 bg-white">
       <div className="container flex flex-col md:flex-row items-center justify-between gap-6">

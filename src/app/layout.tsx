@@ -14,7 +14,10 @@ const sourceSerif = Source_Serif_4({
 
 export const metadata: Metadata = {
   title: "Academic Portfolio | PhD Researcher & Software Engineer",
-  description: "Exploring the Intersection of Computation & Cognition. Portfolio of a PhD Researcher and Software Engineer focusing on scalable machine learning architectures.",
+  description:
+    "Exploring the Intersection of Computation & Cognition."
+    + " Portfolio of a PhD Researcher and Software Engineer"
+    + " focusing on scalable machine learning architectures.",
 };
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -24,7 +27,7 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): React.JSX.Element {
   return (
     <html lang="en" className={`${inter.variable} ${sourceSerif.variable}`}>
       <body className="font-sans">
