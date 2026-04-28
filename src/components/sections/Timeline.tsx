@@ -35,9 +35,9 @@ export const TimelineSection = async (): Promise<React.JSX.Element> => {
     .select('*')
     .order('created_at', { ascending: true });
 
-  const items = timelineData || [];
-  const experiences = items.filter((i) => i.type === 'experience');
-  const education = items.filter((i) => i.type === 'education');
+  const items = (timelineData as TimelineItem[]) || [];
+  const experiences = items.filter((i: TimelineItem) => i.type === 'experience');
+  const education = items.filter((i: TimelineItem) => i.type === 'education');
 
   return (
     <section id="experience" className="section-alt">

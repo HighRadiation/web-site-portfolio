@@ -65,7 +65,7 @@ export const AboutSection = async (): Promise<React.JSX.Element> => {
                       {'  '}
                       <span className="key">&quot;{category}&quot;</span>
                       <span className="punctuation">:</span> <span className="bracket">[</span>
-                      {items.map((item, itemIndex) => (
+                      {items.map((item: string, itemIndex: number) => (
                         <span key={itemIndex}>
                           <span className="string">&quot;{item}&quot;</span>
                           {itemIndex < items.length - 1 && (
