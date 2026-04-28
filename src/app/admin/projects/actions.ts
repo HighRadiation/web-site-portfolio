@@ -41,6 +41,13 @@ export async function addProject(formData: FormData): Promise<void> {
 export async function deleteProject(id: string): Promise<void> {
   const supabase = await createClient();
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/login');
+  }
+
   const { error } = await supabase.from('projects').delete().eq('id', id);
 
   if (error) {

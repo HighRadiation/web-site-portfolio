@@ -7,6 +7,13 @@ import { redirect } from 'next/navigation';
 export async function addTimelineItem(formData: FormData): Promise<void> {
   const supabase = await createClient();
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/login');
+  }
+
   const role = formData.get('role') as string;
   const company = formData.get('company') as string;
   const date = formData.get('date') as string;
@@ -36,6 +43,13 @@ export async function addTimelineItem(formData: FormData): Promise<void> {
 export async function deleteTimelineItem(id: string): Promise<void> {
   const supabase = await createClient();
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/login');
+  }
+
   const { error } = await supabase.from('timeline').delete().eq('id', id);
 
   if (error) {
@@ -49,6 +63,13 @@ export async function deleteTimelineItem(id: string): Promise<void> {
 
 export async function seedTimeline(): Promise<void> {
   const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/login');
+  }
 
   const items = [
     {
