@@ -79,23 +79,7 @@ export default function NewProjectPage(): React.JSX.Element {
             }}
           />
         </div>
-        <div style={{ display: 'grid', gap: '0.5rem' }}>
-          <label style={{ fontSize: '0.85rem', color: '#a3a3a3', fontWeight: 500 }}>
-            Tags (comma separated: React, C, CSS)
-          </label>
-          <input
-            name="tags"
-            placeholder="React, C, Shell"
-            style={{
-              background: '#111111',
-              border: '1px solid #222222',
-              color: '#ffffff',
-              padding: '0.75rem',
-              borderRadius: '6px',
-              fontSize: '0.9rem',
-            }}
-          />
-        </div>
+
         <button
           type="submit"
           style={{
