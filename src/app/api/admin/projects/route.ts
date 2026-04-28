@@ -1,5 +1,15 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse, NextRequest } from 'next/server';
+import { z } from 'zod';
+
+const projectSchema = z.object({
+  title: z.string().min(1).max(255),
+  description: z.string().max(2000).optional(),
+  image_url: z.string().max(500).optional(),
+  live_link: z.string().max(500).optional(),
+  github_link: z.string().max(500).optional(),
+  technologies: z.array(z.string()).optional(),
+});
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const supabase = await createClient();
@@ -14,9 +24,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   try {
     const body = await request.json();
+    const validationResult = projectSchema.safeParse(body);
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: validationResult.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
+
     const { data, error } = await supabase
       .from('projects')
-      .insert({ ...body, user_id: user.id })
+      .insert({ ...validationResult.data, user_id: user.id })
       .select()
       .single();
 

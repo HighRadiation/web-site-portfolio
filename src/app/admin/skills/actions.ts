@@ -39,6 +39,14 @@ export async function addSkill(formData: FormData): Promise<void> {
 export async function deleteSkill(id: string): Promise<void> {
   const supabase = await createClient();
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    console.error('Unauthorized');
+    return;
+  }
+
   const { error } = await supabase.from('skills').delete().eq('id', id);
 
   if (error) {
