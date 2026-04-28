@@ -45,8 +45,7 @@ export async function deleteProject(id: string): Promise<void> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    console.error('Unauthorized');
-    return;
+    redirect('/login');
   }
 
   const { error } = await supabase.from('projects').delete().eq('id', id);

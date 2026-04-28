@@ -5,9 +5,9 @@ import { z } from 'zod';
 const projectSchema = z.object({
   title: z.string().min(1).max(255),
   description: z.string().max(2000).optional(),
-  image_url: z.string().max(500).optional(),
-  live_link: z.string().max(500).optional(),
-  github_link: z.string().max(500).optional(),
+  image_url: z.union([z.string().url(), z.literal('')]).optional(),
+  live_link: z.union([z.string().url(), z.literal('')]).optional(),
+  github_link: z.union([z.string().url(), z.literal('')]).optional(),
   technologies: z.array(z.string()).optional(),
 });
 

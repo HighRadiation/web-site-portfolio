@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export async function deleteMessage(id: string): Promise<void> {
   const supabase = await createClient();
@@ -10,8 +11,7 @@ export async function deleteMessage(id: string): Promise<void> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    console.error('Unauthorized');
-    return;
+    redirect('/login');
   }
 
   const { error } = await supabase.from('contact_messages').delete().eq('id', id);
@@ -31,8 +31,7 @@ export async function markAsRead(id: string): Promise<void> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    console.error('Unauthorized');
-    return;
+    redirect('/login');
   }
 
   const { error } = await supabase.from('contact_messages').update({ read: true }).eq('id', id);

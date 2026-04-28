@@ -5,9 +5,9 @@ import { z } from 'zod';
 const profileSchema = z.object({
   full_name: z.string().max(255).optional(),
   bio: z.string().max(2000).optional(),
-  avatar_url: z.string().max(500).optional(),
+  avatar_url: z.union([z.string().url(), z.literal('')]).optional(),
   email: z.string().email().optional(),
-  website: z.string().max(500).optional(),
+  website: z.union([z.string().url(), z.literal('')]).optional(),
 });
 
 export async function PUT(request: NextRequest): Promise<NextResponse> {

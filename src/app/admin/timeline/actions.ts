@@ -11,8 +11,7 @@ export async function addTimelineItem(formData: FormData): Promise<void> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    console.error('Unauthorized');
-    return;
+    redirect('/login');
   }
 
   const role = formData.get('role') as string;
@@ -48,8 +47,7 @@ export async function deleteTimelineItem(id: string): Promise<void> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    console.error('Unauthorized');
-    return;
+    redirect('/login');
   }
 
   const { error } = await supabase.from('timeline').delete().eq('id', id);
@@ -70,8 +68,7 @@ export async function seedTimeline(): Promise<void> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    console.error('Unauthorized');
-    return;
+    redirect('/login');
   }
 
   const items = [
