@@ -7,7 +7,9 @@ import { redirect } from 'next/navigation';
 export async function addSkill(formData: FormData): Promise<void> {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     console.error('Unauthorized');
     return;
@@ -51,7 +53,9 @@ export async function deleteSkill(id: string): Promise<void> {
 export async function seedSkills(): Promise<void> {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     console.error('Unauthorized');
     return;

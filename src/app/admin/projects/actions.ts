@@ -7,7 +7,9 @@ import { redirect } from 'next/navigation';
 export async function addProject(formData: FormData): Promise<void> {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     console.error('Unauthorized');
     return;
@@ -53,7 +55,9 @@ export async function deleteProject(id: string): Promise<void> {
 export async function seedProjects(): Promise<void> {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     console.error('Unauthorized');
     return;
