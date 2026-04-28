@@ -749,22 +749,28 @@ h1, h2, h3, h4, .font-serif {
   }
 
   .navbar-inner {
-    gap: 1.5rem;
-    padding: 0 1rem;
-    justify-content: flex-start;
+    gap: 1.25rem;
+    padding: 0 1.25rem;
+    justify-content: flex-start; /* Sola yasla */
     overflow-x: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -webkit-overflow-scrolling: touch; /* iOS'ta akıcı kaydırma */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    width: 100%;
+    /* Flexbox taşma sorununu çözmek için: */
+    display: flex;
+    flex-wrap: nowrap;
   }
 
   .navbar-inner::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
   }
 
   .nav-link {
-    font-size: 0.7rem;
-    white-space: nowrap;
-    flex-shrink: 0;
+    font-size: 0.75rem;
+    white-space: nowrap; /* Asla alt satıra geçme */
+    flex-shrink: 0; /* Asla sıkışma */
+    padding: 0.5rem 0;
   }
 
   .hero h1 {
