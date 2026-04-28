@@ -86,25 +86,6 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
                   >
                     {project.description || project.desc || 'No description.'}
                   </p>
-                  <div
-                    style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', flexWrap: 'wrap' }}
-                  >
-                    {project.tags?.map((tag: string) => (
-                      <span
-                        key={tag}
-                        style={{
-                          fontSize: '0.75rem',
-                          color: 'var(--accent)',
-                          backgroundColor: 'rgba(124, 58, 237, 0.1)',
-                          padding: '0.25rem 0.75rem',
-                          borderRadius: '99px',
-                          fontWeight: 500,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
                 </div>
                 <form
                   action={async () => {
