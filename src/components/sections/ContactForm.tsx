@@ -26,6 +26,10 @@ export const ContactForm = (): React.JSX.Element => {
 
       if (!res.ok) {
         const errorData = await res.json();
+        if (errorData.details) {
+          const firstError = Object.values(errorData.details)[0] as string[];
+          throw new Error(firstError[0] || 'Validation failed');
+        }
         throw new Error(errorData.error || 'Failed to send message');
       }
 
