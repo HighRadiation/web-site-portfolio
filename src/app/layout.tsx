@@ -8,11 +8,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Buğra Öksüz | Full-stack Developer & Designer',
+  title: 'Buğra Öksüz | Crafting Apps from First Principles',
   description:
-    'Full-stack Developer & Designer crafting' +
-    ' high-performance digital environments.' +
-    ' Portfolio of Buğra Öksüz.',
+    'I craft high-performance mobile and web apps from first principles. Portfolio of Buğra Öksüz.',
 };
 
 export default function RootLayout({
