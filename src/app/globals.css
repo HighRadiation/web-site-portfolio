@@ -373,7 +373,8 @@ h1, h2, h3, h4, .font-serif {
   gap: 3rem;
 }
 
-.timeline-section-title {
+.timeline-section-title,
+.timeline-title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
