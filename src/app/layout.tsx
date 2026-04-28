@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -12,9 +10,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Buğra Öksüz | Full-stack Developer & Designer',
   description:
-    'Full-stack Developer & Designer crafting'
-    + ' high-performance digital environments.'
-    + ' Portfolio of Buğra Öksüz.',
+    'Full-stack Developer & Designer crafting' +
+    ' high-performance digital environments.' +
+    ' Portfolio of Buğra Öksüz.',
 };
 
 export default function RootLayout({
@@ -24,11 +22,7 @@ export default function RootLayout({
 }>): React.JSX.Element {
   return (
     <html lang="en" className={inter.variable}>
-      <body>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
