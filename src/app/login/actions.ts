@@ -15,7 +15,8 @@ export async function login(formData: FormData): Promise<void> {
   });
 
   if (error) {
-    return redirect(`/login?error=${encodeURIComponent('Login failed. Please check your credentials.')}`);
+    const msg = encodeURIComponent('Login failed. Please check your credentials.');
+    return redirect(`/login?error=${msg}`);
   }
 
   redirect('/admin');

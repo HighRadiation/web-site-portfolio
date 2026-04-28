@@ -38,7 +38,9 @@ export default async function AdminDashboard(): Promise<React.JSX.Element> {
         <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
           Dashboard Overview
         </h1>
-        <p style={{ color: '#a3a3a3' }}>Welcome back. Here's a quick look at your system status.</p>
+        <p style={{ color: '#a3a3a3' }}>
+          Welcome back. Here&apos;s a quick look at your system status.
+        </p>
       </div>
 
       <div
