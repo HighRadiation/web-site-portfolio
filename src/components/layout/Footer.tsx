@@ -1,20 +1,37 @@
-import Link from 'next/link'
-
 export const Footer = (): React.JSX.Element => {
   return (
-    <footer className="border-t border-gray-100 py-12 bg-white">
-      <div className="container flex flex-col md:flex-row items-center justify-between gap-6">
-        <p className="text-secondary text-sm">
-          © {new Date().getFullYear()} Academic Portfolio
-        </p>
-        
-        <div className="flex items-center space-x-6">
-          <Link href="https://linkedin.com" className="nav-link text-xs">LinkedIn</Link>
-          <Link href="https://github.com/HighRadiation" className="nav-link text-xs">GitHub</Link>
-          <Link href="https://twitter.com" className="nav-link text-xs">Twitter</Link>
-          <Link href="/rss" className="nav-link text-xs">RSS</Link>
+    <footer className="footer">
+      <div className="container">
+        <div className="footer-inner">
+          <p className="footer-text">
+            © {new Date().getFullYear()} Buğra Öksüz.
+            All rights reserved.
+          </p>
+          <div className="footer-links">
+            <a
+              href="https://github.com/HighRadiation"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/bu%C4%9Fra-%C3%B6ks%C3%BCz/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://www.instagram.com/bugra._.oksuz/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram
+            </a>
+          </div>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
