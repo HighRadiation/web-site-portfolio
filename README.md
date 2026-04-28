@@ -25,7 +25,7 @@ A high-performance, minimalist academic portfolio built with **Next.js 16**, **R
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/HighRadiation/web-site-portfolio.git
+   git clone https://github.com/HighRadiation/bugraoksuz.me.git
    ```
 
 2. **Install dependencies**:
