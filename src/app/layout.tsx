@@ -1,27 +1,21 @@
-import type { Metadata } from "next";
-import { Inter, Source_Serif_4 } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
 
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const sourceSerif = Source_Serif_4({
-  variable: "--font-serif",
-  subsets: ["latin"],
+  variable: '--font-inter',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "Academic Portfolio | PhD Researcher & Software Engineer",
+  title: 'Buğra Öksüz | Full-stack Developer & Designer',
   description:
-    "Exploring the Intersection of Computation & Cognition."
-    + " Portfolio of a PhD Researcher and Software Engineer"
-    + " focusing on scalable machine learning architectures.",
+    'Full-stack Developer & Designer crafting'
+    + ' high-performance digital environments.'
+    + ' Portfolio of Buğra Öksüz.',
 };
-
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 
 export default function RootLayout({
   children,
@@ -29,13 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): React.JSX.Element {
   return (
-    <html lang="en" className={`${inter.variable} ${sourceSerif.variable}`}>
-      <body className="font-sans">
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </div>
+    <html lang="en" className={inter.variable}>
+      <body>
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
