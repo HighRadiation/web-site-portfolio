@@ -17,4 +17,4 @@ CREATE POLICY "Anyone can insert a contact message." ON contact_messages
 
 -- 2. Allow only authenticated users to read messages (admins)
 CREATE POLICY "Only authenticated users can view messages." ON contact_messages
-  FOR SELECT USING (auth.role() = 'authenticated');
+  FOR SELECT USING ((select auth.uid()) is not null);

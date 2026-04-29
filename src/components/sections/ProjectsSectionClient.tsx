@@ -44,9 +44,12 @@ export const ProjectsSectionClient = ({
               <div className="project-card-body">
                 <p className="project-card-desc">
                   {/* Try to find a translated description using the title as a key */}
-                  {t(`${project.title}_desc`) !== `${project.title}_desc`
-                    ? t(`${project.title}_desc`)
-                    : project.description}
+                  {(() => {
+                    const translatedDesc = t(`${project.title}_desc`);
+                    return translatedDesc !== `${project.title}_desc`
+                      ? translatedDesc
+                      : project.description;
+                  })()}
                 </p>
 
                 {project.github_link && (

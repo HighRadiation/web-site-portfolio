@@ -38,14 +38,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? '127.0.0.1';
 
     const limiter = getRateLimiter();
-    if (limiter) {
-      const { success } = await limiter.limit(`contact_rate_limit_${ip}`);
-      if (!success) {
-        return NextResponse.json(
-          { error: 'Too many requests. Please try again later.' },
-          { status: 429 },
-        );
-      }
+    if (!limiter) {
+      console.error('Rate limiting is not configured (missing Redis credentials).');
+      return NextResponse.json({ error: 'Server configuration error.' }, { status: 500 });
+    }
+
+    const { success } = await limiter.limit(`contact_rate_limit_${ip}`);
+    if (!success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 },
+      );
     }
 
     // 2. Body Parsing & Validation

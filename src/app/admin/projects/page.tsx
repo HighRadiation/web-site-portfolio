@@ -18,7 +18,7 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.warn('Supabase uyarisı:', error.message || error);
+    // Silently handle error or show a generic error state without leaking schema details
   }
 
   return (
