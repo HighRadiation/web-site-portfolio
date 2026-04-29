@@ -27,6 +27,7 @@ export async function addTimelineItem(formData: FormData): Promise<void> {
       date,
       description,
       type,
+      user_id: user.id,
     },
   ]);
 
@@ -109,7 +110,12 @@ export async function seedTimeline(): Promise<void> {
     },
   ];
 
-  const { error } = await supabase.from('timeline').insert(items);
+  const itemsWithUser = items.map((item) => ({
+    ...item,
+    user_id: user.id,
+  }));
+ 
+  const { error } = await supabase.from('timeline').insert(itemsWithUser);
 
   if (error) {
     console.error('Error seeding timeline:', error);
