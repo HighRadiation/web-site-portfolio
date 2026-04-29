@@ -2,8 +2,7 @@ export const Navbar = (): React.JSX.Element => {
   const links = [
     { href: '#home', label: 'Home' },
     { href: '#about', label: 'About' },
-    { href: '#experience', label: 'Experience' },
-    { href: '#education', label: 'Education' },
+    { href: '#experience', label: 'Experience & Education' },
     { href: '#projects', label: 'Projects' },
     { href: '#contact', label: 'Contact' },
   ];
