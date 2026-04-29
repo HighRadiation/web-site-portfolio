@@ -74,6 +74,17 @@ export const ContactSection = (): React.JSX.Element => {
             </button>
           </div>
 
+          <span
+            style={{
+              color: 'var(--text-muted)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.8rem',
+              fontWeight: 500,
+            }}
+          >
+            OR
+          </span>
+
           <button
             onClick={() => setIsModalOpen(true)}
             className="btn btn-primary"
