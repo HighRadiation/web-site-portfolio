@@ -28,25 +28,14 @@ export const ContactSection = (): React.JSX.Element => {
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
-            gap: '1.5rem',
+            justifyContent: 'center',
+            gap: '1rem',
             marginTop: '2.5rem',
+            flexWrap: 'wrap',
           }}
         >
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="btn btn-primary"
-            style={{
-              padding: '0.8rem 2rem',
-              fontSize: '0.9rem',
-              borderRadius: '8px',
-            }}
-          >
-            CONTACT_ME
-          </button>
-
-          <div className="email-bar">
+          <div className="email-bar" style={{ margin: 0 }}>
             <span className="email-bar-text">{EMAIL}</span>
             <button
               className="email-bar-copy"
@@ -84,6 +73,21 @@ export const ContactSection = (): React.JSX.Element => {
               )}
             </button>
           </div>
+
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="btn btn-primary"
+            style={{
+              padding: '0.75rem 2rem',
+              fontSize: '0.9rem',
+              borderRadius: '8px',
+              height: '46px', // Explicit height to match email bar exactly
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            CONTACT_ME
+          </button>
         </div>
       </div>
 
