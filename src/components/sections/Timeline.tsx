@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { TimelineSectionClient } from './TimelineSectionClient';
 
 interface TimelineItem {
   id: string;
@@ -7,25 +8,6 @@ interface TimelineItem {
   company: string;
   description: string;
   type: string;
-}
-
-function renderTimeline(items: TimelineItem[]): React.JSX.Element {
-  if (!items || items.length === 0) {
-    return <p style={{ color: 'var(--text-muted)' }}>No data available.</p>;
-  }
-
-  return (
-    <div className="timeline-list">
-      {items.map((item) => (
-        <div key={item.id} className="timeline-item">
-          <span className="timeline-date">{item.date}</span>
-          <h4 className="timeline-role">{item.role}</h4>
-          <p className="timeline-company">{item.company}</p>
-          <p className="timeline-desc">{item.description}</p>
-        </div>
-      ))}
-    </div>
-  );
 }
 
 export const TimelineSection = async (): Promise<React.JSX.Element> => {
@@ -39,24 +21,5 @@ export const TimelineSection = async (): Promise<React.JSX.Element> => {
   const experiences = items.filter((i: TimelineItem) => i.type === 'experience');
   const education = items.filter((i: TimelineItem) => i.type === 'education');
 
-  return (
-    <section id="experience" className="section-alt">
-      <div className="container">
-        <div className="section-header">
-          <h2 className="section-title">Experience & Education</h2>
-        </div>
-
-        <div className="timeline-grid">
-          <div>
-            <h3 className="timeline-title">Experience</h3>
-            {renderTimeline(experiences)}
-          </div>
-          <div>
-            <h3 className="timeline-title">Education</h3>
-            {renderTimeline(education)}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  return <TimelineSectionClient experiences={experiences} education={education} />;
 };

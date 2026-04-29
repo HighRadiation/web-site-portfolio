@@ -1,5 +1,6 @@
 'use client';
 
+import { useLanguage } from '@/context/LanguageContext';
 import { useState } from 'react';
 import { Modal } from '../ui/Modal';
 import { ContactForm } from './ContactForm';
@@ -9,6 +10,7 @@ const EMAIL = 'bugraoksuz61@gmail.com';
 export const ContactSection = (): React.JSX.Element => {
   const [copied, setCopied] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { t } = useLanguage();
 
   function handleCopy(): void {
     navigator.clipboard.writeText(EMAIL).then(() => {
@@ -20,10 +22,8 @@ export const ContactSection = (): React.JSX.Element => {
   return (
     <section id="contact" className="contact-section">
       <div className="container">
-        <h2 className="contact-title">Get in Touch</h2>
-        <p className="contact-desc">
-          Have a question or want to work together? Feel free to reach out!
-        </p>
+        <h2 className="contact-title">{t('contact_title')}</h2>
+        <p className="contact-desc">{t('contact_desc')}</p>
 
         <div
           style={{
@@ -41,7 +41,7 @@ export const ContactSection = (): React.JSX.Element => {
               className="email-bar-copy"
               onClick={handleCopy}
               type="button"
-              title="Copy email"
+              title={t('contact_email_copied')}
             >
               {copied ? (
                 <svg
@@ -82,7 +82,7 @@ export const ContactSection = (): React.JSX.Element => {
               fontWeight: 500,
             }}
           >
-            OR
+            {t('contact_or')}
           </span>
 
           <button
@@ -97,12 +97,16 @@ export const ContactSection = (): React.JSX.Element => {
               alignItems: 'center',
             }}
           >
-            CONTACT_ME
+            {t('contact_button')}
           </button>
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Send a Message">
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={t('contact_send_message')}
+      >
         <ContactForm />
       </Modal>
     </section>

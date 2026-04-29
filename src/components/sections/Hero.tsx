@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
+import { useEffect, useState } from 'react';
 
 export const HeroSection = (): React.JSX.Element => {
   const [displayName, setDisplayName] = useState('');
+  const { t } = useLanguage();
   const fullName = 'Buğra Öksüz';
 
   useEffect(() => {
@@ -34,14 +36,14 @@ export const HeroSection = (): React.JSX.Element => {
             <span className="cursor">_</span>
           </h1>
 
-          <p className="hero-subtitle">I craft mobile-web apps from first principles.</p>
+          <p className="hero-subtitle">{t('hero_subtitle')}</p>
 
           <div className="hero-buttons">
             <a href="#projects" className="btn btn-primary">
-              VIEW_PROJECTS
+              {t('hero_view_projects')}
             </a>
             <a href="#contact" className="btn btn-outline">
-              CONTACT_ME
+              {t('hero_contact_me')}
             </a>
           </div>
         </div>
