@@ -114,7 +114,7 @@ export async function seedTimeline(): Promise<void> {
     ...item,
     user_id: user.id,
   }));
- 
+
   const { error } = await supabase.from('timeline').insert(itemsWithUser);
 
   if (error) {

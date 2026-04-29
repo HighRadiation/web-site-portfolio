@@ -1,14 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { ProjectsSectionClient } from './ProjectsSectionClient';
 
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  github_link?: string;
-  live_link?: string;
-}
-
 export const ProjectsSection = async (): Promise<React.JSX.Element> => {
   const supabase = await createClient();
 

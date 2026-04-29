@@ -10,7 +10,9 @@ interface LanguageContextType {
   t: (key: string) => string;
 }
 
-const translations = {
+type TranslationMap = Record<string, string>;
+
+const translations: Record<Language, TranslationMap> = {
   en: {
     // Navbar
     home: 'Home',
@@ -25,9 +27,18 @@ const translations = {
     // About
     about_title: 'About',
     about_p1:
-      "I’ve never liked sticking to just one niche. My curiosity takes me everywhere—from game engines and AI to embedded systems and mobile-web. For me, software isn’t about picking a 'side'; it’s about having the drive to explore how it all works under the hood.",
+      "I've never liked sticking to just one niche. " +
+      'My curiosity takes me everywhere—from game ' +
+      'engines and AI to embedded systems and mobile-web. ' +
+      "For me, software isn't about picking a 'side'; " +
+      "it's about having the drive to explore how it " +
+      'all works under the hood.',
     about_p2:
-      "If there’s something I don’t know, I’ll sit down and grind for a week or a month until I can actually build something with it. I don't believe I've truly learned a technology until I’ve made it work in a real-world project.",
+      "If there's something I don't know, I'll sit " +
+      'down and grind for a week or a month until I ' +
+      'can actually build something with it. I ' +
+      "don't believe I've truly learned a technology " +
+      "until I've made it work in a real-world project.",
     // Timeline
     experience_education_title: 'Experience & Education',
     experience_title: 'Experience',
@@ -46,30 +57,31 @@ const translations = {
     'Industrial Design (BSc)': 'Industrial Design (BSc)',
     '42 Istanbul': '42 Istanbul',
     'Developing backend systems and scalable infrastructure.':
-      'Developing backend systems and scalable infrastructure.',
+      'Developing backend systems and scalable ' + 'infrastructure.',
     'Designed UI/UX systems and prototypes in Figma for my own projects.':
-      'Designed UI/UX systems and prototypes in Figma for my own projects.',
+      'Designed UI/UX systems and prototypes in ' + 'Figma for my own projects.',
     'Focusing on mobile-web development and AI management.':
-      'Focusing on mobile-web development and AI management.',
+      'Focusing on mobile-web development and ' + 'AI management.',
     'Studying design thinking and functional aesthetics.':
-      'Studying design thinking and functional aesthetics.',
+      'Studying design thinking and functional ' + 'aesthetics.',
     'Focused on C, Unix systems, and low-level algorithms.':
-      'Focused on C, Unix systems, and low-level algorithms.',
+      'Focused on C, Unix systems, and low-level ' + 'algorithms.',
     // Added Items
-    'Intern': 'Intern',
+    Intern: 'Intern',
     'Tapu Müdürlüğü': 'Land Registry Office',
     'Completed a professional internship focusing on title deed and cadastre operations.':
-      'Completed a professional internship focusing on title deed and cadastre operations.',
+      'Completed a professional internship focusing ' + 'on title deed and cadastre operations.',
     'High School': 'High School',
     'Harita Tapu ve Kadastro': 'Mapping and Land Registry',
     'Focused on mapping, surveying, and land registry systems.':
-      'Focused on mapping, surveying, and land registry systems.',
+      'Focused on mapping, surveying, and land ' + 'registry systems.',
+    'Map, Land Registry and Cadastre': 'Map, Land Registry and Cadastre',
     // Projects
     projects_title: 'Projects',
     projects_view_code: 'View Code',
     // Contact
     contact_title: 'Get in Touch',
-    contact_desc: 'Have a question or want to work together? Feel free to reach out!',
+    contact_desc: 'Have a question or want to work together? ' + 'Feel free to reach out!',
     contact_button: 'CONTACT_ME',
     contact_or: 'OR',
     contact_email_copied: 'Email copied!',
@@ -82,15 +94,15 @@ const translations = {
     languages: 'Languages',
     tools: 'Tools',
     // Project Specific fallbacks
-    'get_next_line_desc': 'A function that returns a line read from a file descriptor.',
-    'Bugraoksuz.me_desc': 'My personal portfolio website built with Next.js and Supabase.',
-    'minitalk_desc': 'Built a communication system operating via Unix signals.',
-    'push_swap_desc': 'Developed an algorithm to sort data with a minimum number of operations.',
-    'libft_desc': 'Recoded standard C library functions from the ground up.',
+    get_next_line_desc: 'A function that returns a line read from ' + 'a file descriptor.',
+    'Bugraoksuz.me_desc': 'My personal portfolio website built with ' + 'Next.js and Supabase.',
+    minitalk_desc: 'Built a communication system operating ' + 'via Unix signals.',
+    push_swap_desc: 'Developed an algorithm to sort data with ' + 'a minimum number of operations.',
+    libft_desc: 'Recoded standard C library functions ' + 'from the ground up.',
     // Generic Timeline fallbacks
-    'Student': 'Student',
+    Student: 'Student',
     'Software Developer': 'Software Developer',
-    'Freelance': 'Freelance',
+    Freelance: 'Freelance',
   },
   tr: {
     // Navbar
@@ -100,15 +112,25 @@ const translations = {
     projects: 'Projeler',
     contact: 'İletişim',
     // Hero
-    hero_subtitle: 'Mobil-web uygulamalarını temel prensiplerden inşa ediyorum.',
+    hero_subtitle: 'Mobil-web uygulamalarını temel ' + 'prensiplerden inşa ediyorum.',
     hero_view_projects: 'PROJELERİ_GÖR',
     hero_contact_me: 'İLETİŞİME_GEÇ',
     // About
     about_title: 'Hakkımda',
     about_p1:
-      'Tek bir alana takılıp kalmayı hiç sevmedim. Merakım beni her yere götürüyor; oyun motorlarından yapay zekaya, gömülü sistemlerden mobil-web\'e kadar. Benim için yazılım bir \'taraf\' seçmek değil, her şeyin arka planda nasıl çalıştığını keşfetme tutkusudur.',
+      'Tek bir alana takılıp kalmayı hiç ' +
+      'sevmedim. Merakım beni her yere götürüyor; ' +
+      'oyun motorlarından yapay zekaya, gömülü ' +
+      "sistemlerden mobil-web'e kadar. Benim için " +
+      "yazılım bir 'taraf' seçmek değil, her şeyin " +
+      'arka planda nasıl çalıştığını keşfetme ' +
+      'tutkusudur.',
     about_p2:
-      'Bilmediğim bir şey varsa, oturur bir hafta veya bir ay boyunca onunla bir şeyler inşa edebilene kadar çalışırım. Bir teknolojiyi gerçek bir projede çalışır hale getirene kadar onu gerçekten öğrendiğime inanmam.',
+      'Bilmediğim bir şey varsa, oturur bir hafta ' +
+      'veya bir ay boyunca onunla bir şeyler inşa ' +
+      'edebilene kadar çalışırım. Bir teknolojiyi ' +
+      'gerçek bir projede çalışır hale getirene kadar ' +
+      'onu gerçekten öğrendiğime inanmam.',
     // Timeline
     experience_education_title: 'Deneyim & Eğitim',
     experience_title: 'Deneyim',
@@ -127,30 +149,32 @@ const translations = {
     'Industrial Design (BSc)': 'Endüstriyel Tasarım (Lisans)',
     '42 Istanbul': '42 İstanbul',
     'Developing backend systems and scalable infrastructure.':
-      'Arka yüz sistemleri ve ölçeklenebilir altyapı geliştirme.',
+      'Arka yüz sistemleri ve ölçeklenebilir ' + 'altyapı geliştirme.',
     'Designed UI/UX systems and prototypes in Figma for my own projects.':
-      'Kendi projelerim için Figma\'da UI/UX sistemleri ve prototipler tasarladım.',
+      "Kendi projelerim için Figma'da UI/UX " + 'sistemleri ve prototipler tasarladım.',
     'Focusing on mobile-web development and AI management.':
-      'Mobil-web geliştirme ve yapay zeka yönetimine odaklanıyorum.',
+      'Mobil-web geliştirme ve yapay zeka ' + 'yönetimine odaklanıyorum.',
     'Studying design thinking and functional aesthetics.':
-      'Tasarım odaklı düşünme ve fonksiyonel estetik üzerine çalışıyorum.',
+      'Tasarım odaklı düşünme ve fonksiyonel ' + 'estetik üzerine çalışıyorum.',
     'Focused on C, Unix systems, and low-level algorithms.':
-      'C, Unix sistemleri ve düşük seviyeli algoritmalar üzerine yoğunlaştım.',
+      'C, Unix sistemleri ve düşük seviyeli ' + 'algoritmalar üzerine yoğunlaştım.',
     // Added Items
-    'Intern': 'Stajyer',
+    Intern: 'Stajyer',
     'Tapu Müdürlüğü': 'Tapu Müdürlüğü',
     'Completed a professional internship focusing on title deed and cadastre operations.':
-      'Tapu ve kadastro işlemleri üzerine profesyonel staj tamamladım.',
+      'Tapu ve kadastro işlemleri üzerine ' + 'profesyonel staj tamamladım.',
     'High School': 'Lise',
     'Harita Tapu ve Kadastro': 'Harita Tapu ve Kadastro',
     'Focused on mapping, surveying, and land registry systems.':
-      'Haritacılık, ölçme ve tapu sicil sistemleri üzerine eğitim aldım.',
+      'Haritacılık, ölçme ve tapu sicil ' + 'sistemleri üzerine eğitim aldım.',
+    'Map, Land Registry and Cadastre': 'Harita, Tapu ve Kadastro',
     // Projects
     projects_title: 'Projeler',
     projects_view_code: 'Kodu Gör',
     // Contact
     contact_title: 'İletişime Geçin',
-    contact_desc: 'Bir sorunuz mu var veya birlikte mi çalışmak istiyorsunuz? Çekinmeden ulaşın!',
+    contact_desc:
+      'Bir sorunuz mu var veya birlikte mi ' + 'çalışmak istiyorsunuz? Çekinmeden ulaşın!',
     contact_button: 'İLETİŞİME_GEÇ',
     contact_or: 'VEYA',
     contact_email_copied: 'E-posta kopyalandı!',
@@ -163,29 +187,26 @@ const translations = {
     languages: 'Diller',
     tools: 'Araçlar',
     // Project Specific fallbacks
-    'get_next_line_desc': 'Bir dosya tanımlayıcısından okunan bir satırı döndüren fonksiyon.',
-    'Bugraoksuz.me_desc': 'Next.js ve Supabase ile oluşturulmuş kişisel portföy web sitem.',
-    'minitalk_desc': 'Unix sinyalleri üzerinden çalışan bir iletişim sistemi.',
-    'push_swap_desc': 'Minimum sayıda işlemle verileri sıralamak için geliştirilmiş bir algoritma.',
-    'libft_desc': 'Standart C kütüphanesi fonksiyonlarının yeniden kodlanması.',
+    get_next_line_desc: 'Bir dosya tanımlayıcısından okunan ' + 'bir satırı döndüren fonksiyon.',
+    'Bugraoksuz.me_desc': 'Next.js ve Supabase ile oluşturulmuş ' + 'kişisel portföy web sitem.',
+    minitalk_desc: 'Unix sinyalleri üzerinden çalışan ' + 'bir iletişim sistemi.',
+    push_swap_desc:
+      'Minimum sayıda işlemle verileri sıralamak ' + 'için geliştirilmiş bir algoritma.',
+    libft_desc: 'Standart C kütüphanesi fonksiyonlarının ' + 'yeniden kodlanması.',
     // Generic Timeline fallbacks
-    'Student': 'Öğrenci',
+    Student: 'Öğrenci',
     'Software Developer': 'Yazılım Geliştirici',
-    'Freelance': 'Freelance (Serbest Çalışan)',
+    Freelance: 'Freelance (Serbest Çalışan)',
   },
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}): React.JSX.Element {
+export function LanguageProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
   const [language, setLanguage] = useState<Language>('en');
 
   const t = (key: string): string => {
-    return (translations[language] as any)[key] || (translations['en'] as any)[key] || key;
+    return translations[language][key] || translations['en'][key] || key;
   };
 
   return (
