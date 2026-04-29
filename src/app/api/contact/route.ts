@@ -61,8 +61,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // 3. Database Insertion (using Admin / Service Role Client to bypass RLS if configured)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-    const supabaseServiceKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseServiceKey) {
+      console.error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable');
+      return NextResponse.json({ error: 'Server configuration error.' }, { status: 500 });
+    }
+
     const supabaseAdmin = createSupabaseClient(supabaseUrl, supabaseServiceKey);
 
     const { error: dbError } = await supabaseAdmin.from('contact_messages').insert({
