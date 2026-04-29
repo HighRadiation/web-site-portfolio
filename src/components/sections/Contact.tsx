@@ -36,22 +36,14 @@ export const ContactSection = (): React.JSX.Element => {
         >
           <button
             onClick={() => setIsModalOpen(true)}
+            className="btn btn-primary"
             style={{
-              backgroundColor: 'var(--accent-purple)',
-              color: '#fff',
-              border: 'none',
-              padding: '1rem 2.5rem',
-              borderRadius: '50px',
-              fontSize: '1.1rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 10px 20px -5px rgba(124, 58, 237, 0.4)',
+              padding: '0.8rem 2rem',
+              fontSize: '0.9rem',
+              borderRadius: '8px',
             }}
-            onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-3px)')}
-            onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
           >
-            Contact Me
+            CONTACT_ME
           </button>
 
           <div className="email-bar">
