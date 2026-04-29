@@ -55,6 +55,15 @@ const translations = {
       'Studying design thinking and functional aesthetics.',
     'Focused on C, Unix systems, and low-level algorithms.':
       'Focused on C, Unix systems, and low-level algorithms.',
+    // Added Items
+    'Intern': 'Intern',
+    'Tapu Müdürlüğü': 'Land Registry Office',
+    'Completed a professional internship focusing on title deed and cadastre operations.':
+      'Completed a professional internship focusing on title deed and cadastre operations.',
+    'High School': 'High School',
+    'Harita Tapu ve Kadastro': 'Mapping and Land Registry',
+    'Focused on mapping, surveying, and land registry systems.':
+      'Focused on mapping, surveying, and land registry systems.',
     // Projects
     projects_title: 'Projects',
     projects_view_code: 'View Code',
@@ -127,6 +136,15 @@ const translations = {
       'Tasarım odaklı düşünme ve fonksiyonel estetik üzerine çalışıyorum.',
     'Focused on C, Unix systems, and low-level algorithms.':
       'C, Unix sistemleri ve düşük seviyeli algoritmalar üzerine yoğunlaştım.',
+    // Added Items
+    'Intern': 'Stajyer',
+    'Tapu Müdürlüğü': 'Tapu Müdürlüğü',
+    'Completed a professional internship focusing on title deed and cadastre operations.':
+      'Tapu ve kadastro işlemleri üzerine profesyonel staj tamamladım.',
+    'High School': 'Lise',
+    'Harita Tapu ve Kadastro': 'Harita Tapu ve Kadastro',
+    'Focused on mapping, surveying, and land registry systems.':
+      'Haritacılık, ölçme ve tapu sicil sistemleri üzerine eğitim aldım.',
     // Projects
     projects_title: 'Projeler',
     projects_view_code: 'Kodu Gör',
