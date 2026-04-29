@@ -36,7 +36,7 @@ export const AboutSection = async (): Promise<React.JSX.Element> => {
               under the hood.
             </p>
             <p>
-              I’m a builder, not a reader. If there’s something I don’t know, I’ll sit down and
+              If there’s something I don’t know, I’ll sit down and
               grind for a week or a month until I can actually build something with it. I don&apos;t
               believe I&apos;ve truly learned a technology until I’ve made it work in a real-world
               project.
