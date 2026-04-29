@@ -33,6 +33,28 @@ const translations = {
     experience_title: 'Experience',
     education_title: 'Education',
     timeline_no_data: 'No data available.',
+    PRESENT: 'PRESENT',
+    // Timeline Items (Strings from DB)
+    'Systems & Backend Architecture': 'Systems & Backend Architecture',
+    'Independent Product Design': 'Independent Product Design',
+    'Mobile-Web Research': 'Mobile-Web Research',
+    '1st Year Student': '1st Year Student',
+    '1-Year Intensive Training': '1-Year Intensive Training',
+    'Confidential Stealth Project': 'Confidential Stealth Project',
+    'Visual & Interface Design': 'Visual & Interface Design',
+    'Independent Developer': 'Independent Developer',
+    'Industrial Design (BSc)': 'Industrial Design (BSc)',
+    '42 Istanbul': '42 Istanbul',
+    'Developing backend systems and scalable infrastructure.':
+      'Developing backend systems and scalable infrastructure.',
+    'Designed UI/UX systems and prototypes in Figma for my own projects.':
+      'Designed UI/UX systems and prototypes in Figma for my own projects.',
+    'Focusing on mobile-web development and AI management.':
+      'Focusing on mobile-web development and AI management.',
+    'Studying design thinking and functional aesthetics.':
+      'Studying design thinking and functional aesthetics.',
+    'Focused on C, Unix systems, and low-level algorithms.':
+      'Focused on C, Unix systems, and low-level algorithms.',
     // Projects
     projects_title: 'Projects',
     projects_view_code: 'View Code',
@@ -56,12 +78,10 @@ const translations = {
     'minitalk_desc': 'Built a communication system operating via Unix signals.',
     'push_swap_desc': 'Developed an algorithm to sort data with a minimum number of operations.',
     'libft_desc': 'Recoded standard C library functions from the ground up.',
-    // Timeline fallbacks
+    // Generic Timeline fallbacks
     'Student': 'Student',
     'Software Developer': 'Software Developer',
     'Freelance': 'Freelance',
-    '42 Istanbul': '42 Istanbul',
-    'Kocaeli University': 'Kocaeli University',
   },
   tr: {
     // Navbar
@@ -85,6 +105,28 @@ const translations = {
     experience_title: 'Deneyim',
     education_title: 'Eğitim',
     timeline_no_data: 'Veri bulunamadı.',
+    PRESENT: 'GÜNCEL',
+    // Timeline Items (Strings from DB)
+    'Systems & Backend Architecture': 'Sistem & Arka Yüz Mimarisi',
+    'Independent Product Design': 'Bağımsız Ürün Tasarımı',
+    'Mobile-Web Research': 'Mobil-Web Araştırması',
+    '1st Year Student': '1. Sınıf Öğrencisi',
+    '1-Year Intensive Training': '1 Yıllık Yoğun Eğitim',
+    'Confidential Stealth Project': 'Gizli Proje (Stealth Project)',
+    'Visual & Interface Design': 'Görsel & Arayüz Tasarımı',
+    'Independent Developer': 'Bağımsız Geliştirici',
+    'Industrial Design (BSc)': 'Endüstriyel Tasarım (Lisans)',
+    '42 Istanbul': '42 İstanbul',
+    'Developing backend systems and scalable infrastructure.':
+      'Arka yüz sistemleri ve ölçeklenebilir altyapı geliştirme.',
+    'Designed UI/UX systems and prototypes in Figma for my own projects.':
+      'Kendi projelerim için Figma\'da UI/UX sistemleri ve prototipler tasarladım.',
+    'Focusing on mobile-web development and AI management.':
+      'Mobil-web geliştirme ve yapay zeka yönetimine odaklanıyorum.',
+    'Studying design thinking and functional aesthetics.':
+      'Tasarım odaklı düşünme ve fonksiyonel estetik üzerine çalışıyorum.',
+    'Focused on C, Unix systems, and low-level algorithms.':
+      'C, Unix sistemleri ve düşük seviyeli algoritmalar üzerine yoğunlaştım.',
     // Projects
     projects_title: 'Projeler',
     projects_view_code: 'Kodu Gör',
@@ -108,12 +150,10 @@ const translations = {
     'minitalk_desc': 'Unix sinyalleri üzerinden çalışan bir iletişim sistemi.',
     'push_swap_desc': 'Minimum sayıda işlemle verileri sıralamak için geliştirilmiş bir algoritma.',
     'libft_desc': 'Standart C kütüphanesi fonksiyonlarının yeniden kodlanması.',
-    // Timeline fallbacks
+    // Generic Timeline fallbacks
     'Student': 'Öğrenci',
     'Software Developer': 'Yazılım Geliştirici',
     'Freelance': 'Freelance (Serbest Çalışan)',
-    '42 Istanbul': '42 İstanbul',
-    'Kocaeli University': 'Kocaeli Üniversitesi',
   },
 };
 

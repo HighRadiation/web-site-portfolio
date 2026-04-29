@@ -29,14 +29,19 @@ export const TimelineSectionClient = ({
 
     return (
       <div className="timeline-list">
-        {items.map((item) => (
-          <div key={item.id} className="timeline-item">
-            <span className="timeline-date">{item.date}</span>
-            <h4 className="timeline-role">{t(item.role)}</h4>
-            <p className="timeline-company">{t(item.company)}</p>
-            <p className="timeline-desc">{item.description}</p>
-          </div>
-        ))}
+        {items.map((item) => {
+          // Translate "PRESENT" in date if it exists
+          const translatedDate = item.date.replace('PRESENT', t('PRESENT'));
+
+          return (
+            <div key={item.id} className="timeline-item">
+              <span className="timeline-date">{translatedDate}</span>
+              <h4 className="timeline-role">{t(item.role)}</h4>
+              <p className="timeline-company">{t(item.company)}</p>
+              <p className="timeline-desc">{t(item.description)}</p>
+            </div>
+          );
+        })}
       </div>
     );
   }
