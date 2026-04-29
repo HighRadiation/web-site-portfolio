@@ -110,8 +110,47 @@ h1, h2, h3, h4, .font-serif {
   height: 3.5rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
   gap: 2.5rem;
+  flex: 1;
+  justify-content: center;
+  padding-left: 4rem; /* Offset for the language selector to keep links centered */
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 4rem;
+  justify-content: flex-end;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.2rem;
+  transition: color 0.2s ease;
+}
+
+.lang-btn:hover,
+.lang-btn.active {
+  color: var(--accent);
+}
+
+.lang-divider {
+  color: var(--text-disabled);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
 }
 
 .nav-link {
@@ -750,17 +789,29 @@ h1, h2, h3, h4, .font-serif {
   }
 
   .navbar-inner {
-    gap: 1.25rem;
     padding: 0 1.25rem;
-    justify-content: flex-start; /* Sola yasla */
+    justify-content: flex-start;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* iOS'ta akıcı kaydırma */
+    -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
     scrollbar-width: none;
     width: 100%;
-    /* Flexbox taşma sorununu çözmek için: */
     display: flex;
     flex-wrap: nowrap;
+    gap: 1.5rem;
+  }
+
+  .nav-links {
+    padding-left: 0;
+    justify-content: flex-start;
+    flex: initial;
+    gap: 1.25rem;
+  }
+
+  .nav-actions {
+    min-width: auto;
+    padding-left: 0.5rem;
+    border-left: 1px solid var(--border-subtle);
   }
 
   .navbar-inner::-webkit-scrollbar {
