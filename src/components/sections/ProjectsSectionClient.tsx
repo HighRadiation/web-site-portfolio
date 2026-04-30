@@ -19,6 +19,7 @@ export const ProjectsSectionClient = ({
 }: ProjectsSectionClientProps): React.JSX.Element => {
   const { t } = useLanguage();
 
+  // 47.24 error: missign return type on function.
   return (
     <section id="projects" className="section">
       <div className="container">
@@ -44,7 +45,7 @@ export const ProjectsSectionClient = ({
               <div className="project-card-body">
                 <p className="project-card-desc">
                   {/* Try to find a translated description using the title as a key */}
-                  {(() => {
+                  {((): string => {
                     const translatedDesc = t(`${project.title}_desc`);
                     return translatedDesc !== `${project.title}_desc`
                       ? translatedDesc
