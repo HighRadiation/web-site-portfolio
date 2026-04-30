@@ -15,6 +15,16 @@ export async function addProject(formData: FormData): Promise<void> {
     return;
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+  if (!profile?.is_admin) {
+    console.error('Unauthorized');
+    return;
+  }
+
   const name = formData.get('name') as string;
   const description = formData.get('description') as string;
   const link = formData.get('link') as string;
@@ -48,6 +58,16 @@ export async function deleteProject(id: string): Promise<void> {
     redirect('/login');
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+  if (!profile?.is_admin) {
+    console.error('Unauthorized');
+    return;
+  }
+
   const { error } = await supabase.from('projects').delete().eq('id', id);
 
   if (error) {
@@ -66,6 +86,16 @@ export async function seedProjects(): Promise<void> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
+    console.error('Unauthorized');
+    return;
+  }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+  if (!profile?.is_admin) {
     console.error('Unauthorized');
     return;
   }

@@ -14,6 +14,16 @@ export async function addTimelineItem(formData: FormData): Promise<void> {
     redirect('/login');
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+  if (!profile?.is_admin) {
+    console.error('Unauthorized');
+    return;
+  }
+
   const role = formData.get('role') as string;
   const company = formData.get('company') as string;
   const date = formData.get('date') as string;
@@ -51,6 +61,16 @@ export async function deleteTimelineItem(id: string): Promise<void> {
     redirect('/login');
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+  if (!profile?.is_admin) {
+    console.error('Unauthorized');
+    return;
+  }
+
   const { error } = await supabase.from('timeline').delete().eq('id', id);
 
   if (error) {
@@ -70,6 +90,16 @@ export async function seedTimeline(): Promise<void> {
   } = await supabase.auth.getUser();
   if (!user) {
     redirect('/login');
+  }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+  if (!profile?.is_admin) {
+    console.error('Unauthorized');
+    return;
   }
 
   const items = [

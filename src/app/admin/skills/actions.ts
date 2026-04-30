@@ -15,6 +15,16 @@ export async function addSkill(formData: FormData): Promise<void> {
     return;
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+  if (!profile?.is_admin) {
+    console.error('Unauthorized');
+    return;
+  }
+
   const name = formData.get('name') as string;
   const category = formData.get('category') as string;
 
@@ -46,6 +56,16 @@ export async function deleteSkill(id: string): Promise<void> {
     redirect('/login');
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+  if (!profile?.is_admin) {
+    console.error('Unauthorized');
+    return;
+  }
+
   const { error } = await supabase.from('skills').delete().eq('id', id);
 
   if (error) {
@@ -64,6 +84,16 @@ export async function seedSkills(): Promise<void> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
+    console.error('Unauthorized');
+    return;
+  }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+  if (!profile?.is_admin) {
     console.error('Unauthorized');
     return;
   }
