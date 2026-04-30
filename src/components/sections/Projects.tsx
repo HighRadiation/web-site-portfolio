@@ -10,7 +10,7 @@ export const ProjectsSection = async (): Promise<React.JSX.Element> => {
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Frontend proje çekme hatası:', error.message);
+    console.error('Failed to fetch projects:', error.message);
   }
 
   const displayProjects = projects || [];
