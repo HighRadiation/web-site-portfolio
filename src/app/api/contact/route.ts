@@ -80,12 +80,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
 
     if (dbError) {
-      console.error('Database Error Details:', {
-        message: dbError.message,
-        details: dbError.details,
-        hint: dbError.hint,
-        code: dbError.code,
-      });
+      console.error('DB insert failed');
       return NextResponse.json(
         { error: 'Failed to save message. Please try again later.' },
         { status: 500 },
