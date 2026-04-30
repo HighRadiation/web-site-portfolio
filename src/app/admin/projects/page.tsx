@@ -18,7 +18,7 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
     .order('created_at', { ascending: false });
 
   if (error) {
-    // Silently handle error or show a generic error state without leaking schema details
+    console.error('Failed to fetch projects from database');
   }
 
   return (
