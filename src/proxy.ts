@@ -8,7 +8,6 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     },
   });
 
-  // Where is this come from?
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -36,19 +35,19 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     },
   );
 
-  // Bu işlem oturumu yenileyecektir (refresh token)
+  // Refresh the user session via Supabase SSR client
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Admin ve Docs rotalarını koru
+  // Protect admin and docs routes
   const isProtected =
     request.nextUrl.pathname.startsWith('/admin') || request.nextUrl.pathname.startsWith('/docs');
   if (isProtected && !user) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Eğer giriş yapmışsa ve login sayfasına gitmeye çalışıyorsa admin'e yönlendir
+  // Redirect authenticated users away from login page
   if (request.nextUrl.pathname.startsWith('/login') && user) {
     return NextResponse.redirect(new URL('/admin', request.url));
   }
