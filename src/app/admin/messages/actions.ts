@@ -14,6 +14,18 @@ export async function deleteMessage(id: string): Promise<void> {
     redirect('/login');
   }
 
+  // Admin Check
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+
+  if (!profile?.is_admin) {
+    console.error('Unauthorized delete attempt');
+    return;
+  }
+
   const { error } = await supabase.from('contact_messages').delete().eq('id', id);
 
   if (error) {
@@ -32,6 +44,18 @@ export async function markAsRead(id: string): Promise<void> {
   } = await supabase.auth.getUser();
   if (!user) {
     redirect('/login');
+  }
+
+  // Admin Check
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+
+  if (!profile?.is_admin) {
+    console.error('Unauthorized markAsRead attempt');
+    return;
   }
 
   const { error } = await supabase.from('contact_messages').update({ read: true }).eq('id', id);
