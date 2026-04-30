@@ -1,43 +1,14 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { contactSchema } from '@/lib/validations/contact';
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
-
-// Lazy initialization for Redis and Ratelimit to prevent build-time errors
-let redis: Redis | null = null;
-let ratelimit: Ratelimit | null = null;
-
-function getRateLimiter(): Ratelimit | null {
-  if (!ratelimit) {
-    const rawUrl = process.env.UPSTASH_REDIS_REST_URL || '';
-    const rawToken = process.env.UPSTASH_REDIS_REST_TOKEN || '';
-
-    // Strip external quotes that might have been copied into Vercel env settings
-    const cleanUrl = rawUrl.replace(/^["']|["']$/g, '');
-    const cleanToken = rawToken.replace(/^["']|["']$/g, '');
-
-    if (cleanUrl && cleanToken) {
-      redis = new Redis({
-        url: cleanUrl,
-        token: cleanToken,
-      });
-      ratelimit = new Ratelimit({
-        redis,
-        limiter: Ratelimit.slidingWindow(5, '1 m'),
-        analytics: true,
-      });
-    }
-  }
-  return ratelimit;
-}
+import { getRateLimiter } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     // 1. Rate Limiting Check
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? '127.0.0.1';
 
-    const limiter = getRateLimiter();
+    const limiter = getRateLimiter(5, '1 m');
     if (!limiter) {
       console.error('Rate limiting is not configured (missing Redis credentials).');
       return NextResponse.json({ error: 'Server configuration error.' }, { status: 500 });

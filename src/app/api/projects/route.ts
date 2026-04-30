@@ -1,7 +1,18 @@
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { NextResponse, NextRequest } from 'next/server';
+import { getRateLimiter } from '@/lib/rate-limit';
 
-export async function GET(_request: NextRequest): Promise<NextResponse> {
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? '127.0.0.1';
+  const limiter = getRateLimiter(60, '1 m');
+
+  if (limiter) {
+    const { success } = await limiter.limit(`projects_rate_limit_${ip}`);
+    if (!success) {
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+    }
+  }
+
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
