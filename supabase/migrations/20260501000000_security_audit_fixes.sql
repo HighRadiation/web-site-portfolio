@@ -56,7 +56,6 @@ END $$;
 ALTER FUNCTION public.handle_new_user() SET search_path = public;
 
 -- 5. Ensure Admin Management Policies (ALL access for admins)
--- These use the is_admin column in the profiles table
 DO $$ 
 BEGIN
     -- Projects Admin Policy
@@ -78,5 +77,23 @@ BEGIN
         CREATE POLICY "Admins can manage timeline." ON public.timeline 
         FOR ALL TO authenticated 
         USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.is_admin = true));
+    END IF;
+END $$;
+
+-- 6. Restrict execution of SECURITY DEFINER functions
+-- This prevents the public or signed-in users from calling these functions directly via the API
+REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM authenticated;
+GRANT EXECUTE ON FUNCTION public.handle_new_user() TO service_role;
+GRANT EXECUTE ON FUNCTION public.handle_new_user() TO postgres;
+
+-- If rls_auto_enable exists, restrict it too
+DO $$ 
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'rls_auto_enable') THEN
+        EXECUTE 'REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM PUBLIC';
+        EXECUTE 'REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM authenticated';
+        EXECUTE 'GRANT EXECUTE ON FUNCTION public.rls_auto_enable() TO service_role';
+        EXECUTE 'GRANT EXECUTE ON FUNCTION public.rls_auto_enable() TO postgres';
     END IF;
 END $$;
