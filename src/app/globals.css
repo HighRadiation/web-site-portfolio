@@ -94,13 +94,17 @@ h1, h2, h3, h4, .font-serif {
 /* ==================== */
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 3rem);
+  max-width: var(--max-width);
   z-index: 100;
-  background-color: rgba(30, 30, 30, 0.85);
+  background-color: rgba(30, 30, 30, 0.7);
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-inner {
