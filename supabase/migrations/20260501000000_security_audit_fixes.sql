@@ -81,13 +81,18 @@ BEGIN
 END $$;
 
 -- 6. Restrict execution of SECURITY DEFINER functions
--- This prevents the public or signed-in users from calling these functions directly via the API
 REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC;
 REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM authenticated;
 GRANT EXECUTE ON FUNCTION public.handle_new_user() TO service_role;
 GRANT EXECUTE ON FUNCTION public.handle_new_user() TO postgres;
 
--- If rls_auto_enable exists, restrict it too
+-- 7. Cleanup duplicate and overly permissive legacy policies
+DROP POLICY IF EXISTS "Allow public insert messages" ON public.contact_messages;
+DROP POLICY IF EXISTS "Allow public to send messages" ON public.contact_messages;
+DROP POLICY IF EXISTS "Allow admin full skills" ON public.skills;
+DROP POLICY IF EXISTS "Authenticated users can manage all timeline items." ON public.timeline;
+
+-- 8. Restrict rls_auto_enable if it exists
 DO $$ 
 BEGIN
     IF EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'rls_auto_enable') THEN
