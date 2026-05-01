@@ -129,7 +129,6 @@ h1, h2, h3, h4, .font-serif {
   gap: 0.5rem;
   min-width: 4rem;
   justify-content: flex-end;
-  margin-left: auto;
 }
 
 .nav-socials {
@@ -140,7 +139,7 @@ h1, h2, h3, h4, .font-serif {
   border-left: 1px solid var(--border-subtle);
   border-right: 1px solid var(--border-subtle);
   height: 1.5rem;
-  margin-left: 2rem;
+  margin-left: auto;
   margin-right: 1rem;
 }
 
