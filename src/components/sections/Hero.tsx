@@ -5,27 +5,43 @@ import { useEffect, useState } from 'react';
 
 export const HeroSection = (): React.JSX.Element => {
   const [displayName, setDisplayName] = useState('');
+  const [displaySubtitle, setDisplaySubtitle] = useState('');
   const { t } = useLanguage();
+  
   const fullName = 'Buğra Öksüz';
+  const subtitle = t('hero_subtitle');
 
   useEffect(() => {
-    // Wait for 1 second before starting the animation
+    // Stage 1: Type Title
     const startTimeout = setTimeout(() => {
-      let currentIndex = 0;
-      const typingInterval = setInterval(() => {
-        if (currentIndex <= fullName.length) {
-          setDisplayName(fullName.slice(0, currentIndex));
-          currentIndex++;
+      let titleIndex = 0;
+      const titleInterval = setInterval(() => {
+        if (titleIndex <= fullName.length) {
+          setDisplayName(fullName.slice(0, titleIndex));
+          titleIndex++;
         } else {
-          clearInterval(typingInterval);
+          clearInterval(titleInterval);
+          
+          // Stage 2: Type Subtitle (Start after a small delay)
+          setTimeout(() => {
+            let subIndex = 0;
+            const subInterval = setInterval(() => {
+              if (subIndex <= subtitle.length) {
+                setDisplaySubtitle(subtitle.slice(0, subIndex));
+                subIndex++;
+              } else {
+                clearInterval(subInterval);
+              }
+            }, 50); // Faster for longer text
+          }, 500);
         }
-      }, 100); // Adjust speed here (lower is faster)
+      }, 100);
 
-      return (): void => clearInterval(typingInterval);
+      return (): void => clearInterval(titleInterval);
     }, 1000);
 
     return (): void => clearTimeout(startTimeout);
-  }, []);
+  }, [subtitle]);
 
   return (
     <section id="home" className="hero">
@@ -33,19 +49,15 @@ export const HeroSection = (): React.JSX.Element => {
         <div className="hero-content">
           <h1 style={{ minHeight: '1.2em' }}>
             {displayName}
-            <span className="cursor">_</span>
+            {displayName.length < fullName.length && <span className="cursor">_</span>}
           </h1>
 
-          <p className="hero-subtitle">{t('hero_subtitle')}</p>
-
-          <div className="hero-buttons">
-            <a href="#projects" className="btn btn-primary">
-              {t('hero_view_projects')}
-            </a>
-            <a href="#contact" className="btn btn-outline">
-              {t('hero_contact_me')}
-            </a>
-          </div>
+          <p className="hero-subtitle" style={{ minHeight: '1.5em' }}>
+            {displaySubtitle}
+            {displayName.length === fullName.length && (
+              <span className="cursor">_</span>
+            )}
+          </p>
         </div>
       </div>
     </section>
