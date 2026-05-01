@@ -82,17 +82,46 @@ h4,
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 2rem;
+  position: relative;
+  z-index: 2;
 }
 
 .section {
   padding: 4rem 0;
   scroll-margin-top: 10rem;
+  position: relative;
 }
 
 .section-alt {
   padding: 4rem 0;
   background-color: var(--bg-sidebar);
   scroll-margin-top: 10rem;
+  position: relative;
+}
+
+/* Section Transitions */
+.section-alt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(to bottom, var(--background), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.section-alt::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(to top, var(--background), transparent);
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* ==================== */
@@ -1148,8 +1177,8 @@ h4,
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(12px);
+  background-color: transparent;
+  backdrop-filter: blur(20px) saturate(140%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1158,14 +1187,39 @@ h4,
 }
 
 .terminal-window {
-  background-color: #0c0c0c;
-  border: 1px solid #333;
+  background-color: rgba(22, 22, 22, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   width: 100%;
   max-width: 650px;
   overflow: hidden;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
   animation: terminal-appear 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.terminal-window.closing {
+  animation: terminal-disappear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.terminal-modal-overlay.closing {
+  animation: fade-out 0.3s ease forwards;
+}
+
+@keyframes fade-out {
+  from { opacity: 1; backdrop-filter: blur(20px); }
+  to { opacity: 0; backdrop-filter: blur(0px); }
+}
+
+@keyframes terminal-disappear {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
 }
 
 @keyframes terminal-appear {
@@ -1182,11 +1236,32 @@ h4,
 
 .terminal-window-header {
   height: 32px;
-  background-color: #2d2d2d;
+  background-color: rgba(45, 45, 45, 0.5);
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  justify-content: space-between;
+  padding: 0 0.75rem;
   position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.terminal-close-btn {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  z-index: 5;
+}
+
+.terminal-close-btn:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .terminal-window-dots {
