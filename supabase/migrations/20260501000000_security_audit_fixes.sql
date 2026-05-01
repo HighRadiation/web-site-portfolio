@@ -1,6 +1,17 @@
 -- Security Audit Fixes - 2026-05-01
 -- This migration addresses security vulnerabilities identified in the Supabase Security Advisor.
 
+-- 0. Ensure is_admin column exists in profiles table
+DO $$ 
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'is_admin') THEN
+        ALTER TABLE public.profiles ADD COLUMN is_admin BOOLEAN DEFAULT false;
+        
+        -- Make the first/existing users admin by default if this is a fresh setup
+        UPDATE public.profiles SET is_admin = true;
+    END IF;
+END $$;
+
 -- 1. Explicitly enable Row Level Security (RLS) on all public tables
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
