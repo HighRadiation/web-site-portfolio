@@ -121,6 +121,8 @@ h1, h2, h3, h4, .font-serif {
   display: flex;
   align-items: center;
   gap: 2.5rem;
+  flex: 1;
+  justify-content: flex-start;
 }
 
 .nav-actions {
@@ -129,31 +131,6 @@ h1, h2, h3, h4, .font-serif {
   gap: 0.5rem;
   min-width: 4rem;
   justify-content: flex-end;
-  margin-left: auto;
-}
-
-.nav-socials {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 0 1.5rem;
-  border-left: 1px solid var(--border-subtle);
-  border-right: 1px solid var(--border-subtle);
-  height: 1.5rem;
-  margin-right: 1rem;
-}
-
-.social-link {
-  color: var(--text-muted);
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.social-link:hover {
-  color: var(--accent);
-  transform: translateY(-1px);
 }
 
 .lang-btn {
