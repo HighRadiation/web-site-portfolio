@@ -121,8 +121,6 @@ h1, h2, h3, h4, .font-serif {
   display: flex;
   align-items: center;
   gap: 2.5rem;
-  flex: 1;
-  justify-content: flex-start;
 }
 
 .nav-actions {
@@ -131,6 +129,7 @@ h1, h2, h3, h4, .font-serif {
   gap: 0.5rem;
   min-width: 4rem;
   justify-content: flex-end;
+  margin-left: auto;
 }
 
 .nav-socials {
