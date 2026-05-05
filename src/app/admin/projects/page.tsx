@@ -87,12 +87,7 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
                     {project.description || project.desc || 'No description.'}
                   </p>
                 </div>
-                <form
-                  action={async () => {
-                    'use server';
-                    await deleteProject(project.id);
-                  }}
-                >
+                <form action={deleteProject.bind(null, project.id)}>
                   <button
                     type="submit"
                     style={{

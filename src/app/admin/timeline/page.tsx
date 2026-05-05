@@ -81,12 +81,7 @@ export default async function AdminTimelinePage(): Promise<React.JSX.Element> {
                     {item.description}
                   </p>
                 </div>
-                <form
-                  action={async () => {
-                    'use server';
-                    await deleteTimelineItem(item.id);
-                  }}
-                >
+                <form action={deleteTimelineItem.bind(null, item.id)}>
                   <button
                     type="submit"
                     style={{

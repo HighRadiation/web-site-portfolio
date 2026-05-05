@@ -60,12 +60,7 @@ export default async function AdminSkillsPage(): Promise<React.JSX.Element> {
                     Category: <strong style={{ color: 'var(--accent)' }}>{item.category}</strong>
                   </p>
                 </div>
-                <form
-                  action={async () => {
-                    'use server';
-                    await deleteSkill(item.id);
-                  }}
-                >
+                <form action={deleteSkill.bind(null, item.id)}>
                   <button
                     type="submit"
                     style={{

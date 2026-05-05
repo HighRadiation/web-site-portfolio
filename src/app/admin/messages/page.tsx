@@ -100,12 +100,7 @@ export default async function AdminMessagesPage(): Promise<React.JSX.Element> {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {!msg.read && (
-                    <form
-                      action={async () => {
-                        'use server';
-                        await markAsRead(msg.id);
-                      }}
-                    >
+                    <form action={markAsRead.bind(null, msg.id)}>
                       <button
                         type="submit"
                         style={{
@@ -124,12 +119,7 @@ export default async function AdminMessagesPage(): Promise<React.JSX.Element> {
                       </button>
                     </form>
                   )}
-                  <form
-                    action={async () => {
-                      'use server';
-                      await deleteMessage(msg.id);
-                    }}
-                  >
+                  <form action={deleteMessage.bind(null, msg.id)}>
                     <button
                       type="submit"
                       style={{
