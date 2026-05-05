@@ -75,6 +75,7 @@ export async function deleteSkill(id: string): Promise<void> {
 
   revalidatePath('/admin/skills');
   revalidatePath('/');
+  redirect('/admin/skills');
 }
 
 export async function seedSkills(): Promise<void> {

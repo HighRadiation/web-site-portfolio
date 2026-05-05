@@ -34,6 +34,7 @@ export async function deleteMessage(id: string): Promise<void> {
   }
 
   revalidatePath('/admin/messages');
+  redirect('/admin/messages');
 }
 
 export async function markAsRead(id: string): Promise<void> {

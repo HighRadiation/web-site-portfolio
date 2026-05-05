@@ -77,6 +77,7 @@ export async function deleteProject(id: string): Promise<void> {
 
   revalidatePath('/admin/projects');
   revalidatePath('/');
+  redirect('/admin/projects');
 }
 
 export async function seedProjects(): Promise<void> {

@@ -80,6 +80,7 @@ export async function deleteTimelineItem(id: string): Promise<void> {
 
   revalidatePath('/admin/timeline');
   revalidatePath('/');
+  redirect('/admin/timeline');
 }
 
 export async function seedTimeline(): Promise<void> {
