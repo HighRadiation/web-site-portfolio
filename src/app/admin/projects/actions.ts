@@ -64,15 +64,23 @@ export async function deleteProject(id: string): Promise<void> {
     .eq('id', user.id)
     .single();
   if (!profile?.is_admin) {
-    console.error('Unauthorized');
-    return;
+    throw new Error('Unauthorized: admin privileges required to delete a project');
   }
 
-  const { error } = await supabase.from('projects').delete().eq('id', id);
+  const { data: deleted, error } = await supabase
+    .from('projects')
+    .delete()
+    .eq('id', id)
+    .select('id');
 
   if (error) {
-    console.error('Error deleting project:', error);
-    return;
+    throw new Error(`Failed to delete project: ${error.message}`);
+  }
+  if (!deleted || deleted.length === 0) {
+    throw new Error(
+      'Project was not deleted. RLS policy likely blocked the delete — verify the ' +
+        '"Admins can delete projects." policy and that your profile has is_admin=true.',
+    );
   }
 
   revalidatePath('/admin/projects');

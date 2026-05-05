@@ -67,15 +67,23 @@ export async function deleteTimelineItem(id: string): Promise<void> {
     .eq('id', user.id)
     .single();
   if (!profile?.is_admin) {
-    console.error('Unauthorized');
-    return;
+    throw new Error('Unauthorized: admin privileges required to delete a timeline item');
   }
 
-  const { error } = await supabase.from('timeline').delete().eq('id', id);
+  const { data: deleted, error } = await supabase
+    .from('timeline')
+    .delete()
+    .eq('id', id)
+    .select('id');
 
   if (error) {
-    console.error('Error deleting timeline item:', error);
-    return;
+    throw new Error(`Failed to delete timeline item: ${error.message}`);
+  }
+  if (!deleted || deleted.length === 0) {
+    throw new Error(
+      'Timeline item was not deleted. RLS policy likely blocked the delete — verify the ' +
+        '"Admins can delete timeline." policy and that your profile has is_admin=true.',
+    );
   }
 
   revalidatePath('/admin/timeline');

@@ -62,15 +62,23 @@ export async function deleteSkill(id: string): Promise<void> {
     .eq('id', user.id)
     .single();
   if (!profile?.is_admin) {
-    console.error('Unauthorized');
-    return;
+    throw new Error('Unauthorized: admin privileges required to delete a skill');
   }
 
-  const { error } = await supabase.from('skills').delete().eq('id', id);
+  const { data: deleted, error } = await supabase
+    .from('skills')
+    .delete()
+    .eq('id', id)
+    .select('id');
 
   if (error) {
-    console.error('Error deleting skill:', error);
-    return;
+    throw new Error(`Failed to delete skill: ${error.message}`);
+  }
+  if (!deleted || deleted.length === 0) {
+    throw new Error(
+      'Skill was not deleted. RLS policy likely blocked the delete — verify the ' +
+        '"Admins can delete skills." policy and that your profile has is_admin=true.',
+    );
   }
 
   revalidatePath('/admin/skills');

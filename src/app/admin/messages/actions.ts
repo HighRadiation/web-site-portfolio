@@ -22,15 +22,23 @@ export async function deleteMessage(id: string): Promise<void> {
     .single();
 
   if (!profile?.is_admin) {
-    console.error('Unauthorized delete attempt');
-    return;
+    throw new Error('Unauthorized: admin privileges required to delete a message');
   }
 
-  const { error } = await supabase.from('contact_messages').delete().eq('id', id);
+  const { data: deleted, error } = await supabase
+    .from('contact_messages')
+    .delete()
+    .eq('id', id)
+    .select('id');
 
   if (error) {
-    console.error('Error deleting message:', error);
-    return;
+    throw new Error(`Failed to delete message: ${error.message}`);
+  }
+  if (!deleted || deleted.length === 0) {
+    throw new Error(
+      'Message was not deleted. RLS policy likely blocked the delete — verify the ' +
+        '"Admins can delete contact messages." policy and that your profile has is_admin=true.',
+    );
   }
 
   revalidatePath('/admin/messages');
@@ -55,15 +63,23 @@ export async function markAsRead(id: string): Promise<void> {
     .single();
 
   if (!profile?.is_admin) {
-    console.error('Unauthorized markAsRead attempt');
-    return;
+    throw new Error('Unauthorized: admin privileges required to mark a message as read');
   }
 
-  const { error } = await supabase.from('contact_messages').update({ read: true }).eq('id', id);
+  const { data: updated, error } = await supabase
+    .from('contact_messages')
+    .update({ read: true })
+    .eq('id', id)
+    .select('id');
 
   if (error) {
-    console.error('Error updating message:', error);
-    return;
+    throw new Error(`Failed to update message: ${error.message}`);
+  }
+  if (!updated || updated.length === 0) {
+    throw new Error(
+      'Message was not updated. RLS policy likely blocked the update — verify the ' +
+        '"Admins can update contact messages." policy and that your profile has is_admin=true.',
+    );
   }
 
   revalidatePath('/admin/messages');
