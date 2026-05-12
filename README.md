@@ -50,7 +50,7 @@ A high-performance, minimalist academic portfolio built with **Next.js 16**, **R
 
 ##  Security & Middleware
 
-The project uses a custom `proxy.ts` (Next.js Middleware) to protect sensitive routes:
+The project uses a custom `middleware.ts` (Next.js Middleware) to protect sensitive routes:
 - `/admin/*`: Restricted to authenticated users.
 - `/docs`: Restricted to authorized developers.
 
