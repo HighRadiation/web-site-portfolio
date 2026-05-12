@@ -54,5 +54,9 @@ The project uses a custom `proxy.ts` (Next.js Middleware) to protect sensitive r
 - `/admin/*`: Restricted to authenticated users.
 - `/docs`: Restricted to authorized developers.
 
+##  License
+
+Released under the [MIT License](./LICENSE).
+
 ---
 Built by [Buğra Öksüz](https://www.bugraoksuz.me/).
