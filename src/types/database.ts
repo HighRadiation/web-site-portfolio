@@ -1,30 +1,7 @@
-export interface Profile {
-  id: string;
-  full_name: string | null;
-  bio: string | null;
-  avatar_url: string | null;
-  email: string | null;
-  website: string | null;
-  updated_at: string;
-}
+import type { Database } from './supabase';
 
-export interface Project {
-  id: string;
-  user_id: string;
-  title: string;
-  description: string | null;
-  image_url: string | null;
-  live_link: string | null;
-  github_link: string | null;
-  technologies: string[] | null;
-  created_at: string;
-}
-
-export interface Skill {
-  id: string;
-  user_id: string;
-  name: string;
-  proficiency: number | null;
-  category: string | null;
-  created_at: string;
-}
+export type Profile = Database['public']['Tables']['profiles']['Row'];
+export type Project = Database['public']['Tables']['projects']['Row'];
+export type Skill = Database['public']['Tables']['skills']['Row'];
+export type TimelineItem = Database['public']['Tables']['timeline']['Row'];
+export type ContactMessage = Database['public']['Tables']['contact_messages']['Row'];
