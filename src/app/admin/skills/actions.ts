@@ -1,29 +1,11 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function addSkill(formData: FormData): Promise<void> {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    console.error('Unauthorized');
-    return;
-  }
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single();
-  if (!profile?.is_admin) {
-    console.error('Unauthorized');
-    return;
-  }
+  const { supabase, user } = await requireAdmin();
 
   const name = formData.get('name') as string;
   const category = formData.get('category') as string;
@@ -37,8 +19,7 @@ export async function addSkill(formData: FormData): Promise<void> {
   ]);
 
   if (error) {
-    console.error('Error adding skill:', error);
-    return;
+    throw new Error(`Failed to add skill: ${error.message}`);
   }
 
   revalidatePath('/admin/skills');
@@ -47,23 +28,7 @@ export async function addSkill(formData: FormData): Promise<void> {
 }
 
 export async function deleteSkill(id: string): Promise<void> {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    redirect('/login');
-  }
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single();
-  if (!profile?.is_admin) {
-    throw new Error('Unauthorized: admin privileges required to delete a skill');
-  }
+  const { supabase } = await requireAdmin();
 
   const { data: deleted, error } = await supabase
     .from('skills')
@@ -85,4 +50,3 @@ export async function deleteSkill(id: string): Promise<void> {
   revalidatePath('/');
   redirect('/admin/skills');
 }
-

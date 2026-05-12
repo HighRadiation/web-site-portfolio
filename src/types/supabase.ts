@@ -11,7 +11,10 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export interface Database {
+export type Database = {
+  __InternalSupabase: {
+    PostgrestVersion: '12';
+  };
   public: {
     Tables: {
       profiles: {
@@ -45,6 +48,7 @@ export interface Database {
           updated_at?: string;
           is_admin?: boolean;
         };
+        Relationships: [];
       };
       projects: {
         Row: {
@@ -80,6 +84,15 @@ export interface Database {
           technologies?: string[] | null;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'projects_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       skills: {
         Row: {
@@ -106,6 +119,15 @@ export interface Database {
           category?: string | null;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'skills_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       timeline: {
         Row: {
@@ -138,6 +160,15 @@ export interface Database {
           type?: 'experience' | 'education';
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'timeline_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       contact_messages: {
         Row: {
@@ -164,10 +195,12 @@ export interface Database {
           created_at?: string;
           read?: boolean;
         };
+        Relationships: [];
       };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
     Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
-}
+};

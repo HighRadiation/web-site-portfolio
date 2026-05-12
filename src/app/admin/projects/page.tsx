@@ -1,14 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { deleteProject } from './actions';
-
-interface Project {
-  id: string;
-  title?: string;
-  name?: string;
-  description?: string;
-  desc?: string;
-  github_link?: string;
-}
+import type { Project } from '@/types/database';
 
 export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
   const supabase = await createClient();
@@ -74,7 +66,7 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
               >
                 <div>
                   <span style={{ color: '#ffffff', fontWeight: 600, fontSize: '1.1rem' }}>
-                    {project.title || project.name}
+                    {project.title}
                   </span>
                   <p
                     style={{
@@ -84,7 +76,7 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
                       lineHeight: 1.5,
                     }}
                   >
-                    {project.description || project.desc || 'No description.'}
+                    {project.description || 'No description.'}
                   </p>
                 </div>
                 <form action={deleteProject.bind(null, project.id)}>

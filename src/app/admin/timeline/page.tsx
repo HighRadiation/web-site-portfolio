@@ -1,14 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { deleteTimelineItem } from './actions';
-
-interface TimelineItem {
-  id: string;
-  date: string;
-  role: string;
-  company: string;
-  description: string;
-  type: string;
-}
+import type { TimelineItem } from '@/types/database';
 
 export default async function AdminTimelinePage(): Promise<React.JSX.Element> {
   const supabase = await createClient();

@@ -1,6 +1,6 @@
-import { createClient } from '@/lib/supabase/server';
 import { NextResponse, NextRequest } from 'next/server';
 import { z } from 'zod';
+import { requireAdminApi } from '@/lib/auth';
 
 const projectSchema = z.object({
   title: z.string().min(1).max(255),
@@ -12,15 +12,9 @@ const projectSchema = z.object({
 });
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
-  if (authError || !user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const auth = await requireAdminApi();
+  if (auth.response) return auth.response;
+  const { supabase, user } = auth;
 
   try {
     const body = await request.json();

@@ -1,16 +1,7 @@
 'use client';
 
 import { useLanguage } from '@/context/LanguageContext';
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  github_link?: string;
-  live_link?: string;
-  technologies?: string[];
-  image_url?: string;
-}
+import type { Project } from '@/types/database';
 
 interface ProjectsSectionClientProps {
   projects: Project[];

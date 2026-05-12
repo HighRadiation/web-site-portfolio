@@ -1,34 +1,17 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function addTimelineItem(formData: FormData): Promise<void> {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    redirect('/login');
-  }
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single();
-  if (!profile?.is_admin) {
-    console.error('Unauthorized');
-    return;
-  }
+  const { supabase, user } = await requireAdmin();
 
   const role = formData.get('role') as string;
   const company = formData.get('company') as string;
   const date = formData.get('date') as string;
   const description = formData.get('description') as string;
-  const type = formData.get('type') as string;
+  const type = formData.get('type') as 'experience' | 'education';
 
   const { error } = await supabase.from('timeline').insert([
     {
@@ -42,8 +25,7 @@ export async function addTimelineItem(formData: FormData): Promise<void> {
   ]);
 
   if (error) {
-    console.error('Error adding timeline item:', error);
-    return;
+    throw new Error(`Failed to add timeline item: ${error.message}`);
   }
 
   revalidatePath('/admin/timeline');
@@ -52,23 +34,7 @@ export async function addTimelineItem(formData: FormData): Promise<void> {
 }
 
 export async function deleteTimelineItem(id: string): Promise<void> {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    redirect('/login');
-  }
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single();
-  if (!profile?.is_admin) {
-    throw new Error('Unauthorized: admin privileges required to delete a timeline item');
-  }
+  const { supabase } = await requireAdmin();
 
   const { data: deleted, error } = await supabase
     .from('timeline')
@@ -90,4 +56,3 @@ export async function deleteTimelineItem(id: string): Promise<void> {
   revalidatePath('/');
   redirect('/admin/timeline');
 }
-
