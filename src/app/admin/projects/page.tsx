@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { deleteProject, seedProjects } from './actions';
+import { deleteProject } from './actions';
 
 interface Project {
   id: string;
@@ -118,25 +118,7 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
               borderRadius: '8px',
             }}
           >
-            <p style={{ color: '#a3a3a3', marginBottom: '1.5rem' }}>
-              No projects found in database.
-            </p>
-            <form action={seedProjects}>
-              <button
-                type="submit"
-                style={{
-                  padding: '0.6rem 1.2rem',
-                  background: '#ffffff',
-                  color: '#000000',
-                  border: 'none',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontWeight: 600,
-                }}
-              >
-                Import
-              </button>
-            </form>
+            <p style={{ color: '#a3a3a3' }}>No projects found in database.</p>
           </div>
         )}
       </div>

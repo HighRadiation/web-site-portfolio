@@ -1,4 +1,4 @@
-import { addSkill, seedSkills } from '../actions';
+import { addSkill } from '../actions';
 
 export default function NewSkillPage(): React.JSX.Element {
   return (
@@ -22,26 +22,6 @@ export default function NewSkillPage(): React.JSX.Element {
         >
           ← Back to Skills
         </a>
-      </div>
-
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-        <form action={seedSkills}>
-          <button
-            type="submit"
-            style={{
-              backgroundColor: 'rgba(124, 58, 237, 0.1)',
-              color: 'var(--accent)',
-              border: '1px solid rgba(124, 58, 237, 0.3)',
-              padding: '0.75rem 1rem',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-            }}
-          >
-            Import from Frontend (Seed)
-          </button>
-        </form>
       </div>
 
       <form
