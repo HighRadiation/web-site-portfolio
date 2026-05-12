@@ -1,6 +1,15 @@
+'use client';
+
+import { useActionState } from 'react';
 import { addTimelineItem } from '../actions';
+import type { ActionState } from '@/lib/action-state';
 
 export default function NewTimelineItemPage(): React.JSX.Element {
+  const [state, formAction, pending] = useActionState<ActionState, FormData>(
+    addTimelineItem,
+    null,
+  );
+
   return (
     <div style={{ maxWidth: '600px', width: '100%' }}>
       <div
@@ -25,7 +34,7 @@ export default function NewTimelineItemPage(): React.JSX.Element {
       </div>
 
       <form
-        action={addTimelineItem}
+        action={formAction}
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -36,6 +45,21 @@ export default function NewTimelineItemPage(): React.JSX.Element {
           border: '1px solid #222222',
         }}
       >
+        {state && !state.ok && (
+          <div
+            role="alert"
+            style={{
+              padding: '0.75rem 1rem',
+              border: '1px solid #ef4444',
+              borderRadius: '6px',
+              color: '#ef4444',
+              fontSize: '0.9rem',
+            }}
+          >
+            {state.error}
+          </div>
+        )}
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <label htmlFor="role" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>
             Role / Title
@@ -55,6 +79,11 @@ export default function NewTimelineItemPage(): React.JSX.Element {
               fontFamily: 'var(--font-sans)',
             }}
           />
+          {state && !state.ok && state.fieldErrors?.role && (
+            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+              {state.fieldErrors.role[0]}
+            </span>
+          )}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -76,6 +105,11 @@ export default function NewTimelineItemPage(): React.JSX.Element {
               fontFamily: 'var(--font-sans)',
             }}
           />
+          {state && !state.ok && state.fieldErrors?.company && (
+            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+              {state.fieldErrors.company[0]}
+            </span>
+          )}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -97,6 +131,11 @@ export default function NewTimelineItemPage(): React.JSX.Element {
               fontFamily: 'var(--font-sans)',
             }}
           />
+          {state && !state.ok && state.fieldErrors?.date && (
+            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+              {state.fieldErrors.date[0]}
+            </span>
+          )}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -119,6 +158,11 @@ export default function NewTimelineItemPage(): React.JSX.Element {
             <option value="experience">Experience</option>
             <option value="education">Education</option>
           </select>
+          {state && !state.ok && state.fieldErrors?.type && (
+            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+              {state.fieldErrors.type[0]}
+            </span>
+          )}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -141,10 +185,16 @@ export default function NewTimelineItemPage(): React.JSX.Element {
               resize: 'vertical',
             }}
           />
+          {state && !state.ok && state.fieldErrors?.description && (
+            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+              {state.fieldErrors.description[0]}
+            </span>
+          )}
         </div>
 
         <button
           type="submit"
+          disabled={pending}
           style={{
             marginTop: '1rem',
             padding: '0.75rem',
@@ -153,10 +203,11 @@ export default function NewTimelineItemPage(): React.JSX.Element {
             border: 'none',
             borderRadius: '4px',
             fontWeight: 600,
-            cursor: 'pointer',
+            cursor: pending ? 'wait' : 'pointer',
+            opacity: pending ? 0.6 : 1,
           }}
         >
-          Save Timeline Item
+          {pending ? 'Saving…' : 'Save Timeline Item'}
         </button>
       </form>
     </div>

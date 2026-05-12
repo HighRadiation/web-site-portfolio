@@ -1,6 +1,12 @@
+'use client';
+
+import { useActionState } from 'react';
 import { addProject } from '../actions';
+import type { ActionState } from '@/lib/action-state';
 
 export default function NewProjectPage(): React.JSX.Element {
+  const [state, formAction, pending] = useActionState<ActionState, FormData>(addProject, null);
+
   return (
     <div>
       <div
@@ -27,7 +33,21 @@ export default function NewProjectPage(): React.JSX.Element {
         </a>
       </div>
 
-      <form action={addProject} style={{ display: 'grid', gap: '1.5rem', maxWidth: '600px' }}>
+      <form action={formAction} style={{ display: 'grid', gap: '1.5rem', maxWidth: '600px' }}>
+        {state && !state.ok && (
+          <div
+            role="alert"
+            style={{
+              padding: '0.75rem 1rem',
+              border: '1px solid #ef4444',
+              borderRadius: '6px',
+              color: '#ef4444',
+              fontSize: '0.9rem',
+            }}
+          >
+            {state.error}
+          </div>
+        )}
         <div style={{ display: 'grid', gap: '0.5rem' }}>
           <label style={{ fontSize: '0.85rem', color: '#a3a3a3', fontWeight: 500 }}>
             Project Name
@@ -44,6 +64,11 @@ export default function NewProjectPage(): React.JSX.Element {
               fontSize: '0.9rem',
             }}
           />
+          {state && !state.ok && state.fieldErrors?.name && (
+            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+              {state.fieldErrors.name[0]}
+            </span>
+          )}
         </div>
         <div style={{ display: 'grid', gap: '0.5rem' }}>
           <label style={{ fontSize: '0.85rem', color: '#a3a3a3', fontWeight: 500 }}>
@@ -62,6 +87,11 @@ export default function NewProjectPage(): React.JSX.Element {
               minHeight: '120px',
             }}
           />
+          {state && !state.ok && state.fieldErrors?.description && (
+            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+              {state.fieldErrors.description[0]}
+            </span>
+          )}
         </div>
         <div style={{ display: 'grid', gap: '0.5rem' }}>
           <label style={{ fontSize: '0.85rem', color: '#a3a3a3', fontWeight: 500 }}>
@@ -78,23 +108,30 @@ export default function NewProjectPage(): React.JSX.Element {
               fontSize: '0.9rem',
             }}
           />
+          {state && !state.ok && state.fieldErrors?.link && (
+            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+              {state.fieldErrors.link[0]}
+            </span>
+          )}
         </div>
 
         <button
           type="submit"
+          disabled={pending}
           style={{
             background: '#ffffff',
             color: '#000000',
             border: 'none',
             padding: '0.75rem',
             borderRadius: '6px',
-            cursor: 'pointer',
+            cursor: pending ? 'wait' : 'pointer',
             fontWeight: 600,
             marginTop: '1rem',
             transition: 'opacity 0.2s',
+            opacity: pending ? 0.6 : 1,
           }}
         >
-          Save Project
+          {pending ? 'Saving…' : 'Save Project'}
         </button>
       </form>
     </div>

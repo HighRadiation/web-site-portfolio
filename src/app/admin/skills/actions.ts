@@ -3,23 +3,36 @@
 import { requireAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { skillFormSchema } from '@/lib/validations/skill';
+import type { ActionState } from '@/lib/action-state';
 
-export async function addSkill(formData: FormData): Promise<void> {
+export async function addSkill(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
   const { supabase, user } = await requireAdmin();
 
-  const name = formData.get('name') as string;
-  const category = formData.get('category') as string;
+  const parsed = skillFormSchema.safeParse({
+    name: formData.get('name'),
+    category: formData.get('category'),
+  });
 
-  const { error } = await supabase.from('skills').insert([
-    {
-      user_id: user.id,
-      name,
-      category,
-    },
-  ]);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: 'Please fix the highlighted fields.',
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  const { error } = await supabase.from('skills').insert({
+    user_id: user.id,
+    name: parsed.data.name,
+    category: parsed.data.category,
+  });
 
   if (error) {
-    throw new Error(`Failed to add skill: ${error.message}`);
+    return { ok: false, error: `Failed to add skill: ${error.message}` };
   }
 
   revalidatePath('/admin/skills');

@@ -3,29 +3,42 @@
 import { requireAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { timelineFormSchema } from '@/lib/validations/timeline';
+import type { ActionState } from '@/lib/action-state';
 
-export async function addTimelineItem(formData: FormData): Promise<void> {
+export async function addTimelineItem(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
   const { supabase, user } = await requireAdmin();
 
-  const role = formData.get('role') as string;
-  const company = formData.get('company') as string;
-  const date = formData.get('date') as string;
-  const description = formData.get('description') as string;
-  const type = formData.get('type') as 'experience' | 'education';
+  const parsed = timelineFormSchema.safeParse({
+    role: formData.get('role'),
+    company: formData.get('company'),
+    date: formData.get('date'),
+    description: formData.get('description'),
+    type: formData.get('type'),
+  });
 
-  const { error } = await supabase.from('timeline').insert([
-    {
-      role,
-      company,
-      date,
-      description,
-      type,
-      user_id: user.id,
-    },
-  ]);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: 'Please fix the highlighted fields.',
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  const { error } = await supabase.from('timeline').insert({
+    user_id: user.id,
+    role: parsed.data.role,
+    company: parsed.data.company,
+    date: parsed.data.date,
+    description: parsed.data.description,
+    type: parsed.data.type,
+  });
 
   if (error) {
-    throw new Error(`Failed to add timeline item: ${error.message}`);
+    return { ok: false, error: `Failed to add timeline item: ${error.message}` };
   }
 
   revalidatePath('/admin/timeline');
