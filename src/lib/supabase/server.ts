@@ -1,8 +1,13 @@
 import { createServerClient } from '@supabase/ssr';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import type { Database } from '@/types/supabase';
 
+/**
+ * Standard SSR client that uses cookies. Opts the route into dynamic rendering.
+ * Use this for protected routes or actions.
+ */
 export async function createClient(): Promise<SupabaseClient<Database>> {
   const cookieStore = await cookies();
 
@@ -26,12 +31,21 @@ export async function createClient(): Promise<SupabaseClient<Database>> {
               cookieStore.set(name, value, options),
             );
           } catch {
-            // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // Ignored
           }
         },
       },
     },
+  );
+}
+
+/**
+ * Anonymous client that does NOT use cookies.
+ * Use this for public data fetching to allow Next.js to statically generate pages (ISR).
+ */
+export function createAnonClient(): SupabaseClient<Database> {
+  return createSupabaseClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 }

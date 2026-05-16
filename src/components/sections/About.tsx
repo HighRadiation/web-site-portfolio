@@ -1,9 +1,9 @@
-import { createClient } from '@/lib/supabase/server';
+import { createAnonClient } from '@/lib/supabase/server';
 import { Skill } from '@/types/database';
 import { AboutSectionClient } from './AboutSectionClient';
 
 export const AboutSection = async (): Promise<React.JSX.Element> => {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data: skillsData } = await supabase.from('skills').select('*').order('created_at');
 
   const skills = skillsData || [];

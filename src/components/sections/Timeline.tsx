@@ -1,9 +1,9 @@
 import { getLocale } from 'next-intl/server';
-import { createClient } from '@/lib/supabase/server';
+import { createAnonClient } from '@/lib/supabase/server';
 import { TimelineSectionClient, type DisplayTimelineItem } from './TimelineSectionClient';
 
 export const TimelineSection = async (): Promise<React.JSX.Element> => {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const locale = await getLocale();
 
   const { data: timelineData } = await supabase

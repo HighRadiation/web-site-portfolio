@@ -1,9 +1,9 @@
 import { getLocale } from 'next-intl/server';
-import { createClient } from '@/lib/supabase/server';
+import { createAnonClient } from '@/lib/supabase/server';
 import { ProjectsSectionClient, type DisplayProject } from './ProjectsSectionClient';
 
 export const ProjectsSection = async (): Promise<React.JSX.Element> => {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const locale = await getLocale();
 
   const { data: projects, error } = await supabase
