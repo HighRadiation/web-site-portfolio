@@ -12,33 +12,41 @@ export const HeroSection = (): React.JSX.Element => {
   const subtitle = t('subtitle');
 
   useEffect(() => {
-    const startTimeout = setTimeout(() => {
+    let startTimeoutId: ReturnType<typeof setTimeout> | null = null;
+    let titleIntervalId: ReturnType<typeof setInterval> | null = null;
+    let subTimeoutId: ReturnType<typeof setTimeout> | null = null;
+    let subIntervalId: ReturnType<typeof setInterval> | null = null;
+
+    startTimeoutId = setTimeout(() => {
       let titleIndex = 0;
-      const titleInterval = setInterval(() => {
+      titleIntervalId = setInterval(() => {
         if (titleIndex <= fullName.length) {
           setDisplayName(fullName.slice(0, titleIndex));
           titleIndex++;
         } else {
-          clearInterval(titleInterval);
+          if (titleIntervalId) clearInterval(titleIntervalId);
 
-          setTimeout(() => {
+          subTimeoutId = setTimeout(() => {
             let subIndex = 0;
-            const subInterval = setInterval(() => {
+            subIntervalId = setInterval(() => {
               if (subIndex <= subtitle.length) {
                 setDisplaySubtitle(subtitle.slice(0, subIndex));
                 subIndex++;
               } else {
-                clearInterval(subInterval);
+                if (subIntervalId) clearInterval(subIntervalId);
               }
             }, 50);
           }, 500);
         }
       }, 100);
-
-      return (): void => clearInterval(titleInterval);
     }, 1000);
 
-    return (): void => clearTimeout(startTimeout);
+    return (): void => {
+      if (startTimeoutId) clearTimeout(startTimeoutId);
+      if (titleIntervalId) clearInterval(titleIntervalId);
+      if (subTimeoutId) clearTimeout(subTimeoutId);
+      if (subIntervalId) clearInterval(subIntervalId);
+    };
   }, [subtitle]);
 
   return (
