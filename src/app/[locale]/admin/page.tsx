@@ -21,9 +21,6 @@ async function getStats(): Promise<{
 }
 
 export default async function AdminDashboard(): Promise<React.JSX.Element> {
-  const supabase = await createClient();
-  await supabase.auth.getUser();
-
   const stats = await getStats();
 
   const cards = [
