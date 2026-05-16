@@ -14,8 +14,13 @@ export async function addProject(
 
   const parsed = projectFormSchema.safeParse({
     name: formData.get('name'),
+    name_tr: formData.get('name_tr') ?? '',
     description: formData.get('description'),
-    link: formData.get('link') ?? '',
+    description_tr: formData.get('description_tr') ?? '',
+    github_link: formData.get('github_link') ?? '',
+    live_link: formData.get('live_link') ?? '',
+    image_url: formData.get('image_url') ?? '',
+    technologies: formData.get('technologies') ?? '',
   });
 
   if (!parsed.success) {
@@ -26,11 +31,23 @@ export async function addProject(
     };
   }
 
+  const techArray = parsed.data.technologies
+    ? parsed.data.technologies
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean)
+    : [];
+
   const { error } = await supabase.from('projects').insert({
     user_id: user.id,
     title: parsed.data.name,
+    title_tr: parsed.data.name_tr || null,
     description: parsed.data.description,
-    github_link: parsed.data.link || null,
+    description_tr: parsed.data.description_tr || null,
+    github_link: parsed.data.github_link || null,
+    live_link: parsed.data.live_link || null,
+    image_url: parsed.data.image_url || null,
+    technologies: techArray.length > 0 ? techArray : null,
   });
 
   if (error) {
