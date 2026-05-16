@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { contactSchema } from '@/lib/validations/contact';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createClient } from '@/lib/supabase/server';
 import { getRateLimiter } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -31,9 +31,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const validData = validationResult.data;
 
-    const supabaseAdmin = createAdminClient();
+    const supabase = await createClient();
 
-    const { error: dbError } = await supabaseAdmin.from('contact_messages').insert({
+    const { error: dbError } = await supabase.from('contact_messages').insert({
       name: validData.name,
       email: validData.email,
       message: validData.message,
