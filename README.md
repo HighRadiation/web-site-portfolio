@@ -7,7 +7,7 @@ A high-performance, minimalist academic portfolio built with **Next.js 16**, **R
 - **Next.js 16 & Server Components**: Leveraging the latest Next.js features for optimal performance and SEO.
 - **Supabase Integration**: Full-stack capabilities including Database, Auth, and Server-Side Rendering (SSR) support.
 - **Academic Minimalism**: A premium, clean design focused on typography (Inter & Source Serif 4) and content clarity.
-- **Scalar API Documentation**: Interactive and modern API documentation available at `/docs`, protected via middleware.
+- **Scalar API Documentation**: Interactive and modern API documentation available at `/docs`, protected via middleware and restricted to the authorized owner.
 - **Smart Contact Form**: Integrated with **Upstash Redis** for robust rate-limiting and anti-spam protection.
 - **Admin Suite**: Custom `/api/admin` endpoints for real-time portfolio management, secured with Supabase Auth.
 - **Performance Optimized**: Vanilla CSS for styling to ensure maximum control and zero bloat.
@@ -50,9 +50,9 @@ A high-performance, minimalist academic portfolio built with **Next.js 16**, **R
 
 ##  Security & Middleware
 
-The project uses a custom `middleware.ts` (Next.js Middleware) to protect sensitive routes:
-- `/admin/*`: Restricted to authenticated users.
-- `/docs`: Restricted to authorized developers.
+The project uses a custom `middleware.ts` (Next.js Middleware) and server-side checks to protect sensitive routes:
+- `/admin/*`: Restricted exclusively to the account matching the configured `ADMIN_EMAIL`.
+- `/docs` & `/api/docs`: Restricted exclusively to the account matching the configured `ADMIN_EMAIL`.
 
 ##  License
 
