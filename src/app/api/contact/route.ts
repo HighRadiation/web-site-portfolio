@@ -8,7 +8,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? '127.0.0.1';
 
-    const limiter = getRateLimiter(5, '1 m');
+    const limiter = getRateLimiter(10, '1 m');
     if (!limiter) {
       console.error('Rate limiting is not configured (missing Redis credentials).');
       return NextResponse.json({ error: 'Server configuration error.' }, { status: 500 });
