@@ -22,6 +22,7 @@ export type Database = {
           id: string;
           full_name: string | null;
           bio: string | null;
+          bio_tr: string | null;
           avatar_url: string | null;
           email: string | null;
           website: string | null;
@@ -32,6 +33,7 @@ export type Database = {
           id: string;
           full_name?: string | null;
           bio?: string | null;
+          bio_tr?: string | null;
           avatar_url?: string | null;
           email?: string | null;
           website?: string | null;
@@ -42,6 +44,7 @@ export type Database = {
           id?: string;
           full_name?: string | null;
           bio?: string | null;
+          bio_tr?: string | null;
           avatar_url?: string | null;
           email?: string | null;
           website?: string | null;
@@ -55,7 +58,9 @@ export type Database = {
           id: string;
           user_id: string;
           title: string;
+          title_tr: string | null;
           description: string | null;
+          description_tr: string | null;
           image_url: string | null;
           live_link: string | null;
           github_link: string | null;
@@ -66,7 +71,9 @@ export type Database = {
           id?: string;
           user_id: string;
           title: string;
+          title_tr?: string | null;
           description?: string | null;
+          description_tr?: string | null;
           image_url?: string | null;
           live_link?: string | null;
           github_link?: string | null;
@@ -77,7 +84,9 @@ export type Database = {
           id?: string;
           user_id?: string;
           title?: string;
+          title_tr?: string | null;
           description?: string | null;
+          description_tr?: string | null;
           image_url?: string | null;
           live_link?: string | null;
           github_link?: string | null;
@@ -134,9 +143,12 @@ export type Database = {
           id: string;
           user_id: string | null;
           role: string;
+          role_tr: string | null;
           company: string;
+          company_tr: string | null;
           date: string;
           description: string | null;
+          description_tr: string | null;
           type: 'experience' | 'education';
           created_at: string;
         };
@@ -144,9 +156,12 @@ export type Database = {
           id?: string;
           user_id?: string | null;
           role: string;
+          role_tr?: string | null;
           company: string;
+          company_tr?: string | null;
           date: string;
           description?: string | null;
+          description_tr?: string | null;
           type: 'experience' | 'education';
           created_at?: string;
         };
@@ -154,9 +169,12 @@ export type Database = {
           id?: string;
           user_id?: string | null;
           role?: string;
+          role_tr?: string | null;
           company?: string;
+          company_tr?: string | null;
           date?: string;
           description?: string | null;
+          description_tr?: string | null;
           type?: 'experience' | 'education';
           created_at?: string;
         };

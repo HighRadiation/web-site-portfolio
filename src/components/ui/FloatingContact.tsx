@@ -1,11 +1,11 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
-import { useLanguage } from '@/context/LanguageContext';
 import { ContactForm } from '../sections/ContactForm';
 
 export const FloatingContact = (): React.JSX.Element => {
-  const { t } = useLanguage();
+  const t = useTranslations('FloatingContact');
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -14,26 +14,26 @@ export const FloatingContact = (): React.JSX.Element => {
     setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);
-    }, 280); // Match animation duration
+    }, 280);
   };
 
   return (
     <>
-      <button 
-        onClick={() => setIsOpen(true)} 
+      <button
+        onClick={() => setIsOpen(true)}
         className="floating-contact"
         type="button"
       >
-        {t('contact') || 'Contact'}
+        {t('label')}
       </button>
 
       {isOpen && (
-        <div 
-          className={`terminal-modal-overlay ${isClosing ? 'closing' : ''}`} 
+        <div
+          className={`terminal-modal-overlay ${isClosing ? 'closing' : ''}`}
           onClick={handleClose}
         >
-          <div 
-            className={`terminal-window ${isClosing ? 'closing' : ''}`} 
+          <div
+            className={`terminal-window ${isClosing ? 'closing' : ''}`}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="terminal-window-header">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
+import { Link } from '@/i18n/navigation';
 import { addSkill } from '../actions';
 import type { ActionState } from '@/lib/action-state';
 
@@ -18,7 +19,7 @@ export default function NewSkillPage(): React.JSX.Element {
         }}
       >
         <h1 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Add Skill</h1>
-        <a
+        <Link
           href="/admin/skills"
           style={{
             color: '#a3a3a3',
@@ -27,7 +28,7 @@ export default function NewSkillPage(): React.JSX.Element {
           }}
         >
           ← Back to Skills
-        </a>
+        </Link>
       </div>
 
       <form

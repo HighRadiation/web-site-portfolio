@@ -1,12 +1,23 @@
+import createIntlMiddleware from 'next-intl/middleware';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { routing } from '@/i18n/routing';
+
+const intlMiddleware = createIntlMiddleware(routing);
+
+function stripLocale(pathname: string): string {
+  for (const locale of routing.locales) {
+    if (pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)) {
+      return pathname.slice(`/${locale}`.length) || '/';
+    }
+  }
+  return pathname;
+}
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
+  const intlResponse = intlMiddleware(request);
+
+  let response = intlResponse instanceof NextResponse ? intlResponse : NextResponse.next();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -24,9 +35,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
           }[],
         ): void {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-          response = NextResponse.next({
-            request,
-          });
+          response = NextResponse.next({ request });
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options),
           );
@@ -35,20 +44,19 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     },
   );
 
-  // Refresh the user session via Supabase SSR client
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protect admin and docs routes
+  const pathWithoutLocale = stripLocale(request.nextUrl.pathname);
+
   const isProtected =
-    request.nextUrl.pathname.startsWith('/admin') || request.nextUrl.pathname.startsWith('/docs');
+    pathWithoutLocale.startsWith('/admin') || pathWithoutLocale.startsWith('/docs');
   if (isProtected && !user) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Redirect authenticated users away from login page
-  if (request.nextUrl.pathname.startsWith('/login') && user) {
+  if (pathWithoutLocale.startsWith('/login') && user) {
     return NextResponse.redirect(new URL('/admin', request.url));
   }
 
@@ -57,13 +65,6 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };

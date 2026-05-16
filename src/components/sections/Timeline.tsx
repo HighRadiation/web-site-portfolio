@@ -1,25 +1,27 @@
+import { getLocale } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
-import { TimelineSectionClient } from './TimelineSectionClient';
-
-interface TimelineItem {
-  id: string;
-  date: string;
-  role: string;
-  company: string;
-  description: string;
-  type: string;
-}
+import { TimelineSectionClient, type DisplayTimelineItem } from './TimelineSectionClient';
 
 export const TimelineSection = async (): Promise<React.JSX.Element> => {
   const supabase = await createClient();
+  const locale = await getLocale();
+
   const { data: timelineData } = await supabase
     .from('timeline')
     .select('*')
     .order('created_at', { ascending: true });
 
-  const items = (timelineData as TimelineItem[]) || [];
-  const experiences = items.filter((i: TimelineItem) => i.type === 'experience');
-  const education = items.filter((i: TimelineItem) => i.type === 'education');
+  const items: DisplayTimelineItem[] = (timelineData ?? []).map((item) => ({
+    id: item.id,
+    date: item.date,
+    role: (locale === 'tr' && item.role_tr) || item.role,
+    company: (locale === 'tr' && item.company_tr) || item.company,
+    description: (locale === 'tr' && item.description_tr) || item.description,
+    type: item.type,
+  }));
+
+  const experiences = items.filter((i) => i.type === 'experience');
+  const education = items.filter((i) => i.type === 'education');
 
   return <TimelineSectionClient experiences={experiences} education={education} />;
 };

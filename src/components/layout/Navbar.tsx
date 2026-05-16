@@ -1,18 +1,27 @@
 'use client';
 
-import { useLanguage } from '@/context/LanguageContext';
-import { useEffect, useState, useMemo } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { useEffect, useMemo, useState, useTransition } from 'react';
+import { usePathname, useRouter } from '@/i18n/navigation';
+import { routing, type Locale } from '@/i18n/routing';
 
 export const Navbar = (): React.JSX.Element => {
-  const { language, setLanguage, t } = useLanguage();
+  const t = useTranslations('Nav');
+  const locale = useLocale() as Locale;
+  const router = useRouter();
+  const pathname = usePathname();
+  const [, startTransition] = useTransition();
   const [activeSection, setActiveSection] = useState('home');
 
-  const links = useMemo(() => [
-    { href: '#home', label: t('home'), id: 'home' },
-    { href: '#about', label: t('about'), id: 'about' },
-    { href: '#experience', label: t('experience'), id: 'experience' },
-    { href: '#projects', label: t('projects'), id: 'projects' },
-  ], [t]);
+  const links = useMemo(
+    () => [
+      { href: '#home', label: t('home'), id: 'home' },
+      { href: '#about', label: t('about'), id: 'about' },
+      { href: '#experience', label: t('experience'), id: 'experience' },
+      { href: '#projects', label: t('projects'), id: 'projects' },
+    ],
+    [t],
+  );
 
   useEffect(() => {
     const observerOptions = {
@@ -40,6 +49,13 @@ export const Navbar = (): React.JSX.Element => {
 
     return (): void => observer.disconnect();
   }, [links]);
+
+  function switchLocale(nextLocale: Locale): void {
+    if (nextLocale === locale) return;
+    startTransition(() => {
+      router.replace(pathname, { locale: nextLocale });
+    });
+  }
 
   return (
     <nav className="navbar">
@@ -130,21 +146,18 @@ export const Navbar = (): React.JSX.Element => {
         </div>
 
         <div className="nav-actions">
-          <button
-            onClick={() => setLanguage('en')}
-            className={`lang-btn ${language === 'en' ? 'active' : ''}`}
-            type="button"
-          >
-            EN
-          </button>
-          <span className="lang-divider">/</span>
-          <button
-            onClick={() => setLanguage('tr')}
-            className={`lang-btn ${language === 'tr' ? 'active' : ''}`}
-            type="button"
-          >
-            TR
-          </button>
+          {routing.locales.map((code, index) => (
+            <span key={code}>
+              {index > 0 && <span className="lang-divider">/</span>}
+              <button
+                onClick={() => switchLocale(code)}
+                className={`lang-btn ${locale === code ? 'active' : ''}`}
+                type="button"
+              >
+                {code.toUpperCase()}
+              </button>
+            </span>
+          ))}
         </div>
       </div>
     </nav>

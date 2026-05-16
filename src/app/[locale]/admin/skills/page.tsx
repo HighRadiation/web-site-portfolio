@@ -1,3 +1,4 @@
+import { Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { deleteSkill } from './actions';
 import { Skill } from '@/types/database';
@@ -22,7 +23,7 @@ export default async function AdminSkillsPage(): Promise<React.JSX.Element> {
         }}
       >
         <h1 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Manage Skills</h1>
-        <a
+        <Link
           href="/admin/skills/new"
           style={{
             backgroundColor: '#ffffff',
@@ -35,7 +36,7 @@ export default async function AdminSkillsPage(): Promise<React.JSX.Element> {
           }}
         >
           Add Skill
-        </a>
+        </Link>
       </div>
 
       <div>

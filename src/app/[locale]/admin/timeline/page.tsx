@@ -1,3 +1,4 @@
+import { Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { deleteTimelineItem } from './actions';
 import type { TimelineItem } from '@/types/database';
@@ -22,7 +23,7 @@ export default async function AdminTimelinePage(): Promise<React.JSX.Element> {
         }}
       >
         <h1 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Manage Timeline</h1>
-        <a
+        <Link
           href="/admin/timeline/new"
           style={{
             backgroundColor: '#ffffff',
@@ -35,7 +36,7 @@ export default async function AdminTimelinePage(): Promise<React.JSX.Element> {
           }}
         >
           Add Item
-        </a>
+        </Link>
       </div>
 
       <div>

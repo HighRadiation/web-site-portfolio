@@ -1,3 +1,4 @@
+import { Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { deleteProject } from './actions';
 import type { Project } from '@/types/database';
@@ -31,7 +32,7 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
             Manage your portfolio projects
           </p>
         </div>
-        <a
+        <Link
           href="/admin/projects/new"
           style={{
             background: '#ffffff',
@@ -45,7 +46,7 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
           }}
         >
           + Add Project
-        </a>
+        </Link>
       </div>
 
       <div>

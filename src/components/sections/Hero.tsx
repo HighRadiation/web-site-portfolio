@@ -1,18 +1,17 @@
 'use client';
 
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 export const HeroSection = (): React.JSX.Element => {
   const [displayName, setDisplayName] = useState('');
   const [displaySubtitle, setDisplaySubtitle] = useState('');
-  const { t } = useLanguage();
-  
+  const t = useTranslations('Hero');
+
   const fullName = 'Buğra Öksüz';
-  const subtitle = t('hero_subtitle');
+  const subtitle = t('subtitle');
 
   useEffect(() => {
-    // Stage 1: Type Title
     const startTimeout = setTimeout(() => {
       let titleIndex = 0;
       const titleInterval = setInterval(() => {
@@ -21,8 +20,7 @@ export const HeroSection = (): React.JSX.Element => {
           titleIndex++;
         } else {
           clearInterval(titleInterval);
-          
-          // Stage 2: Type Subtitle (Start after a small delay)
+
           setTimeout(() => {
             let subIndex = 0;
             const subInterval = setInterval(() => {
@@ -32,7 +30,7 @@ export const HeroSection = (): React.JSX.Element => {
               } else {
                 clearInterval(subInterval);
               }
-            }, 50); // Faster for longer text
+            }, 50);
           }, 500);
         }
       }, 100);
@@ -54,9 +52,7 @@ export const HeroSection = (): React.JSX.Element => {
 
           <p className="hero-subtitle" style={{ minHeight: '1.5em' }}>
             {displaySubtitle}
-            {displayName.length === fullName.length && (
-              <span className="cursor">_</span>
-            )}
+            {displayName.length === fullName.length && <span className="cursor">_</span>}
           </p>
         </div>
       </div>

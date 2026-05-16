@@ -1,0 +1,70 @@
+{
+  "Nav": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımda",
+    "experience": "Deneyim & Eğitim",
+    "projects": "Projeler",
+    "contact": "İletişim"
+  },
+  "Hero": {
+    "subtitle": "Mobil-web uygulamalarını temel prensiplerden inşa ediyorum.",
+    "viewProjects": "PROJELERİ_GÖR",
+    "contactMe": "İLETİŞİME_GEÇ"
+  },
+  "About": {
+    "title": "Hakkımda",
+    "p1": "Tek bir alana takılıp kalmayı hiç sevmedim. Merakım beni her yere götürüyor; oyun motorlarından yapay zekaya, gömülü sistemlerden mobil-web'e kadar. Benim için yazılım bir 'taraf' seçmek değil, her şeyin arka planda nasıl çalıştığını keşfetme tutkusudur.",
+    "p2": "Bilmediğim bir şey varsa, oturur bir hafta veya bir ay boyunca onunla bir şeyler inşa edebilene kadar çalışırım. Bir teknolojiyi gerçek bir projede çalışır hale getirene kadar onu gerçekten öğrendiğime inanmam."
+  },
+  "Timeline": {
+    "title": "Deneyim & Eğitim",
+    "experience": "Deneyim",
+    "education": "Eğitim",
+    "noData": "Veri bulunamadı.",
+    "present": "GÜNCEL"
+  },
+  "Projects": {
+    "title": "Projeler",
+    "viewCode": "Kodu Gör",
+    "privateSource": "Özel"
+  },
+  "Contact": {
+    "title": "İletişime Geçin",
+    "desc": "Bir sorunuz mu var veya birlikte mi çalışmak istiyorsunuz? Çekinmeden ulaşın!",
+    "button": "İLETİŞİME_GEÇ",
+    "or": "VEYA",
+    "emailCopied": "E-posta kopyalandı!",
+    "sendMessage": "Mesaj Gönder",
+    "form": {
+      "name": "İsim",
+      "namePlaceholder": "Adınız",
+      "email": "E-posta",
+      "emailPlaceholder": "siz@ornek.com",
+      "message": "Mesaj",
+      "messagePlaceholder": "Aklınızdan ne geçiyor?",
+      "send": "Mesaj Gönder",
+      "sending": "Gönderiliyor...",
+      "successTitle": "Mesaj Gönderildi!",
+      "successBody": "Ulaştığınız için teşekkürler. En kısa sürede dönüş yapacağım."
+    }
+  },
+  "FloatingContact": {
+    "label": "İletişim"
+  },
+  "SkillsCategory": {
+    "frontend": "Ön Yüz",
+    "backend": "Arka Yüz",
+    "mobile": "Mobil",
+    "systems": "Sistemler",
+    "design": "Tasarım",
+    "mobile_web": "Mobil/Web",
+    "ai": "Yapay Zeka",
+    "other": "Diğer",
+    "languages": "Diller",
+    "tools": "Araçlar"
+  },
+  "Metadata": {
+    "title": "Buğra Öksüz | Uygulamaları Temel Prensiplerden İnşa Etmek",
+    "description": "Mobil ve web uygulamalarını temel prensiplerden inşa ediyorum. Buğra Öksüz'ün portföyü."
+  }
+}

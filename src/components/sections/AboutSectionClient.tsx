@@ -1,6 +1,6 @@
 'use client';
 
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations } from 'next-intl';
 
 interface AboutSectionClientProps {
   categories: string[];
@@ -11,20 +11,21 @@ export const AboutSectionClient = ({
   categories,
   groupedSkills,
 }: AboutSectionClientProps): React.JSX.Element => {
-  const { t } = useLanguage();
+  const t = useTranslations('About');
+  const tCategory = useTranslations('SkillsCategory');
 
   return (
     <section id="about" className="section">
       <div className="container">
         <div className="section-header">
           <span className="section-icon">◇</span>
-          <h2 className="section-title">{t('about_title')}</h2>
+          <h2 className="section-title">{t('title')}</h2>
         </div>
 
         <div className="about-grid">
           <div className="about-text">
-            <p>{t('about_p1')}</p>
-            <p>{t('about_p2')}</p>
+            <p>{t('p1')}</p>
+            <p>{t('p2')}</p>
           </div>
 
           <div className="code-block">
@@ -43,11 +44,12 @@ export const AboutSectionClient = ({
                 {categories.map((category, index) => {
                   const isLast = index === categories.length - 1;
                   const items = groupedSkills[category];
+                  const label = tCategory.has(category) ? tCategory(category) : category;
 
                   return (
                     <div key={category}>
                       {'  '}
-                      <span className="key">&quot;{t(category)}&quot;</span>
+                      <span className="key">&quot;{label}&quot;</span>
                       <span className="punctuation">:</span> <span className="bracket">[</span>
                       {items.map((item: string, itemIndex: number) => (
                         <span key={itemIndex}>

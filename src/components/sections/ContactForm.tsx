@@ -1,8 +1,10 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 export const ContactForm = (): React.JSX.Element => {
+  const t = useTranslations('Contact.form');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -71,10 +73,8 @@ export const ContactForm = (): React.JSX.Element => {
             <polyline points="20 6 9 17 4 12" />
           </svg>
         </div>
-        <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Message Sent!</h4>
-        <p style={{ color: '#888', fontSize: '0.9rem' }}>
-          Thank you for reaching out. I&apos;ll get back to you soon.
-        </p>
+        <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{t('successTitle')}</h4>
+        <p style={{ color: '#888', fontSize: '0.9rem' }}>{t('successBody')}</p>
       </div>
     );
   }
@@ -86,14 +86,14 @@ export const ContactForm = (): React.JSX.Element => {
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <label htmlFor="name" style={{ fontSize: '0.85rem', color: '#888' }}>
-          Name
+          {t('name')}
         </label>
         <input
           type="text"
           id="name"
           name="name"
           required
-          placeholder="Your name"
+          placeholder={t('namePlaceholder')}
           style={{
             padding: '0.75rem',
             backgroundColor: '#0a0a0a',
@@ -107,14 +107,14 @@ export const ContactForm = (): React.JSX.Element => {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <label htmlFor="email" style={{ fontSize: '0.85rem', color: '#888' }}>
-          Email
+          {t('email')}
         </label>
         <input
           type="email"
           id="email"
           name="email"
           required
-          placeholder="your@email.com"
+          placeholder={t('emailPlaceholder')}
           style={{
             padding: '0.75rem',
             backgroundColor: '#0a0a0a',
@@ -128,14 +128,14 @@ export const ContactForm = (): React.JSX.Element => {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <label htmlFor="message" style={{ fontSize: '0.85rem', color: '#888' }}>
-          Message
+          {t('message')}
         </label>
         <textarea
           id="message"
           name="message"
           required
           rows={4}
-          placeholder="What's on your mind?"
+          placeholder={t('messagePlaceholder')}
           style={{
             padding: '0.75rem',
             backgroundColor: '#0a0a0a',
@@ -167,7 +167,7 @@ export const ContactForm = (): React.JSX.Element => {
           transition: 'all 0.2s',
         }}
       >
-        {status === 'loading' ? 'Sending...' : 'Send Message'}
+        {status === 'loading' ? t('sending') : t('send')}
       </button>
     </form>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Modal } from '../ui/Modal';
 import { ContactForm } from './ContactForm';
@@ -10,7 +10,7 @@ const EMAIL = 'bugraoksuz61@gmail.com';
 export const ContactSection = (): React.JSX.Element => {
   const [copied, setCopied] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { t } = useLanguage();
+  const t = useTranslations('Contact');
 
   function handleCopy(): void {
     navigator.clipboard.writeText(EMAIL).then(() => {
@@ -22,8 +22,8 @@ export const ContactSection = (): React.JSX.Element => {
   return (
     <section id="contact" className="contact-section">
       <div className="container">
-        <h2 className="contact-title">{t('contact_title')}</h2>
-        <p className="contact-desc">{t('contact_desc')}</p>
+        <h2 className="contact-title">{t('title')}</h2>
+        <p className="contact-desc">{t('desc')}</p>
 
         <div
           style={{
@@ -41,7 +41,7 @@ export const ContactSection = (): React.JSX.Element => {
               className="email-bar-copy"
               onClick={handleCopy}
               type="button"
-              title={t('contact_email_copied')}
+              title={t('emailCopied')}
             >
               {copied ? (
                 <svg
@@ -82,7 +82,7 @@ export const ContactSection = (): React.JSX.Element => {
               fontWeight: 500,
             }}
           >
-            {t('contact_or')}
+            {t('or')}
           </span>
 
           <button
@@ -92,12 +92,12 @@ export const ContactSection = (): React.JSX.Element => {
               padding: '0.75rem 2rem',
               fontSize: '0.9rem',
               borderRadius: '8px',
-              height: '46px', // Explicit height to match email bar exactly
+              height: '46px',
               display: 'flex',
               alignItems: 'center',
             }}
           >
-            {t('contact_button')}
+            {t('button')}
           </button>
         </div>
       </div>
@@ -105,7 +105,7 @@ export const ContactSection = (): React.JSX.Element => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={t('contact_send_message')}
+        title={t('sendMessage')}
       >
         <ContactForm />
       </Modal>

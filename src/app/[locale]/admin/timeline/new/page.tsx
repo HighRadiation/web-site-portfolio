@@ -1,6 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
+import { Link } from '@/i18n/navigation';
 import { addTimelineItem } from '../actions';
 import type { ActionState } from '@/lib/action-state';
 
@@ -21,7 +22,7 @@ export default function NewTimelineItemPage(): React.JSX.Element {
         }}
       >
         <h1 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Add Timeline Item</h1>
-        <a
+        <Link
           href="/admin/timeline"
           style={{
             color: '#a3a3a3',
@@ -30,7 +31,7 @@ export default function NewTimelineItemPage(): React.JSX.Element {
           }}
         >
           ← Back to Timeline
-        </a>
+        </Link>
       </div>
 
       <form

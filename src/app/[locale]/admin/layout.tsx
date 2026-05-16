@@ -1,3 +1,4 @@
+import { Link } from '@/i18n/navigation';
 import { logout } from '../login/actions';
 
 export default function AdminLayout({
@@ -33,7 +34,7 @@ export default function AdminLayout({
         </div>
 
         <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <a
+          <Link
             href="/admin"
             style={{
               padding: '0.75rem 1rem',
@@ -45,8 +46,8 @@ export default function AdminLayout({
             }}
           >
             Dashboard
-          </a>
-          <a
+          </Link>
+          <Link
             href="/admin/projects"
             style={{
               padding: '0.75rem 1rem',
@@ -58,8 +59,8 @@ export default function AdminLayout({
             }}
           >
             Projects
-          </a>
-          <a
+          </Link>
+          <Link
             href="/admin/skills"
             style={{
               padding: '0.75rem 1rem',
@@ -71,8 +72,8 @@ export default function AdminLayout({
             }}
           >
             Skills
-          </a>
-          <a
+          </Link>
+          <Link
             href="/admin/timeline"
             style={{
               padding: '0.75rem 1rem',
@@ -84,8 +85,8 @@ export default function AdminLayout({
             }}
           >
             Timeline
-          </a>
-          <a
+          </Link>
+          <Link
             href="/admin/messages"
             style={{
               padding: '0.75rem 1rem',
@@ -97,7 +98,7 @@ export default function AdminLayout({
             }}
           >
             Messages
-          </a>
+          </Link>
         </nav>
 
         <form action={logout} style={{ marginTop: 'auto' }}>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
+import { Link } from '@/i18n/navigation';
 import { addProject } from '../actions';
 import type { ActionState } from '@/lib/action-state';
 
@@ -18,7 +19,7 @@ export default function NewProjectPage(): React.JSX.Element {
         }}
       >
         <h1 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Add New Project</h1>
-        <a
+        <Link
           href="/admin/projects"
           style={{
             color: '#a3a3a3',
@@ -30,7 +31,7 @@ export default function NewProjectPage(): React.JSX.Element {
           }}
         >
           Cancel
-        </a>
+        </Link>
       </div>
 
       <form action={formAction} style={{ display: 'grid', gap: '1.5rem', maxWidth: '600px' }}>
