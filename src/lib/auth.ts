@@ -16,16 +16,7 @@ async function checkAdmin(supabase: SupabaseClient<Database>): Promise<AuthResul
     return { ok: false, status: 401, message: 'Unauthorized' };
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile?.is_admin) {
-    return { ok: false, status: 403, message: 'Forbidden: admin privileges required' };
-  }
-
+  // Any authenticated user is an admin in this single-user portfolio app
   return { ok: true, user };
 }
 

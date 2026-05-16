@@ -17,42 +17,7 @@ export type Database = {
   };
   public: {
     Tables: {
-      profiles: {
-        Row: {
-          id: string;
-          full_name: string | null;
-          bio: string | null;
-          bio_tr: string | null;
-          avatar_url: string | null;
-          email: string | null;
-          website: string | null;
-          updated_at: string;
-          is_admin: boolean;
-        };
-        Insert: {
-          id: string;
-          full_name?: string | null;
-          bio?: string | null;
-          bio_tr?: string | null;
-          avatar_url?: string | null;
-          email?: string | null;
-          website?: string | null;
-          updated_at?: string;
-          is_admin?: boolean;
-        };
-        Update: {
-          id?: string;
-          full_name?: string | null;
-          bio?: string | null;
-          bio_tr?: string | null;
-          avatar_url?: string | null;
-          email?: string | null;
-          website?: string | null;
-          updated_at?: string;
-          is_admin?: boolean;
-        };
-        Relationships: [];
-      };
+
       projects: {
         Row: {
           id: string;
@@ -98,7 +63,7 @@ export type Database = {
             foreignKeyName: 'projects_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
-            referencedRelation: 'profiles';
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
@@ -133,7 +98,7 @@ export type Database = {
             foreignKeyName: 'skills_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
-            referencedRelation: 'profiles';
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
@@ -183,7 +148,7 @@ export type Database = {
             foreignKeyName: 'timeline_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
-            referencedRelation: 'profiles';
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
