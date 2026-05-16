@@ -38,12 +38,10 @@ function LoginForm(): React.JSX.Element {
             name="email" 
             placeholder="admin@example.com" 
             required 
-            style={fe.email ? { borderColor: '#ef4444' } : undefined}
+            className={fe.email ? 'error' : undefined}
           />
           {fe.email && (
-            <span
-              style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px', display: 'block' }}
-            >
+            <span className="field-error">
               {fe.email[0]}
             </span>
           )}
@@ -56,12 +54,10 @@ function LoginForm(): React.JSX.Element {
             name="password" 
             placeholder="••••••••" 
             required 
-            style={fe.password ? { borderColor: '#ef4444' } : undefined}
+            className={fe.password ? 'error' : undefined}
           />
           {fe.password && (
-            <span
-              style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px', display: 'block' }}
-            >
+            <span className="field-error">
               {fe.password[0]}
             </span>
           )}

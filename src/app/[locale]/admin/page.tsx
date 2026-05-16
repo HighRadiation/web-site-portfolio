@@ -34,46 +34,17 @@ export default async function AdminDashboard(): Promise<React.JSX.Element> {
 
   return (
     <div>
-      <div style={{ marginBottom: '3rem' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-          Dashboard Overview
-        </h1>
-        <p style={{ color: '#a3a3a3' }}>
-          Welcome back. Here&apos;s a quick look at your system status.
-        </p>
+      <div className="admin-section-header">
+        <h1>Dashboard Overview</h1>
+        <p>Welcome back. Here&apos;s a quick look at your system status.</p>
       </div>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '1.5rem',
-        }}
-      >
+      <div className="admin-stats-grid">
         {cards.map((card) => (
-          <a
-            key={card.label}
-            href={card.href}
-            style={{
-              backgroundColor: '#111111',
-              border: '1px solid #222222',
-              borderRadius: '8px',
-              padding: '1.5rem',
-              color: '#ffffff',
-              textDecoration: 'none',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.5rem',
-              transition: 'border-color 0.2s ease',
-            }}
-          >
-            <span style={{ fontSize: '1rem', fontWeight: 600, color: '#e5e5e5' }}>
-              {card.label}
-            </span>
-            <span style={{ fontSize: '2.5rem', fontWeight: 700, color: 'var(--accent)' }}>
-              {card.value}
-            </span>
-            <span style={{ fontSize: '0.85rem', color: '#737373' }}>Total Records</span>
+          <a key={card.label} href={card.href} className="admin-stat-card">
+            <span className="admin-stat-label">{card.label}</span>
+            <span className="admin-stat-value">{card.value}</span>
+            <span className="admin-stat-footer">Total Records</span>
           </a>
         ))}
       </div>

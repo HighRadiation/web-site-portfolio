@@ -12,57 +12,23 @@ export default function NewTimelineItemPage(): React.JSX.Element {
   );
 
   return (
-    <div style={{ maxWidth: '600px', width: '100%' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem',
-        }}
-      >
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Add Timeline Item</h1>
-        <Link
-          href="/admin/timeline"
-          style={{
-            color: '#a3a3a3',
-            textDecoration: 'none',
-            fontSize: '0.9rem',
-          }}
-        >
+    <div className="admin-page-container-xs">
+      <div className="admin-header-row">
+        <h1>Add Timeline Item</h1>
+        <Link href="/admin/timeline" className="admin-back-link">
           ← Back to Timeline
         </Link>
       </div>
 
-      <form
-        action={formAction}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1.25rem',
-          backgroundColor: '#111111',
-          padding: '2rem',
-          borderRadius: '8px',
-          border: '1px solid #222222',
-        }}
-      >
+      <form action={formAction} className="admin-form">
         {state && !state.ok && (
-          <div
-            role="alert"
-            style={{
-              padding: '0.75rem 1rem',
-              border: '1px solid #ef4444',
-              borderRadius: '6px',
-              color: '#ef4444',
-              fontSize: '0.9rem',
-            }}
-          >
+          <div role="alert" className="admin-alert-danger">
             {state.error}
           </div>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <label htmlFor="role" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>
+        <div className="admin-form-group">
+          <label htmlFor="role" className="admin-label">
             Role / Title
           </label>
           <input
@@ -71,24 +37,17 @@ export default function NewTimelineItemPage(): React.JSX.Element {
             name="role"
             required
             placeholder="e.g. Independent Developer"
-            style={{
-              padding: '0.75rem',
-              borderRadius: '4px',
-              border: '1px solid #333',
-              backgroundColor: '#0a0a0a',
-              color: '#fff',
-              fontFamily: 'var(--font-sans)',
-            }}
+            className="admin-input"
           />
           {state && !state.ok && state.fieldErrors?.role && (
-            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+            <span className="admin-error-text">
               {state.fieldErrors.role[0]}
             </span>
           )}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <label htmlFor="company" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>
+        <div className="admin-form-group">
+          <label htmlFor="company" className="admin-label">
             Company / Organization
           </label>
           <input
@@ -97,24 +56,17 @@ export default function NewTimelineItemPage(): React.JSX.Element {
             name="company"
             required
             placeholder="e.g. 42 Istanbul"
-            style={{
-              padding: '0.75rem',
-              borderRadius: '4px',
-              border: '1px solid #333',
-              backgroundColor: '#0a0a0a',
-              color: '#fff',
-              fontFamily: 'var(--font-sans)',
-            }}
+            className="admin-input"
           />
           {state && !state.ok && state.fieldErrors?.company && (
-            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+            <span className="admin-error-text">
               {state.fieldErrors.company[0]}
             </span>
           )}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <label htmlFor="date" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>
+        <div className="admin-form-group">
+          <label htmlFor="date" className="admin-label">
             Date
           </label>
           <input
@@ -123,51 +75,37 @@ export default function NewTimelineItemPage(): React.JSX.Element {
             name="date"
             required
             placeholder="e.g. 2024 – PRESENT"
-            style={{
-              padding: '0.75rem',
-              borderRadius: '4px',
-              border: '1px solid #333',
-              backgroundColor: '#0a0a0a',
-              color: '#fff',
-              fontFamily: 'var(--font-sans)',
-            }}
+            className="admin-input"
           />
           {state && !state.ok && state.fieldErrors?.date && (
-            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+            <span className="admin-error-text">
               {state.fieldErrors.date[0]}
             </span>
           )}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <label htmlFor="type" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>
+        <div className="admin-form-group">
+          <label htmlFor="type" className="admin-label">
             Type
           </label>
           <select
             id="type"
             name="type"
             required
-            style={{
-              padding: '0.75rem',
-              borderRadius: '4px',
-              border: '1px solid #333',
-              backgroundColor: '#0a0a0a',
-              color: '#fff',
-              fontFamily: 'var(--font-sans)',
-            }}
+            className="admin-input"
           >
             <option value="experience">Experience</option>
             <option value="education">Education</option>
           </select>
           {state && !state.ok && state.fieldErrors?.type && (
-            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+            <span className="admin-error-text">
               {state.fieldErrors.type[0]}
             </span>
           )}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <label htmlFor="description" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>
+        <div className="admin-form-group">
+          <label htmlFor="description" className="admin-label">
             Description
           </label>
           <textarea
@@ -176,18 +114,10 @@ export default function NewTimelineItemPage(): React.JSX.Element {
             required
             rows={4}
             placeholder="Describe what you did..."
-            style={{
-              padding: '0.75rem',
-              borderRadius: '4px',
-              border: '1px solid #333',
-              backgroundColor: '#0a0a0a',
-              color: '#fff',
-              fontFamily: 'var(--font-sans)',
-              resize: 'vertical',
-            }}
+            className="admin-input admin-textarea"
           />
           {state && !state.ok && state.fieldErrors?.description && (
-            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+            <span className="admin-error-text">
               {state.fieldErrors.description[0]}
             </span>
           )}
@@ -196,17 +126,7 @@ export default function NewTimelineItemPage(): React.JSX.Element {
         <button
           type="submit"
           disabled={pending}
-          style={{
-            marginTop: '1rem',
-            padding: '0.75rem',
-            backgroundColor: '#fff',
-            color: '#000',
-            border: 'none',
-            borderRadius: '4px',
-            fontWeight: 600,
-            cursor: pending ? 'wait' : 'pointer',
-            opacity: pending ? 0.6 : 1,
-          }}
+          className="admin-btn-primary"
         >
           {pending ? 'Saving…' : 'Save Timeline Item'}
         </button>

@@ -15,86 +15,41 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
   }
 
   return (
-    <div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem',
-          borderBottom: '1px solid #222222',
-          paddingBottom: '1rem',
-        }}
-      >
+    <div className="admin-page-container-sm">
+      <div className="admin-header-row admin-header-row-bordered">
         <div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Project List</h1>
-          <p style={{ color: '#a3a3a3', marginTop: '0.5rem', fontSize: '0.9rem' }}>
+          <h1>Project List</h1>
+          <p className="admin-card-subtitle">
             Manage your portfolio projects
           </p>
         </div>
-        <Link
-          href="/admin/projects/new"
-          style={{
-            background: '#ffffff',
-            color: '#000000',
-            textDecoration: 'none',
-            padding: '0.6rem 1.2rem',
-            borderRadius: '6px',
-            fontWeight: 600,
-            fontSize: '0.9rem',
-            transition: 'opacity 0.2s',
-          }}
-        >
+        <Link href="/admin/projects/new" className="admin-btn-white">
           + Add Project
         </Link>
       </div>
 
       <div>
         {projects && projects.length > 0 ? (
-          <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: '1rem' }}>
+          <ul className="admin-card-list">
             {projects.map((project: Project) => (
               <li
                 key={project.id}
-                style={{
-                  backgroundColor: '#111111',
-                  border: '1px solid #222222',
-                  borderRadius: '8px',
-                  padding: '1.5rem',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                }}
+                className="admin-card-item"
+                style={{ alignItems: 'flex-start' }}
               >
                 <div>
-                  <span style={{ color: '#ffffff', fontWeight: 600, fontSize: '1.1rem' }}>
+                  <span className="admin-card-title" style={{ color: '#ffffff', fontWeight: 600 }}>
                     {project.title}
                   </span>
                   <p
-                    style={{
-                      color: '#a3a3a3',
-                      fontSize: '0.9rem',
-                      marginTop: '0.5rem',
-                      lineHeight: 1.5,
-                    }}
+                    className="admin-card-subtitle"
+                    style={{ marginTop: '0.5rem', lineHeight: 1.5 }}
                   >
                     {project.description || 'No description.'}
                   </p>
                 </div>
                 <form action={deleteProject.bind(null, project.id)}>
-                  <button
-                    type="submit"
-                    style={{
-                      background: 'none',
-                      border: '1px solid #ef4444',
-                      color: '#ef4444',
-                      padding: '0.4rem 0.75rem',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '0.85rem',
-                      fontWeight: 500,
-                      transition: 'all 0.2s',
-                    }}
-                  >
+                  <button type="submit" className="admin-btn-outline-danger">
                     Delete
                   </button>
                 </form>
@@ -102,16 +57,8 @@ export default async function AdminProjectsPage(): Promise<React.JSX.Element> {
             ))}
           </ul>
         ) : (
-          <div
-            style={{
-              padding: '3rem',
-              textAlign: 'center',
-              backgroundColor: '#111111',
-              border: '1px dashed #333333',
-              borderRadius: '8px',
-            }}
-          >
-            <p style={{ color: '#a3a3a3' }}>No projects found in database.</p>
+          <div className="admin-empty-state">
+            <p>No projects found in database.</p>
           </div>
         )}
       </div>

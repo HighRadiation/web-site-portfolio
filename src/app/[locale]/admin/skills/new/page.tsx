@@ -9,57 +9,23 @@ export default function NewSkillPage(): React.JSX.Element {
   const [state, formAction, pending] = useActionState<ActionState, FormData>(addSkill, null);
 
   return (
-    <div style={{ maxWidth: '600px', width: '100%' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem',
-        }}
-      >
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Add Skill</h1>
-        <Link
-          href="/admin/skills"
-          style={{
-            color: '#a3a3a3',
-            textDecoration: 'none',
-            fontSize: '0.9rem',
-          }}
-        >
+    <div className="admin-page-container-xs">
+      <div className="admin-header-row">
+        <h1>Add Skill</h1>
+        <Link href="/admin/skills" className="admin-back-link">
           ← Back to Skills
         </Link>
       </div>
 
-      <form
-        action={formAction}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1.25rem',
-          backgroundColor: '#111111',
-          padding: '2rem',
-          borderRadius: '8px',
-          border: '1px solid #222222',
-        }}
-      >
+      <form action={formAction} className="admin-form">
         {state && !state.ok && (
-          <div
-            role="alert"
-            style={{
-              padding: '0.75rem 1rem',
-              border: '1px solid #ef4444',
-              borderRadius: '6px',
-              color: '#ef4444',
-              fontSize: '0.9rem',
-            }}
-          >
+          <div role="alert" className="admin-alert-danger">
             {state.error}
           </div>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <label htmlFor="name" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>
+        <div className="admin-form-group">
+          <label htmlFor="name" className="admin-label">
             Skill Name
           </label>
           <input
@@ -68,24 +34,17 @@ export default function NewSkillPage(): React.JSX.Element {
             name="name"
             required
             placeholder="e.g. React.js"
-            style={{
-              padding: '0.75rem',
-              borderRadius: '4px',
-              border: '1px solid #333',
-              backgroundColor: '#0a0a0a',
-              color: '#fff',
-              fontFamily: 'var(--font-sans)',
-            }}
+            className="admin-input"
           />
           {state && !state.ok && state.fieldErrors?.name && (
-            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+            <span className="admin-error-text">
               {state.fieldErrors.name[0]}
             </span>
           )}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <label htmlFor="category" style={{ fontSize: '0.9rem', color: '#e5e5e5' }}>
+        <div className="admin-form-group">
+          <label htmlFor="category" className="admin-label">
             Category Key
           </label>
           <input
@@ -94,21 +53,14 @@ export default function NewSkillPage(): React.JSX.Element {
             name="category"
             required
             placeholder="e.g. systems, design, mobile_web"
-            style={{
-              padding: '0.75rem',
-              borderRadius: '4px',
-              border: '1px solid #333',
-              backgroundColor: '#0a0a0a',
-              color: '#fff',
-              fontFamily: 'var(--font-sans)',
-            }}
+            className="admin-input"
           />
           {state && !state.ok && state.fieldErrors?.category && (
-            <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>
+            <span className="admin-error-text">
               {state.fieldErrors.category[0]}
             </span>
           )}
-          <span style={{ fontSize: '0.8rem', color: '#888' }}>
+          <span className="admin-help-text">
             This key will be used as the property name in your profile.json block.
           </span>
         </div>
@@ -116,17 +68,7 @@ export default function NewSkillPage(): React.JSX.Element {
         <button
           type="submit"
           disabled={pending}
-          style={{
-            marginTop: '1rem',
-            padding: '0.75rem',
-            backgroundColor: '#fff',
-            color: '#000',
-            border: 'none',
-            borderRadius: '4px',
-            fontWeight: 600,
-            cursor: pending ? 'wait' : 'pointer',
-            opacity: pending ? 0.6 : 1,
-          }}
+          className="admin-btn-primary"
         >
           {pending ? 'Saving…' : 'Save Skill'}
         </button>

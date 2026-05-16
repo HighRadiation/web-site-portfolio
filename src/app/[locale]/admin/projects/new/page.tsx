@@ -5,34 +5,6 @@ import { Link } from '@/i18n/navigation';
 import { addProject } from '../actions';
 import type { ActionState } from '@/lib/action-state';
 
-const inputStyle: React.CSSProperties = {
-  background: '#111111',
-  border: '1px solid #222222',
-  color: '#ffffff',
-  padding: '0.75rem',
-  borderRadius: '6px',
-  fontSize: '0.9rem',
-  width: '100%',
-  boxSizing: 'border-box',
-};
-
-const labelStyle: React.CSSProperties = {
-  fontSize: '0.85rem',
-  color: '#a3a3a3',
-  fontWeight: 500,
-};
-
-const hintStyle: React.CSSProperties = {
-  fontSize: '0.75rem',
-  color: '#555555',
-  marginTop: '0.25rem',
-};
-
-const errorStyle: React.CSSProperties = {
-  color: '#ef4444',
-  fontSize: '0.8rem',
-};
-
 function Field({
   label,
   name,
@@ -51,8 +23,8 @@ function Field({
   required?: boolean;
 }): React.JSX.Element {
   return (
-    <div style={{ display: 'grid', gap: '0.4rem' }}>
-      <label style={labelStyle}>
+    <div className="admin-form-group">
+      <label className="admin-label">
         {label}
         {required && <span style={{ color: '#ef4444', marginLeft: '2px' }}>*</span>}
       </label>
@@ -61,18 +33,18 @@ function Field({
           name={name}
           required={required}
           placeholder={placeholder}
-          style={{ ...inputStyle, minHeight: '100px', resize: 'vertical' }}
+          className="admin-input admin-textarea"
         />
       ) : (
         <input
           name={name}
           required={required}
           placeholder={placeholder}
-          style={inputStyle}
+          className="admin-input"
         />
       )}
-      {hint && <span style={hintStyle}>{hint}</span>}
-      {error && <span style={errorStyle}>{error}</span>}
+      {hint && <span className="admin-help-text">{hint}</span>}
+      {error && <span className="admin-error-text">{error}</span>}
     </div>
   );
 }
@@ -83,55 +55,23 @@ export default function NewProjectPage(): React.JSX.Element {
   const fe = state && !state.ok ? state.fieldErrors ?? {} : {};
 
   return (
-    <div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '3rem',
-        }}
-      >
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Add New Project</h1>
-        <Link
-          href="/admin/projects"
-          style={{
-            color: '#a3a3a3',
-            textDecoration: 'none',
-            fontSize: '0.9rem',
-            padding: '0.5rem 1rem',
-            border: '1px solid #333',
-            borderRadius: '6px',
-          }}
-        >
+    <div className="admin-page-container-sm">
+      <div className="admin-header-row">
+        <h1>Add New Project</h1>
+        <Link href="/admin/projects" className="admin-btn-outline">
           Cancel
         </Link>
       </div>
 
-      <form action={formAction} style={{ display: 'grid', gap: '1.5rem', maxWidth: '640px' }}>
+      <form action={formAction} className="admin-form" style={{ maxWidth: '640px' }}>
         {state && !state.ok && (
-          <div
-            role="alert"
-            style={{
-              padding: '0.75rem 1rem',
-              border: '1px solid #ef4444',
-              borderRadius: '6px',
-              color: '#ef4444',
-              fontSize: '0.9rem',
-            }}
-          >
+          <div role="alert" className="admin-alert-danger">
             {state.error}
           </div>
         )}
 
         {/* ── Title ─────────────────────────────────────────── */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '1rem',
-          }}
-        >
+        <div className="admin-grid-2cols">
           <Field
             label="Project Name (EN)"
             name="name"
@@ -148,13 +88,7 @@ export default function NewProjectPage(): React.JSX.Element {
         </div>
 
         {/* ── Description ───────────────────────────────────── */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '1rem',
-          }}
-        >
+        <div className="admin-grid-2cols">
           <Field
             label="Description (EN)"
             name="description"
@@ -173,13 +107,7 @@ export default function NewProjectPage(): React.JSX.Element {
         </div>
 
         {/* ── Links ─────────────────────────────────────────── */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '1rem',
-          }}
-        >
+        <div className="admin-grid-2cols">
           <Field
             label="GitHub Link"
             name="github_link"
@@ -212,18 +140,8 @@ export default function NewProjectPage(): React.JSX.Element {
         <button
           type="submit"
           disabled={pending}
-          style={{
-            background: '#ffffff',
-            color: '#000000',
-            border: 'none',
-            padding: '0.75rem',
-            borderRadius: '6px',
-            cursor: pending ? 'wait' : 'pointer',
-            fontWeight: 600,
-            marginTop: '0.5rem',
-            transition: 'opacity 0.2s',
-            opacity: pending ? 0.6 : 1,
-          }}
+          className="admin-btn-primary"
+          style={{ marginTop: '0.5rem' }}
         >
           {pending ? 'Saving…' : 'Save Project'}
         </button>
