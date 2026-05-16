@@ -3,7 +3,8 @@
 import { requireAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { timelineFormSchema } from '@/lib/validations/timeline';
+import { getTimelineFormSchema } from '@/lib/validations/timeline';
+import { getTranslations, getLocale } from 'next-intl/server';
 import type { ActionState } from '@/lib/action-state';
 
 export async function addTimelineItem(
@@ -11,8 +12,10 @@ export async function addTimelineItem(
   formData: FormData,
 ): Promise<ActionState> {
   const { supabase, user } = await requireAdmin();
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: 'Validation' });
 
-  const parsed = timelineFormSchema.safeParse({
+  const parsed = getTimelineFormSchema(t).safeParse({
     role: formData.get('role'),
     company: formData.get('company'),
     date: formData.get('date'),
@@ -23,7 +26,7 @@ export async function addTimelineItem(
   if (!parsed.success) {
     return {
       ok: false,
-      error: 'Please fix the highlighted fields.',
+      error: t('pleaseFix'),
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }

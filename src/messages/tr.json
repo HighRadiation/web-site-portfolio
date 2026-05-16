@@ -67,5 +67,24 @@
     "title": "Buğra Öksüz | Uygulamaları Temel Prensiplerden İnşa Etmek",
     "description": "Mobil ve web uygulamalarını temel prensiplerden inşa ediyorum. Buğra Öksüz'ün portföyü.",
     "keywords": "Buğra Öksüz, Yazılım Mühendisi, Mobil Geliştirici, Web Geliştirici, Full Stack, Next.js, Flutter, React, React Native, TypeScript, Portföy, Mobil Uygulama, Web Uygulaması"
+  },
+  "Validation": {
+    "pleaseFix": "Lütfen işaretli alanları düzeltin.",
+    "loginFailed": "Giriş başarısız. Lütfen bilgilerinizi kontrol edin.",
+    "email": "Lütfen geçerli bir e-posta adresi girin.",
+    "passwordMin": "Şifre en az 6 karakter olmalıdır.",
+    "required": "Bu alan zorunludur.",
+    "skillNameRequired": "Yetenek adı zorunludur.",
+    "categoryRequired": "Kategori zorunludur.",
+    "roleRequired": "Rol zorunludur.",
+    "companyRequired": "Şirket/Kurum zorunludur.",
+    "dateRequired": "Tarih zorunludur.",
+    "descriptionRequired": "Açıklama zorunludur.",
+    "url": "Geçerli bir URL olmalıdır.",
+    "projectNameRequired": "Proje adı zorunludur.",
+    "nameMin": "İsim en az 2 karakter olmalıdır.",
+    "nameMax": "İsim 100 karakteri geçemez.",
+    "messageMin": "Mesaj en az 10 karakter olmalıdır.",
+    "messageMax": "Mesaj 2000 karakteri geçemez."
   }
 }

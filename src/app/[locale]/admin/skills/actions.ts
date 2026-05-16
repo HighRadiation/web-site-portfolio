@@ -3,7 +3,8 @@
 import { requireAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { skillFormSchema } from '@/lib/validations/skill';
+import { getSkillFormSchema } from '@/lib/validations/skill';
+import { getTranslations, getLocale } from 'next-intl/server';
 import type { ActionState } from '@/lib/action-state';
 
 export async function addSkill(
@@ -11,8 +12,10 @@ export async function addSkill(
   formData: FormData,
 ): Promise<ActionState> {
   const { supabase, user } = await requireAdmin();
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: 'Validation' });
 
-  const parsed = skillFormSchema.safeParse({
+  const parsed = getSkillFormSchema(t).safeParse({
     name: formData.get('name'),
     category: formData.get('category'),
   });
@@ -20,7 +23,7 @@ export async function addSkill(
   if (!parsed.success) {
     return {
       ok: false,
-      error: 'Please fix the highlighted fields.',
+      error: t('pleaseFix'),
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }

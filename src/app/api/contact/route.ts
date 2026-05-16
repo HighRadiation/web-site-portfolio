@@ -1,7 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { contactSchema } from '@/lib/validations/contact';
+import { getContactSchema } from '@/lib/validations/contact';
 import { createClient } from '@/lib/supabase/server';
 import { getRateLimiter } from '@/lib/rate-limit';
+import { getTranslations } from 'next-intl/server';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -22,11 +23,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const body = await request.json();
-    const validationResult = contactSchema.safeParse(body);
+    const acceptLang = request.headers.get('accept-language') || 'en';
+    const locale = acceptLang.split(',')[0].split('-')[0] === 'tr' ? 'tr' : 'en';
+
+    const t = await getTranslations({ locale, namespace: 'Validation' });
+    const validationResult = getContactSchema(t).safeParse(body);
 
     if (!validationResult.success) {
       const errors = validationResult.error.flatten().fieldErrors;
-      return NextResponse.json({ error: 'Validation failed', details: errors }, { status: 400 });
+      return NextResponse.json({ error: t('pleaseFix'), details: errors }, { status: 400 });
     }
 
     const validData = validationResult.data;

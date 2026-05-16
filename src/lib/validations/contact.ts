@@ -1,15 +1,23 @@
 import { z } from 'zod';
 
-export const contactSchema = z.object({
-  name: z
-    .string()
-    .min(2, 'Name must be at least 2 characters long')
-    .max(100, 'Name cannot exceed 100 characters'),
-  email: z.string().email('Please provide a valid email address'),
-  message: z
-    .string()
-    .min(10, 'Message must be at least 10 characters long')
-    .max(2000, 'Message cannot exceed 2000 characters'),
-});
+export interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
-export type ContactFormData = z.infer<typeof contactSchema>;
+export function getContactSchema(
+  t: (key: string) => string,
+): z.ZodType<ContactFormData> {
+  return z.object({
+    name: z
+      .string()
+      .min(2, t('nameMin'))
+      .max(100, t('nameMax')),
+    email: z.string().email(t('email')),
+    message: z
+      .string()
+      .min(10, t('messageMin'))
+      .max(2000, t('messageMax')),
+  });
+}

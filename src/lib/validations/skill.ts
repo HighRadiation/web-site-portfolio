@@ -1,8 +1,15 @@
 import { z } from 'zod';
 
-export const skillFormSchema = z.object({
-  name: z.string().min(1, 'Skill name is required').max(100),
-  category: z.string().min(1, 'Category is required').max(50),
-});
+export interface SkillFormData {
+  name: string;
+  category: string;
+}
 
-export type SkillFormData = z.infer<typeof skillFormSchema>;
+export function getSkillFormSchema(
+  t: (key: string) => string,
+): z.ZodType<SkillFormData> {
+  return z.object({
+    name: z.string().min(1, t('skillNameRequired')).max(100),
+    category: z.string().min(1, t('categoryRequired')).max(50),
+  });
+}

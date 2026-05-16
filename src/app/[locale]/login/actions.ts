@@ -2,7 +2,8 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import { loginSchema } from '@/lib/validations/auth';
+import { getLoginSchema } from '@/lib/validations/auth';
+import { getTranslations, getLocale } from 'next-intl/server';
 import type { ActionState } from '@/lib/action-state';
 
 export async function login(
@@ -10,8 +11,10 @@ export async function login(
   formData: FormData,
 ): Promise<ActionState> {
   const supabase = await createClient();
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: 'Validation' });
 
-  const parsed = loginSchema.safeParse({
+  const parsed = getLoginSchema(t).safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
   });
@@ -19,7 +22,7 @@ export async function login(
   if (!parsed.success) {
     return {
       ok: false,
-      error: 'Please fix the highlighted fields.',
+      error: t('pleaseFix'),
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }
@@ -30,7 +33,7 @@ export async function login(
   });
 
   if (error) {
-    return { ok: false, error: 'Login failed. Please check your credentials.' };
+    return { ok: false, error: t('loginFailed') };
   }
 
   redirect('/admin');

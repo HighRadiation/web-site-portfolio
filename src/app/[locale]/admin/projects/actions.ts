@@ -3,7 +3,8 @@
 import { requireAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { projectFormSchema } from '@/lib/validations/project';
+import { getProjectFormSchema } from '@/lib/validations/project';
+import { getTranslations, getLocale } from 'next-intl/server';
 import type { ActionState } from '@/lib/action-state';
 
 export async function addProject(
@@ -11,8 +12,10 @@ export async function addProject(
   formData: FormData,
 ): Promise<ActionState> {
   const { supabase, user } = await requireAdmin();
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: 'Validation' });
 
-  const parsed = projectFormSchema.safeParse({
+  const parsed = getProjectFormSchema(t).safeParse({
     name: formData.get('name'),
     name_tr: formData.get('name_tr') ?? '',
     description: formData.get('description'),
@@ -26,7 +29,7 @@ export async function addProject(
   if (!parsed.success) {
     return {
       ok: false,
-      error: 'Please fix the highlighted fields.',
+      error: t('pleaseFix'),
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }

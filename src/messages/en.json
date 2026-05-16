@@ -67,5 +67,24 @@
     "title": "Buğra Öksüz | Crafting Apps from First Principles",
     "description": "I craft high-performance mobile and web apps from first principles. Portfolio of Buğra Öksüz.",
     "keywords": "Buğra Öksüz, Software Engineer, Mobile Developer, Web Developer, Full Stack, Next.js, Flutter, React, React Native, TypeScript, Portfolio, Mobile Apps, Web Apps"
+  },
+  "Validation": {
+    "pleaseFix": "Please fix the highlighted fields.",
+    "loginFailed": "Login failed. Please check your credentials.",
+    "email": "Please enter a valid email address.",
+    "passwordMin": "Password must be at least 6 characters.",
+    "required": "This field is required.",
+    "skillNameRequired": "Skill name is required.",
+    "categoryRequired": "Category is required.",
+    "roleRequired": "Role is required.",
+    "companyRequired": "Company is required.",
+    "dateRequired": "Date is required.",
+    "descriptionRequired": "Description is required.",
+    "url": "Must be a valid URL.",
+    "projectNameRequired": "Project name is required.",
+    "nameMin": "Name must be at least 2 characters long.",
+    "nameMax": "Name cannot exceed 100 characters.",
+    "messageMin": "Message must be at least 10 characters long.",
+    "messageMax": "Message cannot exceed 2000 characters."
   }
 }

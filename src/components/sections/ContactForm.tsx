@@ -1,10 +1,11 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useState } from 'react';
 
 export const ContactForm = (): React.JSX.Element => {
   const t = useTranslations('Contact.form');
+  const locale = useLocale();
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -22,7 +23,10 @@ export const ContactForm = (): React.JSX.Element => {
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': locale,
+        },
         body: JSON.stringify(data),
       });
 
