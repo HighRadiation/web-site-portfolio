@@ -18,7 +18,7 @@ export async function requireAdmin(): Promise<{
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!user || user.email !== process.env.ADMIN_EMAIL) {
     redirect('/login');
   }
 

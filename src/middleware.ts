@@ -52,11 +52,13 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 
   const isProtected =
     pathWithoutLocale.startsWith('/admin') || pathWithoutLocale.startsWith('/docs');
-  if (isProtected && !user) {
+  const isAuthorized = user && user.email === process.env.ADMIN_EMAIL;
+
+  if (isProtected && !isAuthorized) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  if (pathWithoutLocale.startsWith('/login') && user) {
+  if (pathWithoutLocale.startsWith('/login') && isAuthorized) {
     return NextResponse.redirect(new URL('/admin', request.url));
   }
 
