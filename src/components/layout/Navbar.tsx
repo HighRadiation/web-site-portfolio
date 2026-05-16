@@ -25,27 +25,20 @@ export const Navbar = (): React.JSX.Element => {
   );
 
   useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px',
-      threshold: 0,
-    };
-
-    const observerCallback = (entries: IntersectionObserverEntry[]): void => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 },
+    );
 
     links.forEach((link) => {
       const element = document.getElementById(link.id);
-      if (element) {
-        observer.observe(element);
-      }
+      if (element) observer.observe(element);
     });
 
     return (): void => observer.disconnect();
@@ -59,37 +52,40 @@ export const Navbar = (): React.JSX.Element => {
   }
 
   return (
-    <nav className="navbar">
-      <div className="navbar-inner">
-        <div className="nav-links">
+    <>
+      <div className="nav-wrap">
+        <nav className="nav">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className={`nav-link ${activeSection === link.id ? 'active' : ''}`}
+              className={`nav-link${activeSection === link.id ? ' active' : ''}`}
             >
               {link.label}
             </a>
           ))}
-        </div>
-
-        <SocialLinks variant="icon" className="nav-socials" />
-
-        <div className="nav-actions">
-          {routing.locales.map((code, index) => (
-            <span key={code}>
-              {index > 0 && <span className="lang-divider">/</span>}
-              <button
-                onClick={() => switchLocale(code)}
-                className={`lang-btn ${locale === code ? 'active' : ''}`}
-                type="button"
-              >
-                {code.toUpperCase()}
-              </button>
-            </span>
-          ))}
-        </div>
+          <span className="nav-divider" />
+          <SocialLinks variant="icon" className="nav-icons" iconClassName="nav-icon" />
+          <span className="nav-divider" />
+          <div className="nav-lang">
+            {routing.locales.map((code, index) => (
+              <span key={code}>
+                {index > 0 && <span className="slash">/</span>}
+                <button
+                  onClick={() => switchLocale(code)}
+                  className={locale === code ? 'active' : ''}
+                  type="button"
+                >
+                  {code.toUpperCase()}
+                </button>
+              </span>
+            ))}
+          </div>
+        </nav>
       </div>
-    </nav>
+      <a href="#contact" className="contact-pill">
+        {t('contact')}
+      </a>
+    </>
   );
 };

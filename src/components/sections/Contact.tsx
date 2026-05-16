@@ -8,105 +8,40 @@ import { ContactForm } from './ContactForm';
 const EMAIL = 'bugraoksuz61@gmail.com';
 
 export const ContactSection = (): React.JSX.Element => {
-  const [copied, setCopied] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const t = useTranslations('Contact');
+  const tSections = useTranslations('Sections');
+  const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  function handleCopy(): void {
-    navigator.clipboard.writeText(EMAIL).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+  function handleLinkClick(e: React.MouseEvent<HTMLButtonElement>): void {
+    e.preventDefault();
+    void navigator.clipboard?.writeText(EMAIL).catch(() => undefined);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+    setIsOpen(true);
   }
 
   return (
     <section id="contact" className="contact-section">
-      <div className="container">
-        <h2 className="contact-title">{t('title')}</h2>
-        <p className="contact-desc">{t('desc')}</p>
-
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '1rem',
-            marginTop: '2.5rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          <div className="email-bar" style={{ margin: 0 }}>
-            <span className="email-bar-text">{EMAIL}</span>
-            <button
-              className="email-bar-copy"
-              onClick={handleCopy}
-              type="button"
-              title={t('emailCopied')}
-            >
-              {copied ? (
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              ) : (
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                </svg>
-              )}
-            </button>
-          </div>
-
-          <span
-            style={{
-              color: 'var(--text-muted)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.8rem',
-              fontWeight: 500,
-            }}
-          >
-            {t('or')}
-          </span>
-
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="btn btn-primary"
-            style={{
-              padding: '0.75rem 2rem',
-              fontSize: '0.9rem',
-              borderRadius: '8px',
-              height: '46px',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            {t('button')}
-          </button>
-        </div>
+      <div className="section-eyebrow">
+        <span className="marker" />
+        {tSections('eyebrow.contact')}
+      </div>
+      <h2 className="contact-large">
+        {t('headlinePrefix')}{' '}
+        <button type="button" className="underline" onClick={handleLinkClick}>
+          {copied ? t('copied') : t('linkText')}
+        </button>
+      </h2>
+      <div className="contact-meta">
+        <span>
+          <span className="live-dot" /> {t('available')}
+        </span>
+        <span>{t('location')}</span>
+        <span>{copied ? `${EMAIL} ✓` : EMAIL}</span>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={t('sendMessage')}
-      >
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title={t('sendMessage')}>
         <ContactForm />
       </Modal>
     </section>

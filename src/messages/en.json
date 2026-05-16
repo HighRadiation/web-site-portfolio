@@ -7,33 +7,62 @@
     "contact": "Contact"
   },
   "Hero": {
-    "subtitle": "I craft mobile-web apps from first principles.",
-    "viewProjects": "VIEW_PROJECTS",
-    "contactMe": "CONTACT_ME"
+    "taglines": [
+      "I craft mobile-web apps from first principles.",
+      "I orchestrate AI systems & embedded experiences.",
+      "I build software that doesn't lie about how it works."
+    ],
+    "scroll": "SCROLL"
+  },
+  "Sections": {
+    "eyebrow": {
+      "about": "02 — ABOUT",
+      "experience": "03 — TIMELINE",
+      "projects": "04 — WORK",
+      "contact": "05 — CONTACT"
+    },
+    "title": {
+      "about": "A <accent>generalist's</accent> profile.",
+      "experience": "Experience <accent>&</accent> Education",
+      "projects": "Selected <accent>projects</accent>."
+    }
   },
   "About": {
-    "title": "About",
-    "p1": "I've never liked sticking to just one niche. My curiosity takes me everywhere—from game engines and AI to embedded systems and mobile-web. For me, software isn't about picking a 'side'; it's about having the drive to explore how it all works under the hood.",
-    "p2": "If there's something I don't know, I'll sit down and grind for a week or a month until I can actually build something with it. I don't believe I've truly learned a technology until I've made it work in a real-world project."
+    "lead": "I've never liked sticking to just one niche.",
+    "p1": "My curiosity takes me everywhere — from <strong>game engines</strong> and <strong>AI orchestration</strong> to <strong>embedded systems</strong> and <strong>mobile-web</strong>. For me, software isn't about picking a 'side'; it's about having the drive to explore how it all works under the hood.",
+    "p2": "If there's something I don't know, I'll sit down and grind for a week — or a month — until I can build something real with it. I don't believe I've truly learned a technology until I've made it work in a project that someone else can actually use.",
+    "code": {
+      "name": "Buğra Öksüz",
+      "location": "İstanbul, TR",
+      "status": "shipping",
+      "filename": "profile.json"
+    }
   },
   "Timeline": {
-    "title": "Experience & Education",
     "experience": "Experience",
     "education": "Education",
     "noData": "No data available.",
     "present": "PRESENT"
   },
   "Projects": {
-    "title": "Projects",
+    "filters": {
+      "all": "All",
+      "web": "Web",
+      "client": "Client work",
+      "systems": "Systems / C"
+    },
+    "code": "Code",
+    "visit": "Visit",
+    "live": "LIVE",
     "viewCode": "View Code",
     "privateSource": "Private"
   },
   "Contact": {
-    "title": "Get in Touch",
-    "desc": "Have a question or want to work together? Feel free to reach out!",
-    "button": "CONTACT_ME",
-    "or": "OR",
-    "emailCopied": "Email copied!",
+    "headlinePrefix": "Have something worth building?",
+    "linkText": "Let's talk.",
+    "copied": "Let's talk ✓",
+    "available": "Available · Q3 2026",
+    "location": "İstanbul, TR — UTC+3",
     "sendMessage": "Send a Message",
     "form": {
       "name": "Name",
@@ -47,9 +76,6 @@
       "successTitle": "Message Sent!",
       "successBody": "Thank you for reaching out. I'll get back to you soon."
     }
-  },
-  "FloatingContact": {
-    "label": "Contact"
   },
   "SkillsCategory": {
     "frontend": "Frontend",

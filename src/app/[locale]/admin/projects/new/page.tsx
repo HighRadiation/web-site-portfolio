@@ -137,6 +137,41 @@ export default function NewProjectPage(): React.JSX.Element {
           error={fe.technologies?.[0]}
         />
 
+        {/* ── Category & Featured ───────────────────────────── */}
+        <div className="admin-grid-2cols">
+          <div className="admin-form-group">
+            <label className="admin-label">Category</label>
+            <select name="category" defaultValue="" className="admin-input">
+              <option value="">— Uncategorized —</option>
+              <option value="web">Web</option>
+              <option value="client">Client work</option>
+              <option value="systems">Systems / C</option>
+            </select>
+            {fe.category?.[0] && (
+              <span className="admin-error-text">{fe.category[0]}</span>
+            )}
+          </div>
+          <div className="admin-form-group">
+            <label className="admin-label">Featured</label>
+            <label
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                paddingTop: '0.5rem',
+                fontSize: '0.9rem',
+                color: '#a3a3a3',
+              }}
+            >
+              <input type="checkbox" name="featured" />
+              Show as a featured (wide) card
+            </label>
+            {fe.featured?.[0] && (
+              <span className="admin-error-text">{fe.featured[0]}</span>
+            )}
+          </div>
+        </div>
+
         <button
           type="submit"
           disabled={pending}

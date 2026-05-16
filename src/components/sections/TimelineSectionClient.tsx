@@ -21,23 +21,24 @@ export const TimelineSectionClient = ({
   education,
 }: TimelineSectionClientProps): React.JSX.Element => {
   const t = useTranslations('Timeline');
+  const tSections = useTranslations('Sections');
 
   function renderTimeline(items: DisplayTimelineItem[]): React.JSX.Element {
     if (!items || items.length === 0) {
-      return <p style={{ color: 'var(--text-muted)' }}>{t('noData')}</p>;
+      return <p style={{ color: 'var(--text-3)' }}>{t('noData')}</p>;
     }
 
     return (
-      <div className="timeline-list">
+      <div className="timeline">
         {items.map((item) => {
-          const translatedDate = item.date.replace('PRESENT', t('present'));
-
+          const period = item.date.replace('PRESENT', t('present'));
           return (
             <div key={item.id} className="timeline-item">
-              <span className="timeline-date">{translatedDate}</span>
-              <h4 className="timeline-role">{item.role}</h4>
-              <p className="timeline-company">{item.company}</p>
-              {item.description && <p className="timeline-desc">{item.description}</p>}
+              <span className="timeline-dot" />
+              <div className="timeline-period">{period}</div>
+              <div className="timeline-title">{item.role}</div>
+              <div className="timeline-sub">{item.company}</div>
+              {item.description && <div className="timeline-desc">{item.description}</div>}
             </div>
           );
         })}
@@ -46,21 +47,25 @@ export const TimelineSectionClient = ({
   }
 
   return (
-    <section id="experience" className="section-alt">
-      <div className="container">
-        <div className="section-header">
-          <h2 className="section-title">{t('title')}</h2>
-        </div>
+    <section id="experience">
+      <div className="section-eyebrow">
+        <span className="marker" />
+        {tSections('eyebrow.experience')}
+      </div>
+      <h2 className="section-title">
+        {tSections.rich('title.experience', {
+          accent: (chunks) => <span className="accent">{chunks}</span>,
+        })}
+      </h2>
 
-        <div className="timeline-grid">
-          <div>
-            <h3 className="timeline-title">{t('experience')}</h3>
-            {renderTimeline(experiences)}
-          </div>
-          <div>
-            <h3 className="timeline-title">{t('education')}</h3>
-            {renderTimeline(education)}
-          </div>
+      <div className="exp-grid">
+        <div className="exp-column">
+          <h3>{t('experience')}</h3>
+          {renderTimeline(experiences)}
+        </div>
+        <div className="exp-column">
+          <h3>{t('education')}</h3>
+          {renderTimeline(education)}
         </div>
       </div>
     </section>

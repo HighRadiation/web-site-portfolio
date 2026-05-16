@@ -15,14 +15,19 @@ export const ProjectsSection = async (): Promise<React.JSX.Element> => {
     console.error('Failed to fetch projects:', error.message);
   }
 
-  const displayProjects: DisplayProject[] = (projects ?? []).map((project) => ({
-    id: project.id,
-    title: (locale === 'tr' && project.title_tr) || project.title,
-    description: (locale === 'tr' && project.description_tr) || project.description,
-    github_link: project.github_link,
-    technologies: project.technologies,
-    image_url: project.image_url,
-  }));
+  const displayProjects: DisplayProject[] = (projects ?? [])
+    .map((project) => ({
+      id: project.id,
+      title: (locale === 'tr' && project.title_tr) || project.title,
+      description: (locale === 'tr' && project.description_tr) || project.description,
+      github_link: project.github_link,
+      live_link: project.live_link,
+      technologies: project.technologies,
+      image_url: project.image_url,
+      category: project.category ?? null,
+      featured: project.featured ?? false,
+    }))
+    .sort((a, b) => Number(b.featured) - Number(a.featured));
 
   return <ProjectsSectionClient projects={displayProjects} />;
 };

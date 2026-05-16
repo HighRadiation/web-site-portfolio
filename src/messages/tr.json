@@ -7,33 +7,62 @@
     "contact": "İletişim"
   },
   "Hero": {
-    "subtitle": "Mobil-web uygulamalarını temel prensiplerden inşa ediyorum.",
-    "viewProjects": "PROJELERİ_GÖR",
-    "contactMe": "İLETİŞİME_GEÇ"
+    "taglines": [
+      "Mobil-web uygulamalarını temel prensiplerden inşa ediyorum.",
+      "AI sistemleri ve gömülü deneyimler orkestre ediyorum.",
+      "Çalışma şekli hakkında yalan söylemeyen yazılım yazıyorum."
+    ],
+    "scroll": "KAYDIR"
+  },
+  "Sections": {
+    "eyebrow": {
+      "about": "02 — HAKKIMDA",
+      "experience": "03 — ZAMAN ÇİZELGESİ",
+      "projects": "04 — ÇALIŞMALAR",
+      "contact": "05 — İLETİŞİM"
+    },
+    "title": {
+      "about": "Bir <accent>çok yönlü</accent> profil.",
+      "experience": "Deneyim <accent>&</accent> Eğitim",
+      "projects": "Seçili <accent>projeler</accent>."
+    }
   },
   "About": {
-    "title": "Hakkımda",
-    "p1": "Tek bir alana takılıp kalmayı hiç sevmedim. Merakım beni her yere götürüyor; oyun motorlarından yapay zekaya, gömülü sistemlerden mobil-web'e kadar. Benim için yazılım bir 'taraf' seçmek değil, her şeyin arka planda nasıl çalıştığını keşfetme tutkusudur.",
-    "p2": "Bilmediğim bir şey varsa, oturur bir hafta veya bir ay boyunca onunla bir şeyler inşa edebilene kadar çalışırım. Bir teknolojiyi gerçek bir projede çalışır hale getirene kadar onu gerçekten öğrendiğime inanmam."
+    "lead": "Tek bir alana sıkışmayı hiç sevmedim.",
+    "p1": "Merakım beni her yere götürür — <strong>oyun motorları</strong>, <strong>AI orkestrasyonu</strong>, <strong>gömülü sistemler</strong>, <strong>mobil-web</strong>. Yazılım benim için bir 'taraf' seçmek değil, motorunu açıp bakma içgüdüsünü beslemek.",
+    "p2": "Bilmediğim bir şey varsa, bir hafta — ya da bir ay — oturup gerçekten bir şey üretene kadar uğraşırım. Bir teknolojiyi gerçekten öğrendiğimi ancak başkasının kullanabileceği bir projeye dönüştürdüğümde söyleyebilirim.",
+    "code": {
+      "name": "Buğra Öksüz",
+      "location": "İstanbul, TR",
+      "status": "üretiyor",
+      "filename": "profile.json"
+    }
   },
   "Timeline": {
-    "title": "Deneyim & Eğitim",
     "experience": "Deneyim",
     "education": "Eğitim",
     "noData": "Veri bulunamadı.",
     "present": "GÜNCEL"
   },
   "Projects": {
-    "title": "Projeler",
+    "filters": {
+      "all": "Tümü",
+      "web": "Web",
+      "client": "Müşteri İşi",
+      "systems": "Sistem / C"
+    },
+    "code": "Kod",
+    "visit": "Ziyaret Et",
+    "live": "CANLI",
     "viewCode": "Kodu Gör",
     "privateSource": "Özel"
   },
   "Contact": {
-    "title": "İletişime Geçin",
-    "desc": "Bir sorunuz mu var veya birlikte mi çalışmak istiyorsunuz? Çekinmeden ulaşın!",
-    "button": "İLETİŞİME_GEÇ",
-    "or": "VEYA",
-    "emailCopied": "E-posta kopyalandı!",
+    "headlinePrefix": "İnşa etmeye değer bir şey mi var?",
+    "linkText": "Konuşalım.",
+    "copied": "Konuşalım ✓",
+    "available": "Müsait · 2026 Q3",
+    "location": "İstanbul, TR — UTC+3",
     "sendMessage": "Mesaj Gönder",
     "form": {
       "name": "İsim",
@@ -47,9 +76,6 @@
       "successTitle": "Mesaj Gönderildi!",
       "successBody": "Ulaştığınız için teşekkürler. En kısa sürede dönüş yapacağım."
     }
-  },
-  "FloatingContact": {
-    "label": "İletişim"
   },
   "SkillsCategory": {
     "frontend": "Ön Yüz",

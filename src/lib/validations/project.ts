@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+export type ProjectCategory = 'web' | 'client' | 'systems';
+
 export interface ProjectFormData {
   name: string;
   name_tr?: string;
@@ -9,6 +11,8 @@ export interface ProjectFormData {
   live_link?: string;
   image_url?: string;
   technologies?: string;
+  category?: ProjectCategory;
+  featured?: boolean;
 }
 
 function getUrlOrEmpty(t: (key: string) => string): z.ZodType<string | undefined> {
@@ -27,5 +31,7 @@ export function getProjectFormSchema(
     live_link: getUrlOrEmpty(t),
     image_url: getUrlOrEmpty(t),
     technologies: z.string().optional(),
+    category: z.enum(['web', 'client', 'systems']).optional(),
+    featured: z.boolean().optional(),
   });
 }

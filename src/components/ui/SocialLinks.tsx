@@ -80,11 +80,13 @@ const SOCIAL_LINKS: SocialLink[] = [
 interface SocialLinksProps {
   variant?: 'icon' | 'text';
   className?: string;
+  iconClassName?: string;
 }
 
 export const SocialLinks = ({
   variant = 'icon',
   className = '',
+  iconClassName = 'social-link',
 }: SocialLinksProps): React.JSX.Element => {
   return (
     <div className={className}>
@@ -94,7 +96,7 @@ export const SocialLinks = ({
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          className={variant === 'icon' ? 'social-link' : undefined}
+          className={variant === 'icon' ? iconClassName : undefined}
           aria-label={link.ariaLabel}
         >
           {variant === 'icon' ? link.icon : link.label}

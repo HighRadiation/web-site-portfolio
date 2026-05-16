@@ -1,126 +1,170 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
+import { useMemo, useRef, useState } from 'react';
 
 export interface DisplayProject {
   id: string;
   title: string;
   description: string | null;
   github_link: string | null;
+  live_link: string | null;
   technologies: string[] | null;
   image_url: string | null;
+  category: string | null;
+  featured: boolean;
 }
 
 interface ProjectsSectionClientProps {
   projects: DisplayProject[];
 }
 
+type FilterId = 'all' | 'web' | 'client' | 'systems';
+
+const FILTERS: FilterId[] = ['all', 'web', 'client', 'systems'];
+
 export const ProjectsSectionClient = ({
   projects,
 }: ProjectsSectionClientProps): React.JSX.Element => {
   const t = useTranslations('Projects');
+  const tFilters = useTranslations('Projects.filters');
+  const tSections = useTranslations('Sections');
+  const [filter, setFilter] = useState<FilterId>('all');
+
+  const visible = useMemo(
+    () => (filter === 'all' ? projects : projects.filter((p) => p.category === filter)),
+    [projects, filter],
+  );
 
   return (
-    <section id="projects" className="section">
-      <div className="container">
-        <div className="section-header">
-          <h2 className="section-title">{t('title')}</h2>
-        </div>
+    <section id="projects">
+      <div className="section-eyebrow">
+        <span className="marker" />
+        {tSections('eyebrow.projects')}
+      </div>
+      <h2 className="section-title">
+        {tSections.rich('title.projects', {
+          accent: (chunks) => <span className="accent">{chunks}</span>,
+        })}
+      </h2>
 
-        <div className="projects-grid">
-          {projects.map((project, index: number) => {
-            const sizeClass =
-              index === 0 || index === 3 ? 'project-card-wide' : 'project-card-standard';
+      <div className="proj-filter">
+        {FILTERS.map((id) => (
+          <button
+            key={id}
+            type="button"
+            className={filter === id ? 'active' : ''}
+            onClick={() => setFilter(id)}
+          >
+            {tFilters(id)}
+          </button>
+        ))}
+      </div>
 
-            return (
-              <div key={project.id} className={`project-card ${sizeClass}`}>
-                {project.image_url && (
-                  <div
-                    className="project-card-image"
-                    style={{
-                      position: 'relative',
-                      width: '100%',
-                      aspectRatio: '16/9',
-                      overflow: 'hidden',
-                      borderTopLeftRadius: '0.75rem',
-                      borderTopRightRadius: '0.75rem',
-                    }}
-                  >
-                    <Image
-                      src={project.image_url}
-                      alt={project.title}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
-                )}
-                <div className="project-card-header">
-                  <h3 className="project-card-title">{project.title}</h3>
-                  <p className="project-card-desc">{project.description ?? ''}</p>
-
-                  {project.technologies && project.technologies.length > 0 && (
-                    <div className="project-card-tags">
-                      {project.technologies.map((tech) => (
-                        <span key={tech} className="project-tag">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="project-card-footer">
-                  {project.github_link ? (
-                    <a
-                      href={project.github_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-view-code"
-                    >
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" /> {/* eslint-disable-line max-len */}
-                      </svg>
-                      {t('viewCode')}
-                    </a>
-                  ) : (
-                    <div
-                      className="btn-view-code"
-                      style={{
-                        opacity: 0.5,
-                        cursor: 'default',
-                        borderColor: 'rgba(255,255,255,0.1)',
-                      }}
-                    >
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        style={{ opacity: 0.5 }}
-                      >
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                      </svg>
-                      {t('privateSource')}
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      <div className="proj-grid">
+        {visible.map((project) => (
+          <ProjectCard
+            key={project.id}
+            project={project}
+            liveLabel={t('live')}
+            codeLabel={t('code')}
+            visitLabel={t('visit')}
+          />
+        ))}
       </div>
     </section>
   );
 };
+
+interface ProjectCardProps {
+  project: DisplayProject;
+  liveLabel: string;
+  codeLabel: string;
+  visitLabel: string;
+}
+
+function ProjectCard({
+  project,
+  liveLabel,
+  codeLabel,
+  visitLabel,
+}: ProjectCardProps): React.JSX.Element {
+  const ref = useRef<HTMLElement | null>(null);
+
+  function onMove(e: React.MouseEvent<HTMLElement>): void {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    el.style.setProperty('--my', `${e.clientY - r.top}px`);
+  }
+
+  const isLive = Boolean(project.live_link);
+
+  return (
+    <article
+      ref={ref}
+      onMouseMove={onMove}
+      className={`proj-card${project.featured ? ' featured' : ''}`}
+    >
+      <h4>
+        {project.title}
+        {isLive && (
+          <span className="proj-status-pill">
+            <span className="live-dot" /> {liveLabel}
+          </span>
+        )}
+      </h4>
+      <p>{project.description ?? ''}</p>
+
+      {project.technologies && project.technologies.length > 0 && (
+        <div className="proj-stack">
+          {project.technologies.map((tech, i) => (
+            <span key={tech} className={i === 0 ? 'hl' : ''}>
+              {tech}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div className="proj-actions">
+        {project.github_link && (
+          <a
+            className="proj-btn primary"
+            href={project.github_link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.8 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.7.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.9C23.5 5.7 18.3.5 12 .5z" /> {/* eslint-disable-line max-len */}
+            </svg>
+            {codeLabel}
+          </a>
+        )}
+        {project.live_link && (
+          <a
+            className="proj-btn"
+            href={project.live_link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M7 17L17 7" />
+              <path d="M8 7h9v9" />
+            </svg>
+            {visitLabel}
+          </a>
+        )}
+      </div>
+    </article>
+  );
+}

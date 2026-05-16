@@ -30,6 +30,8 @@ export type Database = {
           live_link: string | null;
           github_link: string | null;
           technologies: string[] | null;
+          category: string | null;
+          featured: boolean;
           created_at: string;
         };
         Insert: {
@@ -43,6 +45,8 @@ export type Database = {
           live_link?: string | null;
           github_link?: string | null;
           technologies?: string[] | null;
+          category?: string | null;
+          featured?: boolean;
           created_at?: string;
         };
         Update: {
@@ -56,6 +60,8 @@ export type Database = {
           live_link?: string | null;
           github_link?: string | null;
           technologies?: string[] | null;
+          category?: string | null;
+          featured?: boolean;
           created_at?: string;
         };
         Relationships: [

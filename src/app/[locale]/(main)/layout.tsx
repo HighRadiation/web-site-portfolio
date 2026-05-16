@@ -1,6 +1,6 @@
 import { Footer } from '@/components/layout/Footer';
 import { Navbar } from '@/components/layout/Navbar';
-import { FloatingContact } from '@/components/ui/FloatingContact';
+import { HeroCanvas } from '@/components/sections/HeroCanvas';
 
 export default function MainLayout({
   children,
@@ -9,8 +9,8 @@ export default function MainLayout({
 }): React.JSX.Element {
   return (
     <>
+      <HeroCanvas />
       <Navbar />
-      <FloatingContact />
       <main>{children}</main>
       <Footer />
     </>

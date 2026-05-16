@@ -3,66 +3,58 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
-export const HeroSection = (): React.JSX.Element => {
-  const [displayName, setDisplayName] = useState('');
-  const [displaySubtitle, setDisplaySubtitle] = useState('');
-  const t = useTranslations('Hero');
+const TYPE_INTERVAL = 32;
+const HOLD_DURATION = 4200;
 
-  const fullName = 'Buğra Öksüz';
-  const subtitle = t('subtitle');
+interface TypewriterProps {
+  text: string;
+  onComplete: () => void;
+}
+
+function Typewriter({ text, onComplete }: TypewriterProps): React.JSX.Element {
+  const [typed, setTyped] = useState('');
 
   useEffect(() => {
-    let startTimeoutId: ReturnType<typeof setTimeout> | null = null;
-    let titleIntervalId: ReturnType<typeof setInterval> | null = null;
-    let subTimeoutId: ReturnType<typeof setTimeout> | null = null;
-    let subIntervalId: ReturnType<typeof setInterval> | null = null;
-
-    startTimeoutId = setTimeout(() => {
-      let titleIndex = 0;
-      titleIntervalId = setInterval(() => {
-        if (titleIndex <= fullName.length) {
-          setDisplayName(fullName.slice(0, titleIndex));
-          titleIndex++;
-        } else {
-          if (titleIntervalId) clearInterval(titleIntervalId);
-
-          subTimeoutId = setTimeout(() => {
-            let subIndex = 0;
-            subIntervalId = setInterval(() => {
-              if (subIndex <= subtitle.length) {
-                setDisplaySubtitle(subtitle.slice(0, subIndex));
-                subIndex++;
-              } else {
-                if (subIntervalId) clearInterval(subIntervalId);
-              }
-            }, 50);
-          }, 500);
-        }
-      }, 100);
-    }, 1000);
-
+    let i = 0;
+    let holdTimeoutId: ReturnType<typeof setTimeout> | null = null;
+    const intervalId = setInterval(() => {
+      i++;
+      setTyped(text.slice(0, i));
+      if (i >= text.length) {
+        clearInterval(intervalId);
+        holdTimeoutId = setTimeout(onComplete, HOLD_DURATION);
+      }
+    }, TYPE_INTERVAL);
     return (): void => {
-      if (startTimeoutId) clearTimeout(startTimeoutId);
-      if (titleIntervalId) clearInterval(titleIntervalId);
-      if (subTimeoutId) clearTimeout(subTimeoutId);
-      if (subIntervalId) clearInterval(subIntervalId);
+      clearInterval(intervalId);
+      if (holdTimeoutId) clearTimeout(holdTimeoutId);
     };
-  }, [subtitle]);
+  }, [text, onComplete]);
+
+  return <span>{typed}</span>;
+}
+
+export const HeroSection = (): React.JSX.Element => {
+  const t = useTranslations('Hero');
+  const taglines = t.raw('taglines') as string[];
+  const [taglineIdx, setTaglineIdx] = useState(0);
+
+  function next(): void {
+    setTaglineIdx((x) => (x + 1) % taglines.length);
+  }
 
   return (
-    <section id="home" className="hero">
-      <div className="container">
-        <div className="hero-content">
-          <h1 style={{ minHeight: '1.2em' }}>
-            {displayName}
-            {displayName.length < fullName.length && <span className="cursor">_</span>}
-          </h1>
-
-          <p className="hero-subtitle" style={{ minHeight: '1.5em' }}>
-            {displaySubtitle}
-            {displayName.length === fullName.length && <span className="cursor">_</span>}
-          </p>
+    <section className="hero" id="home">
+      <div className="hero-content">
+        <h1 className="hero-title">Buğra Öksüz</h1>
+        <div className="hero-tagline">
+          <Typewriter key={taglineIdx} text={taglines[taglineIdx] ?? ''} onComplete={next} />
+          <span className="cursor" />
         </div>
+      </div>
+      <div className="hero-scroll">
+        <span>{t('scroll')}</span>
+        <span className="line" />
       </div>
     </section>
   );

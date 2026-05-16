@@ -15,6 +15,12 @@ export async function addProject(
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: 'Validation' });
 
+  const rawCategory = formData.get('category');
+  const category =
+    rawCategory === 'web' || rawCategory === 'client' || rawCategory === 'systems'
+      ? rawCategory
+      : undefined;
+
   const parsed = getProjectFormSchema(t).safeParse({
     name: formData.get('name'),
     name_tr: formData.get('name_tr') ?? '',
@@ -24,6 +30,8 @@ export async function addProject(
     live_link: formData.get('live_link') ?? '',
     image_url: formData.get('image_url') ?? '',
     technologies: formData.get('technologies') ?? '',
+    category,
+    featured: formData.get('featured') === 'on',
   });
 
   if (!parsed.success) {
@@ -51,6 +59,8 @@ export async function addProject(
     live_link: parsed.data.live_link || null,
     image_url: parsed.data.image_url || null,
     technologies: techArray.length > 0 ? techArray : null,
+    category: parsed.data.category ?? null,
+    featured: parsed.data.featured ?? false,
   });
 
   if (error) {
