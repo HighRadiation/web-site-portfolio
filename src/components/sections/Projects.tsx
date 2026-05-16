@@ -21,6 +21,7 @@ export const ProjectsSection = async (): Promise<React.JSX.Element> => {
     description: (locale === 'tr' && project.description_tr) || project.description,
     github_link: project.github_link,
     technologies: project.technologies,
+    image_url: project.image_url,
   }));
 
   return <ProjectsSectionClient projects={displayProjects} />;

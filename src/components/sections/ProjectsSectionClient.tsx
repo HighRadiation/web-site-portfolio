@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 export interface DisplayProject {
   id: string;
@@ -8,6 +9,7 @@ export interface DisplayProject {
   description: string | null;
   github_link: string | null;
   technologies: string[] | null;
+  image_url: string | null;
 }
 
 interface ProjectsSectionClientProps {
@@ -33,6 +35,27 @@ export const ProjectsSectionClient = ({
 
             return (
               <div key={project.id} className={`project-card ${sizeClass}`}>
+                {project.image_url && (
+                  <div
+                    className="project-card-image"
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      aspectRatio: '16/9',
+                      overflow: 'hidden',
+                      borderTopLeftRadius: '0.75rem',
+                      borderTopRightRadius: '0.75rem',
+                    }}
+                  >
+                    <Image
+                      src={project.image_url}
+                      alt={project.title}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                )}
                 <div className="project-card-header">
                   <h3 className="project-card-title">{project.title}</h3>
                   <p className="project-card-desc">{project.description ?? ''}</p>
