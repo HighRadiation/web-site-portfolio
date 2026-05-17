@@ -52,34 +52,90 @@ export default async function AdminDashboard(): Promise<React.JSX.Element> {
   // eslint-disable-next-line react-hooks/purity
   const since = new Date(Date.now() - DAYS * 86_400_000).toISOString();
 
+  const dbErrors: string[] = [];
+  const safeQuery = async <T,>(promise: Promise<T>, fallback: T): Promise<T> => {
+    try {
+      const result = await promise;
+      if (result && typeof result === 'object' && 'error' in result) {
+        const errObj = (result as { error: { message: string } }).error;
+        if (errObj) {
+          dbErrors.push(errObj.message);
+        }
+        return fallback;
+      }
+      return result || fallback;
+    } catch (e) {
+      const errObj = e as { message?: string };
+      dbErrors.push(errObj.message || String(e));
+      return fallback;
+    }
+  };
+
   const [
-    { count: projects },
-    { count: skills },
-    { count: timeline },
-    { count: unread },
-    { data: projectRows },
-    { data: skillRows },
-    { data: timelineRows },
-    { data: messageRows },
-    { data: activities },
+    projectsRes,
+    skillsRes,
+    timelineRes,
+    unreadRes,
+    projectRowsRes,
+    skillRowsRes,
+    timelineRowsRes,
+    messageRowsRes,
+    activitiesRes,
   ] = await Promise.all([
-    supabase.from('projects').select('*', { count: 'exact', head: true }),
-    supabase.from('skills').select('*', { count: 'exact', head: true }),
-    supabase.from('timeline').select('*', { count: 'exact', head: true }),
-    supabase
-      .from('contact_messages')
-      .select('*', { count: 'exact', head: true })
-      .eq('read', false),
-    supabase.from('projects').select('created_at').gte('created_at', since),
-    supabase.from('skills').select('created_at').gte('created_at', since),
-    supabase.from('timeline').select('created_at').gte('created_at', since),
-    supabase.from('contact_messages').select('created_at').gte('created_at', since),
-    supabase
-      .from('activity_log')
-      .select('id, action, target_type, target_label, created_at')
-      .order('created_at', { ascending: false })
-      .limit(5),
+    safeQuery(
+      supabase.from('projects').select('*', { count: 'exact', head: true }),
+      { count: 0 },
+    ),
+    safeQuery(
+      supabase.from('skills').select('*', { count: 'exact', head: true }),
+      { count: 0 },
+    ),
+    safeQuery(
+      supabase.from('timeline').select('*', { count: 'exact', head: true }),
+      { count: 0 },
+    ),
+    safeQuery(
+      supabase
+        .from('contact_messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('read', false),
+      { count: 0 },
+    ),
+    safeQuery(
+      supabase.from('projects').select('created_at').gte('created_at', since),
+      { data: [] },
+    ),
+    safeQuery(
+      supabase.from('skills').select('created_at').gte('created_at', since),
+      { data: [] },
+    ),
+    safeQuery(
+      supabase.from('timeline').select('created_at').gte('created_at', since),
+      { data: [] },
+    ),
+    safeQuery(
+      supabase.from('contact_messages').select('created_at').gte('created_at', since),
+      { data: [] },
+    ),
+    safeQuery(
+      supabase
+        .from('activity_log')
+        .select('id, action, target_type, target_label, created_at')
+        .order('created_at', { ascending: false })
+        .limit(5),
+      { data: [] },
+    ),
   ]);
+
+  const projects = projectsRes.count;
+  const skills = skillsRes.count;
+  const timeline = timelineRes.count;
+  const unread = unreadRes.count;
+  const projectRows = projectRowsRes.data;
+  const skillRows = skillRowsRes.data;
+  const timelineRows = timelineRowsRes.data;
+  const messageRows = messageRowsRes.data;
+  const activities = activitiesRes.data;
 
   const projectSpark = bucketByDay(projectRows ?? []);
   const skillSpark = bucketByDay(skillRows ?? []);
@@ -148,6 +204,40 @@ export default async function AdminDashboard(): Promise<React.JSX.Element> {
             <span>{t('newProject')}</span>
           </Link>
         </div>
+
+        {dbErrors.length > 0 && (
+          <div className="db-migration-warning">
+            <h4>⚠️ Eksik Veritabanı Değişiklikleri Algılandı / Missing Database Migrations</h4>
+            <p>
+              Supabase veritabanınızda bazı tablo veya sütunlar eksik görünüyor.
+              Lütfen aşağıdaki migration SQL dosyalarını{' '}
+              <strong>Supabase Dashboard &gt; SQL Editor</strong> kısmında sırayla çalıştırın:
+            </p>
+            <ul>
+              {dbErrors.some((e) => e.includes('activity_log')) && (
+                <li>
+                  <code>
+                    supabase/migrations/20260517020000_add_activity_log.sql
+                  </code>{' '}
+                  (Aktivite Günlüğü Tablosu)
+                </li>
+              )}
+              {dbErrors.some((e) => e.includes('featured') || e.includes('category')) && (
+                <li>
+                  <code>
+                    supabase/migrations/
+                    20260517010000_add_project_category_and_featured.sql
+                  </code>{' '}
+                  (Proje Kategori ve Öne Çıkarma Sütunları)
+                </li>
+              )}
+              <li>
+                Diğer tüm yeni SQL migration dosyalarını da veritabanınızda uyguladığınızdan emin
+                olun.
+              </li>
+            </ul>
+          </div>
+        )}
 
         <div className="stats-row">
           {stats.map((s) => (
