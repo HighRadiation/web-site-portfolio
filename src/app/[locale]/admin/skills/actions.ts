@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getSkillFormSchema } from '@/lib/validations/skill';
 import { getTranslations, getLocale } from 'next-intl/server';
+import { logActivity } from '@/lib/admin/activity';
 import type { ActionState } from '@/lib/action-state';
 
 export async function addSkill(
@@ -38,19 +39,21 @@ export async function addSkill(
     return { ok: false, error: `Failed to add skill: ${error.message}` };
   }
 
+  await logActivity(supabase, user.id, 'created', 'skill', parsed.data.name);
+
   revalidatePath('/admin/skills');
   revalidatePath('/');
   redirect('/admin/skills');
 }
 
 export async function deleteSkill(id: string): Promise<void> {
-  const { supabase } = await requireAdmin();
+  const { supabase, user } = await requireAdmin();
 
   const { data: deleted, error } = await supabase
     .from('skills')
     .delete()
     .eq('id', id)
-    .select('id');
+    .select('id, name');
 
   if (error) {
     throw new Error(`Failed to delete skill: ${error.message}`);
@@ -61,6 +64,8 @@ export async function deleteSkill(id: string): Promise<void> {
         '"Admins can delete skills." policy and that your profile has is_admin=true.',
     );
   }
+
+  await logActivity(supabase, user.id, 'deleted', 'skill', deleted[0].name);
 
   revalidatePath('/admin/skills');
   revalidatePath('/');

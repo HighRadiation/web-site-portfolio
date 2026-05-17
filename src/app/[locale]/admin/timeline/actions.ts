@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getTimelineFormSchema } from '@/lib/validations/timeline';
 import { getTranslations, getLocale } from 'next-intl/server';
+import { logActivity } from '@/lib/admin/activity';
 import type { ActionState } from '@/lib/action-state';
 
 export async function addTimelineItem(
@@ -44,19 +45,27 @@ export async function addTimelineItem(
     return { ok: false, error: `Failed to add timeline item: ${error.message}` };
   }
 
+  await logActivity(
+    supabase,
+    user.id,
+    'created',
+    'timeline',
+    `${parsed.data.role} · ${parsed.data.company}`,
+  );
+
   revalidatePath('/admin/timeline');
   revalidatePath('/');
   redirect('/admin/timeline');
 }
 
 export async function deleteTimelineItem(id: string): Promise<void> {
-  const { supabase } = await requireAdmin();
+  const { supabase, user } = await requireAdmin();
 
   const { data: deleted, error } = await supabase
     .from('timeline')
     .delete()
     .eq('id', id)
-    .select('id');
+    .select('id, role, company');
 
   if (error) {
     throw new Error(`Failed to delete timeline item: ${error.message}`);
@@ -67,6 +76,14 @@ export async function deleteTimelineItem(id: string): Promise<void> {
         '"Admins can delete timeline." policy and that your profile has is_admin=true.',
     );
   }
+
+  await logActivity(
+    supabase,
+    user.id,
+    'deleted',
+    'timeline',
+    `${deleted[0].role} · ${deleted[0].company}`,
+  );
 
   revalidatePath('/admin/timeline');
   revalidatePath('/');

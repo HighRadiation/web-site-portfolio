@@ -1,186 +1,198 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { addProject } from '../actions';
 import type { ActionState } from '@/lib/action-state';
+import { ProjectImageUpload } from '@/components/admin/ProjectImageUpload';
+import { TagPillInput } from '@/components/admin/TagPillInput';
+import { IconBack, IconBolt } from '@/components/admin/icons';
+import { Topbar } from '@/components/admin/Topbar';
 
-function Field({
+export default function NewProjectPage(): React.JSX.Element {
+  const t = useTranslations('Admin.projectForm');
+  const tProjects = useTranslations('Admin.projects');
+  const [state, formAction, pending] = useActionState<ActionState, FormData>(addProject, null);
+  const fe = state && !state.ok ? state.fieldErrors ?? {} : {};
+
+  return (
+    <>
+      <Topbar crumbs={['Admin', tProjects('crumb'), 'New']} />
+      <div className="page">
+        <Link href="/admin/projects" className="back-link">
+          <IconBack />
+          <span>{t('back')}</span>
+        </Link>
+
+        <div className="page-head">
+          <div>
+            <div className="page-eyebrow">{t('newEyebrow')}</div>
+            <h1 className="page-title">{t('newTitle')}</h1>
+            <div className="page-sub">{t('subtitle')}</div>
+          </div>
+        </div>
+
+        <form action={formAction} className="form-shell">
+          {state && !state.ok && state.error && (
+            <div role="alert" className="form-alert">
+              {state.error}
+            </div>
+          )}
+
+          <div className="form-grid">
+            <FormGroup label={t('nameEnLabel')} required error={fe.name?.[0]}>
+              <input
+                name="name"
+                required
+                placeholder="e.g. get_next_line"
+                className="form-input"
+              />
+            </FormGroup>
+            <FormGroup label={t('nameTrLabel')} error={fe.name_tr?.[0]}>
+              <input
+                name="name_tr"
+                placeholder="Türkçe başlık (opsiyonel)"
+                className="form-input"
+              />
+            </FormGroup>
+
+            <FormGroup label={t('descEnLabel')} required error={fe.description?.[0]}>
+              <textarea
+                name="description"
+                required
+                placeholder="What does this project do?"
+                className="form-textarea"
+              />
+            </FormGroup>
+            <FormGroup label={t('descTrLabel')} error={fe.description_tr?.[0]}>
+              <textarea
+                name="description_tr"
+                placeholder="Proje açıklaması (opsiyonel)"
+                className="form-textarea"
+              />
+            </FormGroup>
+
+            <FormGroup label={t('githubLabel')} error={fe.github_link?.[0]}>
+              <input
+                name="github_link"
+                placeholder="https://github.com/…"
+                className="form-input"
+              />
+            </FormGroup>
+            <FormGroup label={t('liveLabel')} error={fe.live_link?.[0]}>
+              <input
+                name="live_link"
+                placeholder="https://…"
+                className="form-input"
+              />
+            </FormGroup>
+
+            <div className="form-group full">
+              <label className="form-label">{t('imageLabel')}</label>
+              <ProjectImageUpload
+                name="image_url"
+                labels={{
+                  label: t('dropzoneLabel'),
+                  hint: t('dropzoneHint'),
+                  chooseFile: t('chooseFile'),
+                  uploading: t('uploading'),
+                  remove: t('removeImage'),
+                }}
+              />
+              {fe.image_url?.[0] && <div className="form-error">{fe.image_url[0]}</div>}
+            </div>
+
+            <div className="form-group full">
+              <label className="form-label">{t('techLabel')}</label>
+              <TagPillInput
+                name="technologies"
+                placeholder="Next.js, TypeScript, Supabase…"
+                help={t('techHelp')}
+              />
+              {fe.technologies?.[0] && (
+                <div className="form-error">{fe.technologies[0]}</div>
+              )}
+            </div>
+
+            <FormGroup label={t('categoryLabel')} error={fe.category?.[0]}>
+              <select name="category" defaultValue="" className="form-select">
+                <option value="">{t('categoryUncategorized')}</option>
+                <option value="web">{t('categoryWeb')}</option>
+                <option value="client">{t('categoryClient')}</option>
+                <option value="systems">{t('categorySystems')}</option>
+              </select>
+            </FormGroup>
+
+            <FormGroup label={t('featuredLabel')}>
+              <FeaturedToggle
+                name="featured"
+                labels={{ on: t('featuredOn'), off: t('featuredOff') }}
+              />
+            </FormGroup>
+          </div>
+
+          <div className="form-foot">
+            <span className="left">{t('footLeft')}</span>
+            <div className="right">
+              <Link href="/admin/projects" className="btn ghost">
+                {t('cancel')}
+              </Link>
+              <button type="submit" disabled={pending} className="btn primary">
+                <IconBolt />
+                <span>{pending ? t('saving') : t('save')}</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </>
+  );
+}
+
+function FormGroup({
   label,
-  name,
-  hint,
-  error,
-  textarea,
-  placeholder,
   required,
+  error,
+  children,
 }: {
   label: string;
-  name: string;
-  hint?: string;
-  error?: string;
-  textarea?: boolean;
-  placeholder?: string;
   required?: boolean;
+  error?: string;
+  children: React.ReactNode;
 }): React.JSX.Element {
   return (
-    <div className="admin-form-group">
-      <label className="admin-label">
+    <div className="form-group">
+      <label className="form-label">
         {label}
-        {required && <span style={{ color: '#ef4444', marginLeft: '2px' }}>*</span>}
+        {required && <span className="req">*</span>}
       </label>
-      {textarea ? (
-        <textarea
-          name={name}
-          required={required}
-          placeholder={placeholder}
-          className="admin-input admin-textarea"
-        />
-      ) : (
-        <input
-          name={name}
-          required={required}
-          placeholder={placeholder}
-          className="admin-input"
-        />
-      )}
-      {hint && <span className="admin-help-text">{hint}</span>}
-      {error && <span className="admin-error-text">{error}</span>}
+      {children}
+      {error && <span className="form-error">{error}</span>}
     </div>
   );
 }
 
-export default function NewProjectPage(): React.JSX.Element {
-  const [state, formAction, pending] = useActionState<ActionState, FormData>(addProject, null);
-
-  const fe = state && !state.ok ? state.fieldErrors ?? {} : {};
-
+function FeaturedToggle({
+  name,
+  labels,
+}: {
+  name: string;
+  labels: { on: string; off: string };
+}): React.JSX.Element {
+  const [on, setOn] = useState(false);
   return (
-    <div className="admin-page-container-sm">
-      <div className="admin-header-row">
-        <h1>Add New Project</h1>
-        <Link href="/admin/projects" className="admin-btn-outline">
-          Cancel
-        </Link>
-      </div>
-
-      <form action={formAction} className="admin-form" style={{ maxWidth: '640px' }}>
-        {state && !state.ok && (
-          <div role="alert" className="admin-alert-danger">
-            {state.error}
-          </div>
-        )}
-
-        {/* ── Title ─────────────────────────────────────────── */}
-        <div className="admin-grid-2cols">
-          <Field
-            label="Project Name (EN)"
-            name="name"
-            required
-            placeholder="e.g. get_next_line"
-            error={fe.name?.[0]}
-          />
-          <Field
-            label="Project Name (TR)"
-            name="name_tr"
-            placeholder="Türkçe başlık (opsiyonel)"
-            error={fe.name_tr?.[0]}
-          />
-        </div>
-
-        {/* ── Description ───────────────────────────────────── */}
-        <div className="admin-grid-2cols">
-          <Field
-            label="Description (EN)"
-            name="description"
-            required
-            textarea
-            placeholder="What does this project do?"
-            error={fe.description?.[0]}
-          />
-          <Field
-            label="Description (TR)"
-            name="description_tr"
-            textarea
-            placeholder="Proje açıklaması (opsiyonel)"
-            error={fe.description_tr?.[0]}
-          />
-        </div>
-
-        {/* ── Links ─────────────────────────────────────────── */}
-        <div className="admin-grid-2cols">
-          <Field
-            label="GitHub Link"
-            name="github_link"
-            placeholder="https://github.com/…"
-            error={fe.github_link?.[0]}
-          />
-          <Field
-            label="Live Link"
-            name="live_link"
-            placeholder="https://…"
-            error={fe.live_link?.[0]}
-          />
-        </div>
-
-        {/* ── Image & Technologies ──────────────────────────── */}
-        <Field
-          label="Image URL"
-          name="image_url"
-          placeholder="https://… (optional)"
-          error={fe.image_url?.[0]}
-        />
-        <Field
-          label="Technologies"
-          name="technologies"
-          placeholder="Next.js, TypeScript, Supabase"
-          hint="Comma-separated list"
-          error={fe.technologies?.[0]}
-        />
-
-        {/* ── Category & Featured ───────────────────────────── */}
-        <div className="admin-grid-2cols">
-          <div className="admin-form-group">
-            <label className="admin-label">Category</label>
-            <select name="category" defaultValue="" className="admin-input">
-              <option value="">— Uncategorized —</option>
-              <option value="web">Web</option>
-              <option value="client">Client work</option>
-              <option value="systems">Systems / C</option>
-            </select>
-            {fe.category?.[0] && (
-              <span className="admin-error-text">{fe.category[0]}</span>
-            )}
-          </div>
-          <div className="admin-form-group">
-            <label className="admin-label">Featured</label>
-            <label
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                paddingTop: '0.5rem',
-                fontSize: '0.9rem',
-                color: '#a3a3a3',
-              }}
-            >
-              <input type="checkbox" name="featured" />
-              Show as a featured (wide) card
-            </label>
-            {fe.featured?.[0] && (
-              <span className="admin-error-text">{fe.featured[0]}</span>
-            )}
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          disabled={pending}
-          className="admin-btn-primary"
-          style={{ marginTop: '0.5rem' }}
-        >
-          {pending ? 'Saving…' : 'Save Project'}
-        </button>
-      </form>
+    <div className="form-row">
+      <button
+        type="button"
+        className={`toggle${on ? ' on' : ''}`}
+        onClick={() => setOn(!on)}
+        aria-pressed={on}
+      />
+      <span style={{ fontSize: 13, color: 'var(--text-2)' }}>
+        {on ? labels.on : labels.off}
+      </span>
+      <input type="hidden" name={name} value={on ? 'on' : ''} />
     </div>
   );
 }

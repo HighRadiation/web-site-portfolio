@@ -3,15 +3,16 @@
 import { requireAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { logActivity } from '@/lib/admin/activity';
 
 export async function deleteMessage(id: string): Promise<void> {
-  const { supabase } = await requireAdmin();
+  const { supabase, user } = await requireAdmin();
 
   const { data: deleted, error } = await supabase
     .from('contact_messages')
     .delete()
     .eq('id', id)
-    .select('id');
+    .select('id, name');
 
   if (error) {
     throw new Error(`Failed to delete message: ${error.message}`);
@@ -23,18 +24,20 @@ export async function deleteMessage(id: string): Promise<void> {
     );
   }
 
+  await logActivity(supabase, user.id, 'deleted', 'message', deleted[0].name);
+
   revalidatePath('/admin/messages');
   redirect('/admin/messages');
 }
 
 export async function markAsRead(id: string): Promise<void> {
-  const { supabase } = await requireAdmin();
+  const { supabase, user } = await requireAdmin();
 
   const { data: updated, error } = await supabase
     .from('contact_messages')
     .update({ read: true })
     .eq('id', id)
-    .select('id');
+    .select('id, name');
 
   if (error) {
     throw new Error(`Failed to update message: ${error.message}`);
@@ -45,6 +48,8 @@ export async function markAsRead(id: string): Promise<void> {
         '"Admins can update contact messages." policy and that your profile has is_admin=true.',
     );
   }
+
+  await logActivity(supabase, user.id, 'updated', 'message', updated[0].name);
 
   revalidatePath('/admin/messages');
 }

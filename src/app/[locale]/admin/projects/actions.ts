@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getProjectFormSchema } from '@/lib/validations/project';
 import { getTranslations, getLocale } from 'next-intl/server';
+import { logActivity } from '@/lib/admin/activity';
 import type { ActionState } from '@/lib/action-state';
 
 export async function addProject(
@@ -67,19 +68,21 @@ export async function addProject(
     return { ok: false, error: `Failed to add project: ${error.message}` };
   }
 
+  await logActivity(supabase, user.id, 'created', 'project', parsed.data.name);
+
   revalidatePath('/admin/projects');
   revalidatePath('/');
   redirect('/admin/projects');
 }
 
 export async function deleteProject(id: string): Promise<void> {
-  const { supabase } = await requireAdmin();
+  const { supabase, user } = await requireAdmin();
 
   const { data: deleted, error } = await supabase
     .from('projects')
     .delete()
     .eq('id', id)
-    .select('id');
+    .select('id, title');
 
   if (error) {
     throw new Error(`Failed to delete project: ${error.message}`);
@@ -90,6 +93,8 @@ export async function deleteProject(id: string): Promise<void> {
         '"Admins can delete projects." policy and that your profile has is_admin=true.',
     );
   }
+
+  await logActivity(supabase, user.id, 'deleted', 'project', deleted[0].title);
 
   revalidatePath('/admin/projects');
   revalidatePath('/');

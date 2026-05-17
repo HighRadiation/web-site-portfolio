@@ -159,6 +159,44 @@ export type Database = {
           },
         ];
       };
+      activity_log: {
+        Row: {
+          id: string;
+          actor_id: string | null;
+          action: string;
+          target_type: string;
+          target_label: string | null;
+          meta: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          actor_id?: string | null;
+          action: string;
+          target_type: string;
+          target_label?: string | null;
+          meta?: Json | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          actor_id?: string | null;
+          action?: string;
+          target_type?: string;
+          target_label?: string | null;
+          meta?: Json | null;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'activity_log_actor_id_fkey';
+            columns: ['actor_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       contact_messages: {
         Row: {
           id: string;

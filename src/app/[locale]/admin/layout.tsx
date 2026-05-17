@@ -1,48 +1,27 @@
-import { Link } from '@/i18n/navigation';
-import { logout } from '../login/actions';
+import { requireAdmin } from '@/lib/auth';
+import { Sidebar } from '@/components/admin/Sidebar';
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
-}): React.JSX.Element {
+}): Promise<React.JSX.Element> {
+  const { supabase, user } = await requireAdmin();
+
+  const { count: unread } = await supabase
+    .from('contact_messages')
+    .select('*', { count: 'exact', head: true })
+    .eq('read', false);
+
+  const displayName = user.email?.split('@')[0] ?? 'Admin';
+
   return (
     <div className="admin-layout">
-      {/* Sidebar */}
-      <aside className="admin-sidebar">
-        <div className="admin-sidebar-brand">
-          <h2>Admin Panel</h2>
-        </div>
-
-        <nav className="admin-sidebar-nav">
-          <Link href="/admin" className="admin-nav-link">
-            Dashboard
-          </Link>
-          <Link href="/admin/projects" className="admin-nav-link">
-            Projects
-          </Link>
-          <Link href="/admin/skills" className="admin-nav-link">
-            Skills
-          </Link>
-          <Link href="/admin/timeline" className="admin-nav-link">
-            Timeline
-          </Link>
-          <Link href="/admin/messages" className="admin-nav-link">
-            Messages
-          </Link>
-        </nav>
-
-        <form action={logout} className="admin-sidebar-footer">
-          <button type="submit" className="admin-logout-btn">
-            Logout
-          </button>
-        </form>
-      </aside>
-
-      {/* Main Content */}
-      <main className="admin-main">
-        <div className="admin-content-wrapper">{children}</div>
-      </main>
+      <Sidebar
+        unread={unread ?? 0}
+        user={{ name: displayName, email: user.email ?? '' }}
+      />
+      <main className="main">{children}</main>
     </div>
   );
 }
