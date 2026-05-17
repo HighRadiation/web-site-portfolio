@@ -182,10 +182,6 @@ export const HeroCanvas = (): React.JSX.Element => {
 
         const len = 1.5 + depth * 22 + Math.hypot(p.vx, p.vy) * 0.02;
 
-        const tDepth = Math.min(1, depth * 1.1);
-        const r = Math.round(150 + tDepth * 90);
-        const g = Math.round(120 + tDepth * 100);
-        const b = 250;
         const fadeIn = Math.min(1, p.r / 40);
         const fadeOut = 1 - Math.max(0, (p.r - MAX_R * 0.85) / (MAX_R * 0.25));
         const a = p.alpha * fadeIn * Math.max(0, fadeOut);
@@ -198,7 +194,7 @@ export const HeroCanvas = (): React.JSX.Element => {
         const x2 = fx + cosA * half;
         const y2 = fy + sinA * half;
 
-        ctx!.strokeStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+        ctx!.strokeStyle = `rgba(255, 255, 255, ${a})`;
         ctx!.lineWidth = p.width + depth * 0.6;
         ctx!.lineCap = 'round';
         ctx!.beginPath();
