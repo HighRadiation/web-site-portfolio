@@ -121,13 +121,6 @@ export const HeroCanvas = (): React.JSX.Element => {
 
       ctx!.clearRect(0, 0, W, H);
 
-      const bgGrad = ctx!.createRadialGradient(CX, CY, 0, CX, CY, Math.max(W, H) * 0.7);
-      bgGrad.addColorStop(0, 'rgba(30, 20, 60, 0.28)');
-      bgGrad.addColorStop(0.5, 'rgba(15, 10, 35, 0.12)');
-      bgGrad.addColorStop(1, 'rgba(10, 10, 12, 0)');
-      ctx!.fillStyle = bgGrad;
-      ctx!.fillRect(0, 0, W, H);
-
       const mx = mouse.x;
       const my = mouse.y;
 
@@ -229,12 +222,7 @@ export const HeroCanvas = (): React.JSX.Element => {
         }
       }
 
-      const glow = ctx!.createRadialGradient(CX, CY, 0, CX, CY, 280);
-      glow.addColorStop(0, 'rgba(167, 139, 250, 0.22)');
-      glow.addColorStop(0.4, 'rgba(139, 92, 246, 0.08)');
-      glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx!.fillStyle = glow;
-      ctx!.fillRect(0, 0, W, H);
+
 
       animRef.current = requestAnimationFrame(frame);
     }

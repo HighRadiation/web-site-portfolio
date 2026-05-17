@@ -254,9 +254,7 @@ button {
 }
 
 .hero-fallback {
-  background:
-    radial-gradient(ellipse at center, rgba(139, 92, 246, 0.18) 0%, transparent 60%),
-    var(--bg);
+  background: var(--bg);
 }
 
 .hero-content {
