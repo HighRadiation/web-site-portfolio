@@ -173,11 +173,11 @@ function HeroCanvas() {
         // further out is a long streak (perspective motion blur)
         const len = 1.5 + depth * 22 + Math.hypot(p.vx, p.vy) * 0.02;
 
-        // color: inner = warm violet, outer = cool pale lavender
+        // color: inner = bright pale violet (light source), outer = deep purple
         const t = Math.min(1, depth * 1.1);
-        const r = Math.round(150 + t * 90);
-        const g = Math.round(120 + t * 100);
-        const b = Math.round(250);
+        const r = Math.round(220 - t * 90);
+        const g = Math.round(200 - t * 90);
+        const b = Math.round(255 - t * 25);
         // fade in from center, fade out near edge
         const fadeIn = Math.min(1, p.r / 40);
         const fadeOut = 1 - Math.max(0, (p.r - MAX_R * 0.85) / (MAX_R * 0.25));
@@ -246,7 +246,37 @@ function HeroCanvas() {
 }
 
 function Hero() {
+  const contentRef = useRef(null);
   const [typed, setTyped] = useState("");
+
+  // mouse parallax — title floats opposite to cursor, very subtle
+  useEffect(() => {
+    let raf = 0;
+    let cur = { x: 0, y: 0 };
+    let tgt = { x: 0, y: 0 };
+    function onMove(e) {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      // normalize -1..1, then scale by a small amount
+      tgt.x = -((e.clientX - cx) / cx) * 14;
+      tgt.y = -((e.clientY - cy) / cy) * 10;
+    }
+    function tick() {
+      cur.x += (tgt.x - cur.x) * 0.06;
+      cur.y += (tgt.y - cur.y) * 0.06;
+      if (contentRef.current) {
+        contentRef.current.style.setProperty("--px", `${cur.x.toFixed(2)}px`);
+        contentRef.current.style.setProperty("--py", `${cur.y.toFixed(2)}px`);
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    window.addEventListener("mousemove", onMove);
+    raf = requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
   const taglines = [
     "I craft mobile-web apps from first principles.",
     "I orchestrate AI systems & embedded experiences.",
@@ -275,7 +305,7 @@ function Hero() {
     <section className="hero" id="home" data-screen-label="01 Hero">
       <HeroCanvas />
       <div className="hero-vignette" />
-      <div className="hero-content">
+      <div className="hero-content" ref={contentRef}>
         <h1 className="hero-title">Buğra Öksüz</h1>
         <div className="hero-tagline">
           <span>{typed}</span>

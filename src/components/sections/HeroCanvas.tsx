@@ -64,7 +64,7 @@ export const HeroCanvas = (): React.JSX.Element => {
         theta,
         thetaJitter: (Math.random() - 0.5) * 0.02,
         r,
-        speed: 140 + Math.random() * 180,
+        speed: 90 + Math.random() * 120,
         width: Math.random() < 0.15 ? 1.4 : 0.9,
         alpha: 0.25 + Math.random() * 0.55,
         offX: 0,
@@ -128,7 +128,7 @@ export const HeroCanvas = (): React.JSX.Element => {
         const p = particles[i];
 
         const depth = p.r / MAX_R;
-        const speedMul = 0.8 + depth * 6.5;
+        const speedMul = 0.5 + depth * 4.0;
         p.r += p.speed * speedMul * dt;
 
         const ang = p.theta + p.thetaJitter;

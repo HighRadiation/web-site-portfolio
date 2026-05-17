@@ -46,7 +46,7 @@ function Nav({ active, lang, setLang }) {
           </div>
         </nav>
       </div>
-      <a href="#contact" className="contact-pill">Contact</a>
+      <a href="#contact-open" className="contact-pill" data-open-contact>Contact</a>
     </>
   );
 }
@@ -313,6 +313,7 @@ function ProjectCard({ project }) {
 // ---------- Contact ----------
 function Contact() {
   const [copied, setCopied] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const email = "hi@bugraoksuz.me";
 
   function copy() {
@@ -320,6 +321,19 @@ function Contact() {
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   }
+
+  // open modal when user clicks the floating Contact pill or any cta with href="#contact-open"
+  useEffect(() => {
+    const handler = (e) => {
+      const t = e.target.closest('a[href="#contact-open"], [data-open-contact]');
+      if (t) {
+        e.preventDefault();
+        setModalOpen(true);
+      }
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, []);
 
   return (
     <section id="contact" className="contact-section" data-screen-label="05 Contact">
@@ -333,7 +347,148 @@ function Contact() {
         <span>İstanbul, TR — UTC+3</span>
         <span>{copied ? "copied to clipboard" : email}</span>
       </div>
+
+      <div className="contact-actions">
+        <button className="contact-cta-primary" onClick={() => setModalOpen(true)}>
+          <span>Transmit a signal</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </button>
+        <a className="contact-cta-secondary" href={`mailto:${email}`}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          <span>Or email directly</span>
+        </a>
+      </div>
+
+      {modalOpen && <ContactModal onClose={() => setModalOpen(false)} />}
     </section>
+  );
+}
+
+function ContactModal({ onClose }) {
+  const [state, setState] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState("idle"); // idle | sending | sent
+  const overlayRef = useRef(null);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const esc = (e) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", esc);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", esc);
+    };
+  }, []);
+
+  function submit(e) {
+    e.preventDefault();
+    if (!state.name || !state.email || !state.message) return;
+    setStatus("sending");
+    setTimeout(() => {
+      setStatus("sent");
+      setTimeout(onClose, 2400);
+    }, 1400);
+  }
+
+  function bg(e) {
+    if (e.target === overlayRef.current) onClose();
+  }
+
+  return (
+    <div className="modal-overlay" ref={overlayRef} onClick={bg}>
+      <div className="modal">
+        <div className="modal-header">
+          <div className="modal-channel">
+            <span className="live-dot" /> CHANNEL · OPEN
+          </div>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+
+        <div className="modal-title">
+          <div className="modal-eyebrow">// COMPOSE TRANSMISSION</div>
+          <h3>Let's get in touch.</h3>
+          <p>Drop a note about the work, an idea, or just to say hi. I read everything.</p>
+        </div>
+
+        {status === "sent" ? (
+          <div className="modal-sent">
+            <div className="sent-glyph">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+            </div>
+            <div className="sent-title">Signal received.</div>
+            <div className="sent-sub">I'll get back to you within 48h. Travel safe.</div>
+          </div>
+        ) : (
+          <form className="modal-form" onSubmit={submit}>
+            <Field
+              label="// IDENTITY"
+              placeholder="Your name"
+              value={state.name}
+              onChange={(v) => setState((s) => ({ ...s, name: v }))}
+            />
+            <Field
+              label="// CHANNEL"
+              placeholder="you@somewhere.com"
+              type="email"
+              value={state.email}
+              onChange={(v) => setState((s) => ({ ...s, email: v }))}
+            />
+            <Field
+              label="// PAYLOAD"
+              placeholder="What's on your mind?"
+              textarea
+              value={state.message}
+              onChange={(v) => setState((s) => ({ ...s, message: v }))}
+            />
+
+            <button className={`transmit-btn${status === "sending" ? " sending" : ""}`} type="submit" disabled={status !== "idle"}>
+              <span className="transmit-streaks">
+                {Array.from({ length: 10 }).map((_, i) => <span key={i} style={{ "--i": i }} />)}
+              </span>
+              <span className="transmit-label">
+                {status === "sending" ? "Transmitting…" : "Transmit"}
+              </span>
+              <svg className="transmit-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+            </button>
+
+            <div className="modal-foot">
+              <span>Encrypted in transit · Never shared.</span>
+              <span>ESC to close</span>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, value, onChange, placeholder, textarea, type = "text" }) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <label className={`field${focused ? " focused" : ""}${value ? " filled" : ""}`}>
+      <span className="field-label">{label}</span>
+      {textarea ? (
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          placeholder={placeholder}
+          rows={3}
+        />
+      ) : (
+        <input
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          placeholder={placeholder}
+        />
+      )}
+      <span className="field-underline" />
+    </label>
   );
 }
 

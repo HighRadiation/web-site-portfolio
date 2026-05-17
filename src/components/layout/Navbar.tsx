@@ -5,14 +5,18 @@ import { useEffect, useMemo, useState, useTransition } from 'react';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing, type Locale } from '@/i18n/routing';
 import { SocialLinks } from '../ui/SocialLinks';
+import { Modal } from '../ui/Modal';
+import { ContactForm } from '../sections/ContactForm';
 
 export const Navbar = (): React.JSX.Element => {
   const t = useTranslations('Nav');
+  const tContact = useTranslations('Contact');
   const locale = useLocale() as Locale;
   const router = useRouter();
   const pathname = usePathname();
   const [, startTransition] = useTransition();
   const [activeSection, setActiveSection] = useState('home');
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   const links = useMemo(
     () => [
@@ -83,9 +87,21 @@ export const Navbar = (): React.JSX.Element => {
           </div>
         </nav>
       </div>
-      <a href="#contact" className="contact-pill">
+      <button
+        type="button"
+        className="contact-pill"
+        onClick={() => setIsContactOpen(true)}
+      >
         {t('contact')}
-      </a>
+      </button>
+
+      <Modal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+        title={tContact('sendMessage')}
+      >
+        <ContactForm />
+      </Modal>
     </>
   );
 };
