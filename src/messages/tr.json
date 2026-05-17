@@ -16,10 +16,10 @@
   },
   "Sections": {
     "eyebrow": {
-      "about": "02 — HAKKIMDA",
-      "experience": "03 — ZAMAN ÇİZELGESİ",
-      "projects": "04 — ÇALIŞMALAR",
-      "contact": "05 — İLETİŞİM"
+      "about": "HAKKIMDA",
+      "experience": "ZAMAN ÇİZELGESİ",
+      "projects": "ÇALIŞMALAR",
+      "contact": "İLETİŞİM"
     },
     "title": {
       "about": "Bir <accent>çok yönlü</accent> profil.",

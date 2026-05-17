@@ -4,7 +4,9 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 const TYPE_INTERVAL = 32;
+const ERASE_INTERVAL = 18;
 const HOLD_DURATION = 4200;
+const EMPTY_PAUSE = 450;
 
 interface TypewriterProps {
   text: string;
@@ -16,17 +18,35 @@ function Typewriter({ text, onComplete }: TypewriterProps): React.JSX.Element {
 
   useEffect(() => {
     let i = 0;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
     let holdTimeoutId: ReturnType<typeof setTimeout> | null = null;
-    const intervalId = setInterval(() => {
-      i++;
-      setTyped(text.slice(0, i));
-      if (i >= text.length) {
-        clearInterval(intervalId);
-        holdTimeoutId = setTimeout(onComplete, HOLD_DURATION);
-      }
-    }, TYPE_INTERVAL);
+
+    function startErasing(): void {
+      intervalId = setInterval(() => {
+        i--;
+        setTyped(text.slice(0, Math.max(0, i)));
+        if (i <= 0) {
+          if (intervalId) clearInterval(intervalId);
+          holdTimeoutId = setTimeout(onComplete, EMPTY_PAUSE);
+        }
+      }, ERASE_INTERVAL);
+    }
+
+    function startTyping(): void {
+      intervalId = setInterval(() => {
+        i++;
+        setTyped(text.slice(0, i));
+        if (i >= text.length) {
+          if (intervalId) clearInterval(intervalId);
+          holdTimeoutId = setTimeout(startErasing, HOLD_DURATION);
+        }
+      }, TYPE_INTERVAL);
+    }
+
+    startTyping();
+
     return (): void => {
-      clearInterval(intervalId);
+      if (intervalId) clearInterval(intervalId);
       if (holdTimeoutId) clearTimeout(holdTimeoutId);
     };
   }, [text, onComplete]);
@@ -35,8 +55,7 @@ function Typewriter({ text, onComplete }: TypewriterProps): React.JSX.Element {
 }
 
 export const HeroSection = (): React.JSX.Element => {
-  const t = useTranslations('Hero');
-  const taglines = t.raw('taglines') as string[];
+  const taglines = useTranslations('Hero').raw('taglines') as string[];
   const [taglineIdx, setTaglineIdx] = useState(0);
 
   function next(): void {
@@ -51,10 +70,6 @@ export const HeroSection = (): React.JSX.Element => {
           <Typewriter key={taglineIdx} text={taglines[taglineIdx] ?? ''} onComplete={next} />
           <span className="cursor" />
         </div>
-      </div>
-      <div className="hero-scroll">
-        <span>{t('scroll')}</span>
-        <span className="line" />
       </div>
     </section>
   );

@@ -16,10 +16,10 @@
   },
   "Sections": {
     "eyebrow": {
-      "about": "02 — ABOUT",
-      "experience": "03 — TIMELINE",
-      "projects": "04 — WORK",
-      "contact": "05 — CONTACT"
+      "about": "ABOUT",
+      "experience": "TIMELINE",
+      "projects": "WORK",
+      "contact": "CONTACT"
     },
     "title": {
       "about": "A <accent>generalist's</accent> profile.",
