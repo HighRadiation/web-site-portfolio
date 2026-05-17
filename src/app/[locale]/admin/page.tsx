@@ -53,7 +53,7 @@ export default async function AdminDashboard(): Promise<React.JSX.Element> {
   const since = new Date(Date.now() - DAYS * 86_400_000).toISOString();
 
   const dbErrors: string[] = [];
-  const safeQuery = async <T,>(promise: Promise<T>, fallback: T): Promise<T> => {
+  const safeQuery = async <T, F>(promise: PromiseLike<T>, fallback: F): Promise<T | F> => {
     try {
       const result = await promise;
       if (result && typeof result === 'object' && 'error' in result) {
