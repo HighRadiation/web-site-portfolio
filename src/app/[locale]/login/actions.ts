@@ -28,12 +28,46 @@ export async function login(
       };
     }
 
-    const { error } = await supabase.auth.signInWithPassword({
+    let authError = null;
+
+    const { error: signInError } = await supabase.auth.signInWithPassword({
       email: parsed.data.email,
       password: parsed.data.password,
     });
 
-    if (error) {
+    authError = signInError;
+
+    if (
+      signInError &&
+      signInError.message.toLowerCase().includes('invalid login credentials')
+    ) {
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: parsed.data.email,
+        password: parsed.data.password,
+      });
+
+      if (!signUpError && signUpData.user) {
+        const { error: retryError } = await supabase.auth.signInWithPassword({
+          email: parsed.data.email,
+          password: parsed.data.password,
+        });
+        authError = retryError;
+      } else if (signUpError) {
+        authError = signUpError;
+      }
+    }
+
+    if (authError) {
+      if (
+        authError.message.toLowerCase().includes('confirm') ||
+        authError.message.toLowerCase().includes('verification')
+      ) {
+        return {
+          ok: false,
+          error:
+            'Kayıt yapıldı! Lütfen e-posta kutunuzu kontrol edip onay linkine tıklayın.',
+        };
+      }
       return { ok: false, error: t('loginFailed') };
     }
 
